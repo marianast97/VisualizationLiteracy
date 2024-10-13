@@ -1,6 +1,7 @@
 import streamlit as st
 from utils import display_subpage, initialize_single_module_state
 
+
 modules = {
     'Advanced Visualizations': ['Overview', 'Techniques', 'Examples']
 }
@@ -37,11 +38,11 @@ def display_module(modules):
     # Update the session state based on button clicks
     if prev_clicked:
         st.session_state['current_subpage'][selected_module] -= 1
-        st.experimental_rerun()  # Immediately rerun the script to reflect the state change
+        st.rerun()  # Immediately rerun the script to reflect the state change
 
     if next_clicked:
         st.session_state['current_subpage'][selected_module] += 1
-        st.experimental_rerun()  # Immediately rerun the script to reflect the state change
+        st.rerun()  # Immediately rerun the script to reflect the state change
 
     # Display current page number
-    st.write(f"Page {current_subpage_index + 1} / {len(modules[selected_module])}")
+    st.write(f"Subpage {current_subpage_index + 1} of {len(modules[selected_module])}")
