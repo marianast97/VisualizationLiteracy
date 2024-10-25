@@ -45,4 +45,4 @@ def display_module(modules):
         st.rerun()  # Immediately rerun the script to reflect the state change
 
     # Display current page number
-    st.write(f"Subpage {current_subpage_index + 1} of {len(modules[selected_module])}")
+    st.write(f"Page {current_subpage_index + 1} of {len(modules[selected_module])}")

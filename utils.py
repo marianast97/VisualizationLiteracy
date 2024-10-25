@@ -1,6 +1,6 @@
 import streamlit as st
 
-GOOD_SCORE_THRESHOLD = 70
+GOOD_SCORE_THRESHOLD = 1
 
 # Function to initialize session state for all modules
 def initialize_session_state(modules):
@@ -28,17 +28,28 @@ def initialize_single_module_state(module_name, modules):
 # Function to display content for each subpage of a module
 def display_subpage(module_name, subpage_index, modules):
     subpage_name = modules[module_name][subpage_index]
-    st.write(f"### {module_name} - {subpage_name}")
-    st.write(f"This is the content for {subpage_name} in {module_name}.")
+    
+    # Center the title
+    st.markdown(f"<h1 style='text-align: center;'>{module_name}</h1>", unsafe_allow_html=True)
+    # Center the subpage name
+    st.markdown(f"<h3 style='text-align: center;'>{subpage_name}</h3>", unsafe_allow_html=True)
+    #st.title(module_name)
+    #st.write(f"### {module_name} - {subpage_name}")
+    # st.write(f"This is the content for {subpage_name} in {module_name}.")
     
     st.session_state['accessed_subpages'][module_name][subpage_index] = True
 
 # Function to get an icon based on score
 def get_score_icon(score):
     if score >= GOOD_SCORE_THRESHOLD:
-        return '🟢'
+        return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconRight2.png"
+        #url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconRight.png"
+        #st.image(url, output_format="PNG", width=40) 
+
     else:
-        return '❌'
+        return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconWrong2.png"
+        #url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconWrong.png"
+        #st.image(url, output_format="PNG", width=40) 
 
 # Function to handle subpage navigation
 def navigate_subpage(module_name, direction, modules):
