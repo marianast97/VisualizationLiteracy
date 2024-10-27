@@ -1,49 +1,99 @@
 import streamlit as st
 from utils import get_score_icon, all_subpages_accessed, initialize_session_state
-import module_advanced_visualizations
 import BarChart
+import AreaChart
 import plotly.graph_objects as go
 
 st.set_page_config(layout="wide") #"centered"
 
 
+# Custom CSS to adjust sidebar spacing and fix the final assessment at the bottom
+sidebar_adjustment_style = """
+    <style>
+    .stButton button {
+        width: 100%;
+        margin: 0px;
+    }
+    /* Style for the final assessment link */
+    .sidebar-link {
+        position: absolute;
+        bottom: 0;
+        display: block;
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+        border-radius: 5px;
+        text-decoration: none;
+        color: black;
+        background-color: #f0f2f6;
+        margin-top: 20px;
+        font-weight: bold;
+    }
+    /* Adjust the top margin in the sidebar */
+    .st-emotion-cache-1gwvy71 {
+        position: start;
+        padding-top: 0px !important;
+        width=200px;
+    }
+
+    /* Make the sidebar container scrollable and fix the final block at the bottom */
+       [data-testid="stSidebar"][aria-expanded="true"]{
+           min-width: 350px;
+           max-width: 350px;
+           padding-bottom: 0px;
+       }
+
+    /* Fix the final assessment block at the bottom of the sidebar */
+    [data-testid="stSidebar"] aside {
+        position: fixed;
+        bottom: 0;
+        width: 300px;  /* Adjust width to match your sidebar */
+        padding: 10px 0;
+        background-color: #f0f2f6;
+        border-top: 1px solid #ddd;
+        text-align: center;
+    }
+    </style>
+"""
+st.markdown(sidebar_adjustment_style, unsafe_allow_html=True)
+
+
 # Example of scores assigned to the two modules
 pages = {
-    'Advanced Visualizations': 1,
-    'Basics: Bar Chart': 0
+    'Basics: Area Chart': 0,
+    'Basics: Bar Chart': 1,
+    'Basics: Maps': 1,
+    'Basics: Line Chart': 1,
+    'Basics: Pie Chart': 1,
+    'Basics: Scatter Plot': 1,
+    'Basics: Stacked Bar Chart': 1,
+    'Cherry Picking': 0,
+    'Concealed Uncertainty': 1,
+    'Misleading Annotation': 1,
+    'Missing Data': 1,
+    'Missing Normalization': 1,
+    'Inappropriate Aggregation': 1,
+    'Inappropriate Scale Order': 1,
+    'Inappropriate Scale Functions': 0,
+    'Inappropriate Scale Directions': 1,
+    'Truncated Axis': 0,
+    'Overplotting': 1,
 }
 
 modules = {
-    'Advanced Visualizations': ['Overview', 'Techniques', 'Examples'],
-    'Basics: Bar Chart': ['Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart']
+    'Basics: Bar Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
+                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
+    'Basics: Area Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
+                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
 }
 
 # Define the URLs of your custom icons
 icon_well_done = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconRight2.png"
 icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconWrong2.png"
 
-# Add custom CSS to make buttons the same size and align them
-sidebar_style = """
-    <style>
-    .stButton button {
-        width: 100%;
-    }
-    .sidebar-link {
-        display: block;
-        width: 100%;
-        padding: 10px;
-        margin: 5px 0;
-        text-align: center;
-        border-radius: 5px;
-        text-decoration: none;
-        color: black;
-    }
-    </style>
-    """
-st.markdown(sidebar_style, unsafe_allow_html=True) #        font-weight: bold;
+
 
 # Add custom CSS to target a specific button using a span element         
-
 st.markdown("""
     <style>
     .element-container:has(#learning-buttons) + div button,
@@ -129,7 +179,7 @@ if selected_module == 'Home: My Scores':
             'bordercolor': "#d9d9d9",  # Soft border color
             'steps': [
                 {'range': [0, 10], 'color': "#d6e5ff"},  # Light blue for lower range
-                {'range': [10, 20], 'color': "#99c2ff"},  # Medium blue
+                {'range': [10, 20], 'color': "#d6e5ff"},  # Medium blue
                 {'range': [20, 30], 'color': "#d6e5ff"}   # Dark blue
             ],
             'threshold': {
@@ -166,25 +216,27 @@ if selected_module == 'Home: My Scores':
         - <span style="color:black"><img src="{icon_improvement}" width="22px" >  There is some room for improvement here :) </span>
     """, unsafe_allow_html=True)
 
-elif selected_module == 'Advanced Visualizations':
-    module_advanced_visualizations.display_module(modules)
 elif selected_module == 'Basics: Bar Chart':
     BarChart.display_module(modules)
+elif selected_module == 'Basics: Area Chart':
+    AreaChart.display_module(modules)
 
 
-st.sidebar.subheader("", divider="red")
+#st.sidebar.subheader("", divider="red")
 
 # Example of adding a link to the sidebar
-st.sidebar.markdown("When you are confident that you have learnt enough, click on the link below to proceed to the final assessment:", unsafe_allow_html=True)
+#st.sidebar.markdown("When you are confident that you have learnt enough, click on the link below to proceed to the final assessment:", unsafe_allow_html=True)
 
 #st.sidebar.markdown("[When you feel like you're ready, click here for the Final Assessment](https://example.com/final-assessment)", unsafe_allow_html=True)
 
-# Add the Final Assessment link at the bottom of the sidebar
-final_assessment_link = """
-<a href="https://example.com/final-assessment" target="_blank" class="sidebar-link">
-    Final Assessment
-</a>
+# Fixed block for Final Assessment in the sidebar
+final_assessment_html = """
+    <aside>
+        <a href="https://example.com/final-assessment" target="_blank" class="sidebar-link">
+            Final Assessment
+        </a>
+    </aside>
 """
 
-st.sidebar.markdown(final_assessment_link, unsafe_allow_html=True)
+st.sidebar.markdown(final_assessment_html, unsafe_allow_html=True)
 
