@@ -81,6 +81,17 @@ def display_module(modules):
 
 
     # Add the chart for 'Bar Chart Anatomy' subpage
+    if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
+
+        # URL of the image
+        url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/test6-min.png"
+
+        # Display the image using st.markdown()
+        image_markdown = f'<img src="{url}" style="width:100%;">'
+        st.markdown(image_markdown, unsafe_allow_html=True)
+
+
+    # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 1:  # Assuming Bar Chart Anatomy is at index 1
 
         # URL of the image
