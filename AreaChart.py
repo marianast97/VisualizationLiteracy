@@ -27,13 +27,27 @@ def display_module(modules):
         """
     st.markdown(button_style, unsafe_allow_html=True)
 
-    # Base URL pattern
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/AreaChart"
+    # Define base URL to fetch files from GitHub
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/AreaChart/AreaChart"
 
-    # Check if the current subpage index is within the range you expect
-    if 0 <= current_subpage_index < 15:  # Adjust the range as needed
+    # GitHub API URL to list files in the folder
+    api_url = "https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/LearningContent/AreaChart"
+
+    # Get the list of files in the directory using GitHub API
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        files = response.json()
+        # Filter to get only PNG files and count them
+        image_files = [file['name'] for file in files if file['name'].endswith('.png')]
+        num_files = len(image_files)
+    else:
+        st.error("Failed to load image files.")
+        num_files = 0  # Set to zero if files can't be fetched
+
+    # Check if the current subpage index is within the dynamic range
+    if 0 <= current_subpage_index < num_files:
         # Generate the URL using the current_subpage_index + 1
-        url = f"{base_url}{current_subpage_index + 1:02}.png"
+        url = f"{base_url} ({current_subpage_index + 1}).png"
         
         # Display the image using st.markdown()
         image_markdown = f'<img src="{url}" style="width:100%;">'
