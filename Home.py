@@ -1,7 +1,6 @@
 import streamlit as st
 from utils import get_score_icon, all_subpages_accessed, initialize_session_state
-import BarChart
-import AreaChart
+import BarChart, AreaChart, PieChart, LineChart, Maps, ScatterPlot, StackedBarChart # type: ignore
 import plotly.graph_objects as go
 
 st.set_page_config(layout="wide") #"centered"
@@ -33,7 +32,13 @@ sidebar_adjustment_style = """
     .st-emotion-cache-1gwvy71 {
         position: start;
         padding-top: 0px !important;
-        width=200px;
+        width:100%;
+    }
+    .st-emotion-cache-16i25t9 {
+        position: start;
+        padding-top: 0px !important;
+        width:100%;
+        gap: 0.5rem;
     }
 
     /* Make the sidebar container scrollable and fix the final block at the bottom */
@@ -59,14 +64,18 @@ st.markdown(sidebar_adjustment_style, unsafe_allow_html=True)
 
 
 # Example of scores assigned to the two modules
-pages = {
-    'Basics: Area Chart': 0,
-    'Basics: Bar Chart': 1,
-    'Basics: Maps': 1,
-    'Basics: Line Chart': 1,
-    'Basics: Pie Chart': 1,
-    'Basics: Scatter Plot': 1,
-    'Basics: Stacked Bar Chart': 1,
+basics = {
+    'Area Chart': 0,
+    'Bar Chart': 1,
+    'Maps': 1,
+    'Line Chart': 1,
+    'Pie Chart': 1,
+    'Scatter Plot': 1,
+    'Stacked Bar Chart': 1,
+}
+
+# Example of scores assigned to the two modules
+pitfalls = {
     'Cherry Picking': 0,
     'Concealed Uncertainty': 1,
     'Misleading Annotation': 1,
@@ -81,10 +90,21 @@ pages = {
 }
 
 modules = {
-    'Basics: Bar Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
+    'Bar Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
                           'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
-    'Basics: Area Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
+    'Area Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
                           'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
+    'Line Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
+                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
+    'Maps': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
+                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
+    'Pie Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
+                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
+    'Scatter Plot': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
+                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
+    'Stacked Bar Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
+                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
+
 }
 
 # Define the URLs of your custom icons
@@ -103,9 +123,9 @@ st.markdown("""
         border-radius: 2px;
         font-weight: bold;
         width: 100%;
-        height: 3px;
-        margin: 2px;
-        padding: 2px;
+        height: 1px;
+        margin: 1px;
+        padding: 1px;
         border: 2px solid #f0f2f6;
     }
     .element-container:has(#learning-buttons) + div button:hover,
@@ -128,10 +148,38 @@ st.sidebar.markdown('<span id="home-button-after"></span>', unsafe_allow_html=Tr
 if st.sidebar.button("Home: My Scores"):
     st.session_state['selected_module'] = 'Home: My Scores'
 
-st.sidebar.subheader("Learning Content")
+st.sidebar.subheader("Basics")
 
 # Display buttons for each module in the sidebar
-for module, score in pages.items():
+for module, score in basics.items():
+    # Icon for good/bad score
+    score_icon = get_score_icon(score)
+    
+    # Check if all subpages are accessed
+    if all_subpages_accessed(module, modules):
+        accessed_icon = '✔️'
+    else:
+        accessed_icon = '  '
+
+    #st.sidebar.markdown('<span id="learning-buttons"></span>', unsafe_allow_html=True)
+
+    # Use columns to align the icon and the button
+    col1, col2 = st.sidebar.columns([0.6, 4])  # Adjust column proportions as needed
+    
+    # Display the icon in the first column using markdown
+    with col1:
+        icon_markdown = f'<img src="{score_icon}" alt="icon" width="35px">'  # Adjust width as needed
+        st.markdown(icon_markdown, unsafe_allow_html=True)
+
+    # Display the button in the second column
+    with col2:
+        if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
+            st.session_state['selected_module'] = module
+
+st.sidebar.subheader("Common Pitfalls")
+
+# Display buttons for each module in the sidebar
+for module, score in pitfalls.items():
     # Icon for good/bad score
     score_icon = get_score_icon(score)
     
@@ -216,10 +264,20 @@ if selected_module == 'Home: My Scores':
         - <span style="color:black"><img src="{icon_improvement}" width="22px" >  There is some room for improvement here :) </span>
     """, unsafe_allow_html=True)
 
-elif selected_module == 'Basics: Bar Chart':
+elif selected_module == 'Bar Chart':
     BarChart.display_module(modules)
-elif selected_module == 'Basics: Area Chart':
+elif selected_module == 'Area Chart':
     AreaChart.display_module(modules)
+elif selected_module == 'Line Chart':
+    LineChart.display_module(modules)
+elif selected_module == 'Maps':
+    Maps.display_module(modules)
+elif selected_module == 'Pie Chart':
+    PieChart.display_module(modules)
+elif selected_module == 'Scatter Plot':
+    ScatterPlot.display_module(modules)
+elif selected_module == 'Stacked Bar Chart':
+    StackedBarChart.display_module(modules)
 
 
 #st.sidebar.subheader("", divider="red")

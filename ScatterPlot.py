@@ -2,11 +2,12 @@ import streamlit as st
 from utils import display_subpage, navigate_subpage, initialize_single_module_state
 import plotly.graph_objects as go
 import plotly.express as px
+import pandas as pd
 
 
 
 def display_module(modules):
-    selected_module = 'Bar Chart'
+    selected_module = 'Scatter Plot'
     
     # Ensure that session state is initialized for this module
     initialize_single_module_state(selected_module, modules)
@@ -28,7 +29,7 @@ def display_module(modules):
     st.markdown(button_style, unsafe_allow_html=True)
 
     # Base URL pattern
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/BarChart/BarChart"
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/AreaChart/AreaChart"
 
     # Check if the current subpage index is within the range you expect
     if 0 <= current_subpage_index < 13:  # Adjust the range as needed
@@ -70,20 +71,41 @@ def display_module(modules):
 
         # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
-        #
-        fig = go.Figure(data=[
-            go.Bar(name='Coffee Consumption', x=['USA', 'Canada', 'Mexico', 'Brazil', 'Argentina', 'UK', 'France', 
-                                                 'Germany', 'Italy', 'Spain', 'China', 'India', 'Russia', 
-                                                 'Japan', 'South Korea'],
-                   y=[9.5, 6.0, 4.0, 5.5, 3.5, 7.0, 8.0, 7.5, 6.5, 4.5, 2.0, 3.0, 5.5, 7.5, 6.0],
-                   hoverinfo='none'  # This disables the tooltip
-                   )
-        ])
- 
+        # Create the chart using Plotly
+
+        data = {
+            "University": ["Ocean State Institute", "Ocean State Institute", "Mountain Ridge College", 
+                        "Ocean State Institute", "Tech Valley University", "Mountain Ridge College", 
+                        "Tech Valley University", "Tech Valley University", "Mountain Ridge College", 
+                        "Ocean State Institute", "Mountain Ridge College", "Tech Valley University", 
+                        "Ocean State Institute", "Tech Valley University", "Mountain Ridge College"],
+            "Hours of Study": [5, 8, 6, 10, 12, 9, 12, 15, 8, 6, 7, 11, 9, 13, 10],
+            "Exam Score (%)": [75, 85, 78, 90, 80, 88, 95, 98, 82, 79, 85, 92, 87, 96, 89]
+        }
+
+        # Convert to DataFrame
+        df = pd.DataFrame(data)
+
+        # Create scatter plot
+        fig = px.scatter(
+            df,
+            x="Hours of Study",
+            y="Exam Score (%)",
+            color="University",  # Changed to use the fictional university names
+            title="Relationship Between Study Hours and Exam Scores by University",
+            labels={"Hours of Study": "Hours of Study", "Exam Score (%)": "Exam Score (%)"},
+            trendline="ols",  # Add a trendline (correlation line)
+            trendline_scope="overall",  # Apply one trendline for the entire dataset
+            trendline_color_override="black"  # Set the trendline color to black for visibility
+        )
+
+        # Customize the marker appearance (optional)
+        fig.update_traces(marker=dict(size=10))  # Adjust marker size
+
         fig.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
-                'text': "Average Coffee Consumption in Selected Countries",
+                #'text': "text here",
                 'font': {
                 'size': 24  # Set title size larger
                 },
@@ -106,6 +128,13 @@ def display_module(modules):
             },
             width=800,  # Set the width of the chart
             height=500  # Set the height of the chart
+        )
+
+        # Update traces to increase label size
+        fig.update_traces(
+            textfont={
+                'size': 18  # Increase the size of the labels
+            }
         )
          # Deactivate mode bar in the plotly chart
         config = {

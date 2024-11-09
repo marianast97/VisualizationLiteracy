@@ -6,7 +6,7 @@ import plotly.express as px
 
 
 def display_module(modules):
-    selected_module = 'Basics: Area Chart'
+    selected_module = 'Area Chart'
     
     # Ensure that session state is initialized for this module
     initialize_single_module_state(selected_module, modules)
@@ -74,9 +74,9 @@ def display_module(modules):
 
         data = {
             "Year": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023],
-            "StreamFlix": [50, 70, 90, 110, 140, 170, 200, 230, 260],
+            "StreamFlix": [50, 70, 90, 110, 140, 200, 220, 230, 260],
             "PrimeStream": [30, 40, 50, 60, 80, 100, 120, 140, 160],
-            "MoviePlus": [0, 0, 0, 0, 10, 40, 70, 100, 130]
+            "MoviePlus": [0, 0, 0, 0, 10, 40, 70, 130, 140]
         }
         # Creating the stacked area chart using Plotly Express
         fig = px.area(
@@ -85,7 +85,7 @@ def display_module(modules):
             y=["StreamFlix", "PrimeStream", "MoviePlus"], 
             title="Growth of Users on Streaming Platforms Over Time",
             labels={"value": "Number of Users (in millions)", "variable": "Streaming Platform"},
-            color_discrete_sequence=["#377eb8", "#ff7f00", "#4daf4a"]  # Blue, Orange, Green (Color-blind friendly)
+            #color_discrete_sequence=["#ffb00d", "#dd217d", "#725def"]  # (Color-blind friendly)
         )
 
         fig.update_layout(
@@ -117,7 +117,7 @@ def display_module(modules):
         )
          # Deactivate mode bar in the plotly chart
         config = {
-            'displayModeBar': False  # This will hide the toolbar
+            #'displayModeBar': False  # This will hide the toolbar
         }
 
         # Display the figure in Streamlit

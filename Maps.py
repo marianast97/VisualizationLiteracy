@@ -2,11 +2,12 @@ import streamlit as st
 from utils import display_subpage, navigate_subpage, initialize_single_module_state
 import plotly.graph_objects as go
 import plotly.express as px
+import pandas as pd
 
 
 
 def display_module(modules):
-    selected_module = 'Bar Chart'
+    selected_module = 'Maps'
     
     # Ensure that session state is initialized for this module
     initialize_single_module_state(selected_module, modules)
@@ -28,7 +29,7 @@ def display_module(modules):
     st.markdown(button_style, unsafe_allow_html=True)
 
     # Base URL pattern
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/BarChart/BarChart"
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/AreaChart/AreaChart"
 
     # Check if the current subpage index is within the range you expect
     if 0 <= current_subpage_index < 13:  # Adjust the range as needed
@@ -70,20 +71,64 @@ def display_module(modules):
 
         # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
-        #
-        fig = go.Figure(data=[
-            go.Bar(name='Coffee Consumption', x=['USA', 'Canada', 'Mexico', 'Brazil', 'Argentina', 'UK', 'France', 
-                                                 'Germany', 'Italy', 'Spain', 'China', 'India', 'Russia', 
-                                                 'Japan', 'South Korea'],
-                   y=[9.5, 6.0, 4.0, 5.5, 3.5, 7.0, 8.0, 7.5, 6.5, 4.5, 2.0, 3.0, 5.5, 7.5, 6.0],
-                   hoverinfo='none'  # This disables the tooltip
-                   )
-        ])
- 
+        # Create the chart using Plotly
+
+        data = {
+            "State": ["AL", "MS", "LA", "AR", "TN", "GA", "FL", "SC", "NC", "VA", "KY", "WV", "TX", "MO", "OK", "KS", "CO", 
+                    "UT", "NM", "AZ", "NV", "CA", "OR", "WA", "ID", "MT", "WY", "ND", "SD", "NE", "IA", "MN", "WI", "MI", 
+                    "IL", "IN", "OH", "PA", "ME", "NJ", "MA", "CT", "VT", "NH", "RI", "NY", "MD", "DE"],
+            # Randomly distribute values across 3 bins: 40-50%, 20-39%, and 0-19%
+            "Percentage": [48, 25, 38, 43, 43, 23, 26, 30, 37, 25, 50, 38, 26, 45, 
+                        45, 39, 42, 32, 28, 33, 32, 37, 28, 44, 34, 40, 32, 12, 
+                        44, 49, 12, 13, 18, 30, 39, 29, 41, 13, 36, 37, 45, 43, 42, 33, 41, 25, 14, 15]
+        }
+
+        # Ensure both lists have the same length
+        assert len(data['State']) == len(data['Percentage']), "State and Percentage arrays must be of the same length"
+
+        # Convert to DataFrame
+        df = pd.DataFrame(data)
+
+        # Handle NaN values by ensuring that all percentages fit in defined bins
+        df['Percentage'] = df['Percentage'].clip(upper=50)
+
+        # Create bins for the percentage ranges (3 bins)
+        bins = [9, 19, 39, 50]
+        labels = ["40 - 50%", "20 - 39%", "10 - 19%"]
+        df['Percentage Range'] = pd.cut(df['Percentage'], bins=bins, labels=labels, include_lowest=True)
+
+        # Create the choropleth map with the new green palette
+        fig = px.choropleth(
+            df,
+            locations="State",
+            locationmode="USA-states",
+            color="Percentage Range",  # Use the binned percentage ranges
+            scope="usa",
+            title="Renewable Energy Adoption by State",
+            category_orders={"Percentage Range": labels},  # Sort legend from bottom to top
+            #color_discrete_map={
+            #    "10 - 19%": "#D9F0A3",  # Very light green
+            #    "20 - 39%": "#41AB5D",  # Darker medium green
+            #    "40 - 50%": "#005A32"  # Very dark green
+            #},
+            labels={"Percentage Range": "Renewable Energy (%)"}
+        )
+
+        # Add state labels using Scattergeo
+        fig.add_trace(go.Scattergeo(
+            locationmode='USA-states',
+            locations=df['State'],
+            text=df['State'],  # Use state abbreviations as labels
+            mode='text',
+            textfont=dict(size=12, color="black"),  # Customize font size and color
+            showlegend=False  # Do not show in legend
+        ))
+
+
         fig.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
-                'text': "Average Coffee Consumption in Selected Countries",
+                #'text': "text here",
                 'font': {
                 'size': 24  # Set title size larger
                 },
@@ -107,6 +152,14 @@ def display_module(modules):
             width=800,  # Set the width of the chart
             height=500  # Set the height of the chart
         )
+
+        # Update traces to increase label size
+        #fig.update_traces(
+        #    textfont={
+        #        'size': 18  # Increase the size of the labels
+        #    }
+        #)
+
          # Deactivate mode bar in the plotly chart
         config = {
             'displayModeBar': False  # This will hide the toolbar

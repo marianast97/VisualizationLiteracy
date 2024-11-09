@@ -6,7 +6,7 @@ import plotly.express as px
 
 
 def display_module(modules):
-    selected_module = 'Bar Chart'
+    selected_module = 'Pie Chart'
     
     # Ensure that session state is initialized for this module
     initialize_single_module_state(selected_module, modules)
@@ -28,7 +28,7 @@ def display_module(modules):
     st.markdown(button_style, unsafe_allow_html=True)
 
     # Base URL pattern
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/BarChart/BarChart"
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/AreaChart/AreaChart"
 
     # Check if the current subpage index is within the range you expect
     if 0 <= current_subpage_index < 13:  # Adjust the range as needed
@@ -70,20 +70,28 @@ def display_module(modules):
 
         # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
-        #
-        fig = go.Figure(data=[
-            go.Bar(name='Coffee Consumption', x=['USA', 'Canada', 'Mexico', 'Brazil', 'Argentina', 'UK', 'France', 
-                                                 'Germany', 'Italy', 'Spain', 'China', 'India', 'Russia', 
-                                                 'Japan', 'South Korea'],
-                   y=[9.5, 6.0, 4.0, 5.5, 3.5, 7.0, 8.0, 7.5, 6.5, 4.5, 2.0, 3.0, 5.5, 7.5, 6.0],
-                   hoverinfo='none'  # This disables the tooltip
-                   )
-        ])
- 
+        # Create the chart using Plotly
+
+        # Data for the pie chart with dummy names
+        data = {
+            "Streaming Platform": ["StreamHub", "WatchNow", "ViewPlus"],
+            "Market Share": [40, 35, 25]
+        }
+
+        # Creating the pie chart using Plotly Express
+        fig = px.pie(
+            data, 
+            names="Streaming Platform", 
+            values="Market Share", 
+            title="Market Share of Streaming Platforms",
+            color_discrete_sequence=["#7e2954", "#5da899", "#94cbec"]  # (Color-blind friendly)
+
+        )
+
         fig.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
-                'text': "Average Coffee Consumption in Selected Countries",
+                #'text': "text here",
                 'font': {
                 'size': 24  # Set title size larger
                 },
@@ -106,6 +114,13 @@ def display_module(modules):
             },
             width=800,  # Set the width of the chart
             height=500  # Set the height of the chart
+        )
+
+        # Update traces to increase label size
+        fig.update_traces(
+            textfont={
+                'size': 18  # Increase the size of the labels
+            }
         )
          # Deactivate mode bar in the plotly chart
         config = {

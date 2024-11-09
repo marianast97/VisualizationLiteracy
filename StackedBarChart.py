@@ -6,7 +6,7 @@ import plotly.express as px
 
 
 def display_module(modules):
-    selected_module = 'Bar Chart'
+    selected_module = 'Stacked Bar Chart'
     
     # Ensure that session state is initialized for this module
     initialize_single_module_state(selected_module, modules)
@@ -28,7 +28,7 @@ def display_module(modules):
     st.markdown(button_style, unsafe_allow_html=True)
 
     # Base URL pattern
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/BarChart/BarChart"
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/AreaChart/AreaChart"
 
     # Check if the current subpage index is within the range you expect
     if 0 <= current_subpage_index < 13:  # Adjust the range as needed
@@ -70,20 +70,32 @@ def display_module(modules):
 
         # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
-        #
-        fig = go.Figure(data=[
-            go.Bar(name='Coffee Consumption', x=['USA', 'Canada', 'Mexico', 'Brazil', 'Argentina', 'UK', 'France', 
-                                                 'Germany', 'Italy', 'Spain', 'China', 'India', 'Russia', 
-                                                 'Japan', 'South Korea'],
-                   y=[9.5, 6.0, 4.0, 5.5, 3.5, 7.0, 8.0, 7.5, 6.5, 4.5, 2.0, 3.0, 5.5, 7.5, 6.0],
-                   hoverinfo='none'  # This disables the tooltip
-                   )
-        ])
- 
+        # Create the chart using Plotly
+
+        # Data for the stacked bar chart
+        data = {
+            "Country": [
+                "USA", "Canada", "Mexico", "Brazil", "Argentina", 
+                "UK", "France", "Germany", "Italy", "Spain"
+            ],
+            "Coffee": [9.8, 6.5, 4.7, 5.6, 3.2, 2.5, 6.1, 7.6, 5.9, 4.8],
+            "Tea": [3.2, 2.1, 1.8, 2.5, 1.4, 5, 2.6, 3.0, 2.3, 2.2],
+            "Juice": [2.5, 3.0, 2.1, 2.9, 1.9, 2.7, 2.4, 2.8, 2.5, 2.1]
+        }
+
+        # Creating the stacked bar chart using Plotly Express
+        fig = px.bar(
+            data, 
+            x="Country", 
+            y=["Coffee", "Tea", "Juice"], 
+            title="Beverage Consumption in Selected Countries",
+            labels={"value": "Consumption (liter per capita)", "variable": "Beverage"},
+        )
+
         fig.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
-                'text': "Average Coffee Consumption in Selected Countries",
+                #'text': "text here",
                 'font': {
                 'size': 24  # Set title size larger
                 },
