@@ -28,10 +28,10 @@ def display_module(modules):
     st.markdown(button_style, unsafe_allow_html=True)
 
     # Base URL pattern
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/AreaChart/AreaChart"
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/AreaChart"
 
     # Check if the current subpage index is within the range you expect
-    if 0 <= current_subpage_index < 13:  # Adjust the range as needed
+    if 0 <= current_subpage_index < 15:  # Adjust the range as needed
         # Generate the URL using the current_subpage_index + 1
         url = f"{base_url}{current_subpage_index + 1:02}.png"
         

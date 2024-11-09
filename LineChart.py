@@ -28,7 +28,8 @@ def display_module(modules):
     st.markdown(button_style, unsafe_allow_html=True)
 
     # Base URL pattern
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/AreaChart/AreaChart"
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/LineChart"
+
 
     # Check if the current subpage index is within the range you expect
     if 0 <= current_subpage_index < 13:  # Adjust the range as needed
