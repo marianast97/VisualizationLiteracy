@@ -12,17 +12,11 @@ def initialize_session_state(modules):
 
 # Function to initialize session state for a specific module
 def initialize_single_module_state(module_name, modules):
-    # Initialize session state for current subpage and accessed subpages if they are not already initialized
-    if 'accessed_subpages' not in st.session_state:
-        st.session_state['accessed_subpages'] = {}
-        
-    if module_name not in st.session_state['accessed_subpages']:
+    # Ensure 'accessed_subpages' and 'current_subpage' are initialized for the specific module
+    if 'accessed_subpages' in st.session_state and module_name not in st.session_state['accessed_subpages']:
         st.session_state['accessed_subpages'][module_name] = [False] * len(modules[module_name])
 
-    if 'current_subpage' not in st.session_state:
-        st.session_state['current_subpage'] = {}
-
-    if module_name not in st.session_state['current_subpage']:
+    if 'current_subpage' in st.session_state and module_name not in st.session_state['current_subpage']:
         st.session_state['current_subpage'][module_name] = 0
 
 # Function to display content for each subpage of a module
@@ -43,13 +37,9 @@ def display_subpage(module_name, subpage_index, modules):
 def get_score_icon(score):
     if score >= GOOD_SCORE_THRESHOLD:
         return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconRight2.png"
-        #url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconRight.png"
-        #st.image(url, output_format="PNG", width=40) 
 
     else:
         return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconWrong2.png"
-        #url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconWrong.png"
-        #st.image(url, output_format="PNG", width=40) 
 
 # Function to handle subpage navigation
 def navigate_subpage(module_name, direction, modules):

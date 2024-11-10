@@ -89,23 +89,25 @@ pitfalls = {
     'Overplotting': 1,
 }
 
-modules = {
-    'Bar Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
-                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
-    'Area Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
-                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
-    'Line Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
-                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
-    'Maps': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
-                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
-    'Pie Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
-                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
-    'Scatter Plot': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
-                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
-    'Stacked Bar Chart': ['Anatomy','Anatomy','Anatomy','Anatomy','Anatomy','Anatomy', 'Common Tasks associated to Bar Chart', 'Common Tasks associated to Bar Chart',
-                          'Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Common Tasks associated to Bar Chart','Module Completed'],
+BarChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 6 + ['Module Completed']
+AreaChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 8 + ['Module Completed']
+LineChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
+MapsSubpages = ['Anatomy'] * 5 + ['Common Tasks associated to Bar Chart'] * 3 + ['Module Completed']
+PieChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 5 + ['Module Completed']
+ScatterPlotSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
+StackedBarChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 3 + ['Module Completed']
 
+
+modules = {
+    'Bar Chart': BarChartSubpages,
+    'Area Chart': AreaChartSubpages,
+    'Line Chart': LineChartSubpages,
+    'Maps': MapsSubpages,
+    'Pie Chart': PieChartSubpages,
+    'Scatter Plot': ScatterPlotSubpages,
+    'Stacked Bar Chart': StackedBarChartSubpages,
 }
+
 
 # Define the URLs of your custom icons
 icon_well_done = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconRight2.png"
@@ -143,63 +145,43 @@ initialize_session_state(modules)
 if 'selected_module' not in st.session_state:
     st.session_state['selected_module'] = 'Home: My Scores'
 
+# Dictionary to map module names to display functions
+module_display_mapping = {
+    'Bar Chart': BarChart.display_module,
+    'Area Chart': AreaChart.display_module,
+    'Line Chart': LineChart.display_module,
+    'Maps': Maps.display_module,
+    'Pie Chart': PieChart.display_module,
+    'Scatter Plot': ScatterPlot.display_module,
+    'Stacked Bar Chart': StackedBarChart.display_module
+}
 
 st.sidebar.markdown('<span id="home-button-after"></span>', unsafe_allow_html=True)
 if st.sidebar.button("Home: My Scores"):
     st.session_state['selected_module'] = 'Home: My Scores'
 
+# Sidebar Basics section
 st.sidebar.subheader("Basics")
-
-# Display buttons for each module in the sidebar
 for module, score in basics.items():
-    # Icon for good/bad score
     score_icon = get_score_icon(score)
+    accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
     
-    # Check if all subpages are accessed
-    if all_subpages_accessed(module, modules):
-        accessed_icon = '✔️'
-    else:
-        accessed_icon = '  '
-
-    #st.sidebar.markdown('<span id="learning-buttons"></span>', unsafe_allow_html=True)
-
-    # Use columns to align the icon and the button
-    col1, col2 = st.sidebar.columns([0.6, 4])  # Adjust column proportions as needed
-    
-    # Display the icon in the first column using markdown
+    col1, col2 = st.sidebar.columns([0.6, 4])
     with col1:
-        icon_markdown = f'<img src="{score_icon}" alt="icon" width="35px">'  # Adjust width as needed
-        st.markdown(icon_markdown, unsafe_allow_html=True)
-
-    # Display the button in the second column
+        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
     with col2:
         if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
             st.session_state['selected_module'] = module
 
+# Sidebar Common Pitfalls section
 st.sidebar.subheader("Common Pitfalls")
-
-# Display buttons for each module in the sidebar
 for module, score in pitfalls.items():
-    # Icon for good/bad score
     score_icon = get_score_icon(score)
+    accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
     
-    # Check if all subpages are accessed
-    if all_subpages_accessed(module, modules):
-        accessed_icon = '✔️'
-    else:
-        accessed_icon = '  '
-
-    #st.sidebar.markdown('<span id="learning-buttons"></span>', unsafe_allow_html=True)
-
-    # Use columns to align the icon and the button
-    col1, col2 = st.sidebar.columns([0.6, 4])  # Adjust column proportions as needed
-    
-    # Display the icon in the first column using markdown
+    col1, col2 = st.sidebar.columns([0.6, 4])
     with col1:
-        icon_markdown = f'<img src="{score_icon}" alt="icon" width="35px">'  # Adjust width as needed
-        st.markdown(icon_markdown, unsafe_allow_html=True)
-
-    # Display the button in the second column
+        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
     with col2:
         if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
             st.session_state['selected_module'] = module
@@ -264,20 +246,10 @@ if selected_module == 'Home: My Scores':
         - <span style="color:black"><img src="{icon_improvement}" width="22px" >  There is some room for improvement here :) </span>
     """, unsafe_allow_html=True)
 
-elif selected_module == 'Bar Chart':
-    BarChart.display_module(modules)
-elif selected_module == 'Area Chart':
-    AreaChart.display_module(modules)
-elif selected_module == 'Line Chart':
-    LineChart.display_module(modules)
-elif selected_module == 'Maps':
-    Maps.display_module(modules)
-elif selected_module == 'Pie Chart':
-    PieChart.display_module(modules)
-elif selected_module == 'Scatter Plot':
-    ScatterPlot.display_module(modules)
-elif selected_module == 'Stacked Bar Chart':
-    StackedBarChart.display_module(modules)
+else:
+    # Load only the selected module's content
+    if selected_module in module_display_mapping:
+        module_display_mapping[selected_module](modules)
 
 
 #st.sidebar.subheader("", divider="red")
