@@ -8,7 +8,7 @@ import pandas as pd
 
 
 def display_module(modules):
-    selected_module = 'Inappropriate Aggregation'
+    selected_module = 'Truncated Axis'
     
     # Ensure that session state is initialized for this module
     initialize_single_module_state(selected_module, modules)
@@ -32,7 +32,7 @@ def display_module(modules):
     @st.cache_data
     def get_image_files():
         # GitHub API URL to list files in the folder
-        api_url = "https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/LearningContent/ConcealedUncertainty"
+        api_url = "https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/LearningContent/TruncatedAxis"
         response = requests.get(api_url)
         
         if response.status_code == 200:
@@ -49,7 +49,7 @@ def display_module(modules):
     num_files = len(image_files)
 
     # Base URL pattern
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/ConcealedUncertainty/ConcealedUncertainty"
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/TruncatedAxis/TruncatedAxis"
 
     # Pre-generate URLs for each image
     image_urls = [f"{base_url} ({i + 1}).png" for i in range(num_files)]
@@ -95,34 +95,25 @@ def display_module(modules):
         # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
         
+        # Toy Example: Wrong Deliveries - Misleading chart with partial data for 2022
         data = {
-            "Mode of Transportation": ["Driving", "Public Transportation"],
-            "Percentage": [60, 40],
-            "Wrong": [40, 60]  # Incorrect values to mislead
+            "Year": ["2021", "2022", "2023", "2024"],
+            "Wrong Deliveries": [300, 276, 288, 66]  # 2022 data is incomplete (only 5 months)
         }
 
         # Convert to DataFrame
         df_data = pd.DataFrame(data)
         
-        # Create the misleading pie chart
-        fig_misleading_transport = px.pie(
+        # Create the misleading bar chart
+        fig = px.bar(
             df_data,
-            names="Mode of Transportation",
-            values="Percentage",
-            title="Transportation Preferences"
+            x="Year",
+            y="Wrong Deliveries",
+            title="Wrong Deliveries",
+            labels={"Wrong Deliveries": "Number of Wrong Deliveries", "Year": "Year"}
         )
  
-        # Add wrong label using hovertemplate and texttemplate for misleading information
-        fig_misleading_transport.update_traces(
-            hovertemplate="<b>%{label}</b><br>Actual Value: %{value}<br>Wrong Value: %{customdata[0]}%",
-            customdata=df_transportation[['Wrong']],  # Use the 'Wrong' column for hover
-            texttemplate="%{customdata[0]}%",  # Show wrong values directly on the chart
-            textposition="inside",  # Position text inside the pie slices
-            showlegend=True  # Ensure legend is displayed
-        )
-
-
-        fig_misleading_transport.update_layout(
+        fig.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
                 #'text': "Average Coffee Consumption in Selected Countries",
@@ -155,26 +146,24 @@ def display_module(modules):
         }
 
         # Display the figure in Streamlit
-        st.plotly_chart(fig_misleading_transport, config=config)
+        st.plotly_chart(fig, config=config)
 
-        # Toy Example: Misleading chart showing Transportation Preferences with incorrect annotation
-        data_transportation = {
-            "Mode of Transportation": ["Driving", "Public Transportation"],
-            "Percentage": [60, 40],
-            "Wrong": [40, 65]
+        # Create a dataset showing the average number of wrong deliveries per month for each year
+        data_avg = {
+            "Year": ["2021", "2022", "2023", "2024"],
+            "Wrong Deliveries (Avg per Month)": [300/12, 276/12, 288/12, 66/3]  # Average for 2022 based on 5 months
         }
 
         # Convert to DataFrame
-        df_transportation = pd.DataFrame(data_transportation)
+        df_avg = pd.DataFrame(data_avg)
 
-        # Create the misleading pie chart
-        fig_correct = px.pie(
-            df_transportation,
-            names="Mode of Transportation",
-            values="Percentage",
-            title="Transportation Preferences",
-            labels="Wrong"
-            #hole=0.3
+        # Create the correct bar chart
+        fig_correct = px.bar(
+            df_avg,
+            x="Year",
+            y="Wrong Deliveries (Avg per Month)",
+            title="Average Wrong Deliveries per Month",
+            labels={"Wrong Deliveries (Avg per Month)": "Average Wrong Deliveries per Month", "Year": "Year"}
         )
 
 

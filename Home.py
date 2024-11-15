@@ -1,7 +1,9 @@
 import streamlit as st
 from utils import get_score_icon, all_subpages_accessed, initialize_session_state
-import BarChart, AreaChart, PieChart, LineChart, Maps, ScatterPlot, StackedBarChart  # type: ignore
-import CherryPicking, ConcealedUncertainty, InappropriateAggregation  # type: ignore
+from Modules import BarChart, AreaChart, PieChart, LineChart, Maps, ScatterPlot, StackedBarChart  # type: ignore
+from Modules import CherryPicking, ConcealedUncertainty, InappropriateAggregation, MisleadingAnnotation  # type: ignore
+from Modules import MissingData, TruncatedAxis, MissingNormalization  # type: ignore
+
 import plotly.graph_objects as go
 
 st.set_page_config(layout="wide") #"centered"
@@ -78,16 +80,16 @@ basics = {
 # Example of scores assigned to the two modules
 pitfalls = {
     'Cherry Picking': 0,
-    'Concealed Uncertainty': 1,
-    'Misleading Annotation': 1,
-    'Missing Data': 1,
-    'Missing Normalization': 1,
+    'Concealed Uncertainty': 0,
     'Inappropriate Aggregation': 1,
     'Inappropriate Scale Order': 1,
     'Inappropriate Scale Functions': 0,
     'Inappropriate Scale Directions': 1,
-    'Truncated Axis': 0,
+    'Misleading Annotation': 1,
+    'Missing Data': 1,
+    'Missing Normalization': 1,
     'Overplotting': 1,
+    'Truncated Axis': 0
 }
 
 BarChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 6 + ['Module Completed']
@@ -98,8 +100,16 @@ PieChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 
 ScatterPlotSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
 StackedBarChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 3 + ['Module Completed']
 CherryPickingSubpages = [''] * 6 + ['Module Completed']
-ConcealedUncertaintySubpages = [''] * 6 + ['Module Completed']
-InappropriateAggregationSubpages =  [''] * 6 + ['Module Completed']
+ConcealedUncertaintySubpages = [''] * 5 + ['Module Completed']
+InappropriateAggregationSubpages =  [''] * 7 + ['Module Completed']
+InappropriateScaleOrderSubpages = [''] * 6 + ['Module Completed']
+InappropriateScaleFunctionsSubpages = [''] * 6 + ['Module Completed']
+InappropriateScaleDirectionsSubpages = [''] * 6 + ['Module Completed']
+MisleadingAnnotationSubpages =  [''] * 6 + ['Module Completed']
+MissingDataSubpages =  [''] * 6 + ['Module Completed']
+MissingNormalizationSubpages =  [''] * 6 + ['Module Completed']
+OverplottingSubpages =  [''] * 6 + ['Module Completed']
+TruncatedAxisSubpages =  [''] * 6 + ['Module Completed']
 
 
 
@@ -114,6 +124,14 @@ modules = {
     'Cherry Picking': CherryPickingSubpages,
     'Concealed Uncertainty': ConcealedUncertaintySubpages,
     'Inappropriate Aggregation': InappropriateAggregationSubpages,
+    'Inappropriate Scale Order': InappropriateScaleOrderSubpages,
+    'Inappropriate Scale Functions': InappropriateScaleFunctionsSubpages,
+    'Inappropriate Scale Directions': InappropriateScaleDirectionsSubpages,
+    'Misleading Annotation': MisleadingAnnotationSubpages,
+    'Missing Data': MissingDataSubpages,
+    'Missing Normalization': MissingNormalizationSubpages,
+    'Overplotting': OverplottingSubpages,
+    'Truncated Axis': TruncatedAxisSubpages,
 }
 
 
