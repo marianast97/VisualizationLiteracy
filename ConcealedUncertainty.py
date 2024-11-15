@@ -3,11 +3,12 @@ import requests
 from utils import display_subpage, initialize_single_module_state
 import plotly.graph_objects as go
 import plotly.express as px
+import pandas as pd
 
 
 
 def display_module(modules):
-    selected_module = 'Stacked Bar Chart'
+    selected_module = 'Concealed Uncertainty'
     
     # Ensure that session state is initialized for this module
     initialize_single_module_state(selected_module, modules)
@@ -31,7 +32,7 @@ def display_module(modules):
     @st.cache_data
     def get_image_files():
         # GitHub API URL to list files in the folder
-        api_url = "https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/LearningContent/StackedBarChart"
+        api_url = "https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/LearningContent/ConcealedUncertainty"
         response = requests.get(api_url)
         
         if response.status_code == 200:
@@ -47,8 +48,8 @@ def display_module(modules):
     image_files = get_image_files()
     num_files = len(image_files)
 
-    # Define base URL to fetch files from GitHub
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/StackedBarChart/StackedBarChart"
+    # Base URL pattern
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/ConcealedUncertainty/ConcealedUncertainty"
 
     # Pre-generate URLs for each image
     image_urls = [f"{base_url} ({i + 1}).png" for i in range(num_files)]
@@ -93,32 +94,28 @@ def display_module(modules):
 
         # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
-        # Create the chart using Plotly
-
-        # Data for the stacked bar chart
+        
         data = {
-            "Country": [
-                "USA", "Canada", "Mexico", "Brazil", "Argentina", 
-                "UK", "France", "Germany", "Italy", "Spain"
-            ],
-            "Coffee": [9.8, 6.5, 4.7, 5.6, 3.2, 2.5, 6.1, 7.6, 5.9, 4.8],
-            "Tea": [3.2, 2.1, 1.8, 2.5, 1.4, 5, 2.6, 3.0, 2.3, 2.2],
-            "Juice": [2.5, 3.0, 2.1, 2.9, 1.9, 2.7, 2.4, 2.8, 2.5, 2.1]
+        "Candidate": ["Candidate A", "Candidate B"],
+        "Votes": [1200, 900]  # Early results with only 50% of votes counted
         }
 
-        # Creating the stacked bar chart using Plotly Express
+        # Convert to DataFrame
+        df_data = pd.DataFrame(data)
+        
+        # Create the misleading bar chart
         fig = px.bar(
-            data, 
-            x="Country", 
-            y=["Coffee", "Tea", "Juice"], 
-            title="Beverage Consumption in Selected Countries",
-            labels={"value": "Consumption (liter per capita)", "variable": "Beverage"},
+            df_data,
+            x="Candidate",
+            y="Votes",
+            title="Preliminary Election Results",
+            labels={"Votes": "Number of Votes", "Candidate": "Candidates"}
         )
-
+ 
         fig.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
-                #'text': "text here",
+                #'text': "Average Coffee Consumption in Selected Countries",
                 'font': {
                 'size': 24  # Set title size larger
                 },
@@ -127,19 +124,19 @@ def display_module(modules):
             #xaxis_title="Product",
             #yaxis_title="Coffee Consumption (kg per capita)",
             xaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
             yaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
             legend={
                 'title': {
                     'font': {'color': 'black'}  # Set legend title font color to black
                 }
             },
-            width=800,  # Set the width of the chart
+            width=400,  # Set the width of the chart
             height=500  # Set the height of the chart
         )
          # Deactivate mode bar in the plotly chart
@@ -150,7 +147,52 @@ def display_module(modules):
         # Display the figure in Streamlit
         st.plotly_chart(fig, config=config)
 
-        # Add a footnote below the chart
-        st.markdown("""
-        **Data source**: the author (2024). This is a fictional example created for educational purposes only. Data is fictional and should not be used for any actual analysis.
-        """)
+        # Create the correct bar chart
+        fig_correct = px.bar(
+            df_data,
+            x="Candidate",
+            y="Votes",
+            title="Preliminary Election Results",
+            labels={"Votes": "Number of Votes (preliminary)", "Candidate": "Candidates"}
+        )
+
+        # Add an annotation to show that only 50% of votes have been counted
+        fig_correct.add_annotation(
+            x=0.5, y=1300, text="Only 50% of votes counted so far", showarrow=False,
+            font=dict(size=18, color="red"), xref="paper", yref="y"
+        )
+
+        fig_correct.update_layout(
+            #title="Average Coffee Consumption in Selected Countries",
+            title={
+                #'text': "Average Coffee Consumption in Selected Countries",
+                'font': {
+                'size': 24  # Set title size larger
+                },
+                #'x': 0.5,  # Center the title
+            },
+            #xaxis_title="Product",
+            #yaxis_title="Coffee Consumption (kg per capita)",
+            xaxis={
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
+            },
+            yaxis={
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
+            },
+            legend={
+                'title': {
+                    'font': {'color': 'black'}  # Set legend title font color to black
+                }
+            },
+            width=400,  # Set the width of the chart
+            height=500  # Set the height of the chart
+        )
+         # Deactivate mode bar in the plotly chart
+        config = {
+            'displayModeBar': False  # This will hide the toolbar
+        }
+
+        # Display the figure in Streamlit
+        st.plotly_chart(fig_correct, config=config)

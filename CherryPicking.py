@@ -8,7 +8,7 @@ import pandas as pd
 
 
 def display_module(modules):
-    selected_module = 'Scatter Plot'
+    selected_module = 'Cherry Picking'
     
     # Ensure that session state is initialized for this module
     initialize_single_module_state(selected_module, modules)
@@ -32,7 +32,7 @@ def display_module(modules):
     @st.cache_data
     def get_image_files():
         # GitHub API URL to list files in the folder
-        api_url = "https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/LearningContent/ScatterPlot"
+        api_url = "https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/LearningContent/CherryPicking"
         response = requests.get(api_url)
         
         if response.status_code == 200:
@@ -48,8 +48,8 @@ def display_module(modules):
     image_files = get_image_files()
     num_files = len(image_files)
 
-    # Define base URL to fetch files from GitHub
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/ScatterPlot/ScatterPlot"
+    # Base URL pattern
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/CherryPicking/CherryPicking"
 
     # Pre-generate URLs for each image
     image_urls = [f"{base_url} ({i + 1}).png" for i in range(num_files)]
@@ -92,38 +92,34 @@ def display_module(modules):
     # Display current page number
     st.write(f"Page {current_subpage_index + 1} of {len(modules[selected_module])}")
 
-        # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
         # Create the chart using Plotly
 
-        data = {
-            "University": ["Ocean State Institute", "Ocean State Institute", "Mountain Ridge College", 
-                        "Ocean State Institute", "Tech Valley University", "Mountain Ridge College", 
-                        "Tech Valley University", "Tech Valley University", "Mountain Ridge College", 
-                        "Ocean State Institute", "Mountain Ridge College", "Tech Valley University", 
-                        "Ocean State Institute", "Tech Valley University", "Mountain Ridge College"],
-            "Hours of Study": [5, 8, 6, 10, 12, 9, 12, 15, 8, 6, 7, 11, 9, 13, 10],
-            "Exam Score (%)": [75, 85, 78, 90, 80, 88, 95, 98, 82, 79, 85, 92, 87, 96, 89]
+        # Full data for the past 3 years with fluctuating unemployment rate, but increasing overall (except the last 5 months)
+        full_data = {
+            "Month": [
+                "Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023", "May 2023", "Jun 2023", "Jul 2023", "Aug 2023", "Sep 2023", "Oct 2023", "Nov 2023", "Dec 2023",
+                "Jan 2024", "Feb 2024", "Mar 2024", "Apr 2024", "May 2024", "Jun 2024", "Jul 2024", "Aug 2024"
+            ],
+            # Unemployment rate fluctuating but increasing overall except last 5 months
+            "Unemployment Rate (%)": [
+                5.3, 5.5, 5.4, 5.6, 5.8, 5.7, 5.9, 6.0, 6.1, 6.0, 6.2, 6.3,  # 2022
+                6.4, 6.3, 6.1, 6.4, 6.37, 6.28, 6.25, 6.2                # 2023
+            ]
         }
 
         # Convert to DataFrame
-        df = pd.DataFrame(data)
+        df_full = pd.DataFrame(full_data)
 
-        # Create scatter plot
-        fig = px.scatter(
-            df,
-            x="Hours of Study",
-            y="Exam Score (%)",
-            color="University",  # Changed to use the fictional university names
-            title="Relationship Between Study Hours and Exam Scores by University",
-            labels={"Hours of Study": "Hours of Study", "Exam Score (%)": "Exam Score (%)"},
-            trendline="ols",  # Add a trendline (correlation line)
-            trendline_scope="overall",  # Apply one trendline for the entire dataset
-            trendline_color_override="black"  # Set the trendline color to black for visibility
+        # Creating the line chart using Plotly Express
+        fig = px.line(
+            df_full, 
+            x="Month",
+            y="Unemployment Rate (%)",
+            title="Unemployment Rate Trend",
+            labels={"Unemployment Rate (%)": "Unemployment Rate (%)", "Month": "Month"},
+            markers=True
         )
-
-        # Customize the marker appearance (optional)
-        fig.update_traces(marker=dict(size=10))  # Adjust marker size
 
         fig.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
@@ -137,12 +133,12 @@ def display_module(modules):
             #xaxis_title="Product",
             #yaxis_title="Coffee Consumption (kg per capita)",
             xaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
             yaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
             legend={
                 'title': {
@@ -166,6 +162,66 @@ def display_module(modules):
 
         # Display the figure in Streamlit
         st.plotly_chart(fig, config=config)
+
+        # Add a footnote below the chart
+        st.markdown("""
+        **Data source**: the author (2024). This is a fictional example created for educational purposes only. Data is fictional and should not be used for any actual analysis.
+        """)
+
+        # Filter the DataFrame to show only May 2024 to August 2024
+        df_filtered = df_full[df_full['Month'].isin(["May 2024", "Jun 2024", "Jul 2024", "Aug 2024"])]
+
+        # Creating the line chart using Plotly Express
+        fig_filtered = px.line(
+            df_filtered, 
+            x="Month",
+            y="Unemployment Rate (%)",
+            title="Unemployment Rate Trend",
+            labels={"Unemployment Rate (%)": "Unemployment Rate (%)", "Month": "Month"},
+            markers=True
+        )
+
+        fig_filtered.update_layout(
+            #title="Average Coffee Consumption in Selected Countries",
+            title={
+                #'text': "text here",
+                'font': {
+                'size': 24  # Set title size larger
+                },
+                #'x': 0.5,  # Center the title
+            },
+            #xaxis_title="Product",
+            #yaxis_title="Coffee Consumption (kg per capita)",
+            xaxis={
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
+            },
+            yaxis={
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
+            },
+            legend={
+                'title': {
+                    'font': {'color': 'black'}  # Set legend title font color to black
+                }
+            },
+            width=800,  # Set the width of the chart
+            height=500  # Set the height of the chart
+        )
+
+        # Update traces to increase label size
+        fig_filtered.update_traces(
+            textfont={
+                'size': 18  # Increase the size of the labels
+            }
+        )
+         # Deactivate mode bar in the plotly chart
+        config = {
+            'displayModeBar': False  # This will hide the toolbar
+        }
+
+        # Display the figure in Streamlit
+        st.plotly_chart(fig_filtered, config=config)
 
         # Add a footnote below the chart
         st.markdown("""

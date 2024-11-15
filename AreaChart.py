@@ -1,6 +1,6 @@
 import streamlit as st
 import requests
-from utils import display_subpage, navigate_subpage, initialize_single_module_state, initialize_session_state
+from utils import display_subpage, initialize_single_module_state, initialize_session_state
 import plotly.graph_objects as go
 import plotly.express as px
 
@@ -46,7 +46,6 @@ def display_module(modules):
     # Call the cached function
     image_files = get_image_files()
     num_files = len(image_files)
-
 
     # Define base URL to fetch files from GitHub
     base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/AreaChart/AreaChart"

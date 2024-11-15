@@ -1,6 +1,7 @@
 import streamlit as st
 from utils import get_score_icon, all_subpages_accessed, initialize_session_state
-import BarChart, AreaChart, PieChart, LineChart, Maps, ScatterPlot, StackedBarChart # type: ignore
+import BarChart, AreaChart, PieChart, LineChart, Maps, ScatterPlot, StackedBarChart  # type: ignore
+import CherryPicking, ConcealedUncertainty, InappropriateAggregation  # type: ignore
 import plotly.graph_objects as go
 
 st.set_page_config(layout="wide") #"centered"
@@ -94,8 +95,12 @@ AreaChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] *
 LineChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
 MapsSubpages = ['Anatomy'] * 5 + ['Common Tasks associated to Bar Chart'] * 3 + ['Module Completed']
 PieChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 5 + ['Module Completed']
-ScatterPlotSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
+ScatterPlotSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
 StackedBarChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 3 + ['Module Completed']
+CherryPickingSubpages = [''] * 6 + ['Module Completed']
+ConcealedUncertaintySubpages = [''] * 6 + ['Module Completed']
+InappropriateAggregationSubpages =  [''] * 6 + ['Module Completed']
+
 
 
 modules = {
@@ -106,6 +111,9 @@ modules = {
     'Pie Chart': PieChartSubpages,
     'Scatter Plot': ScatterPlotSubpages,
     'Stacked Bar Chart': StackedBarChartSubpages,
+    'Cherry Picking': CherryPickingSubpages,
+    'Concealed Uncertainty': ConcealedUncertaintySubpages,
+    'Inappropriate Aggregation': InappropriateAggregationSubpages,
 }
 
 
@@ -153,7 +161,11 @@ module_display_mapping = {
     'Maps': Maps.display_module,
     'Pie Chart': PieChart.display_module,
     'Scatter Plot': ScatterPlot.display_module,
-    'Stacked Bar Chart': StackedBarChart.display_module
+    'Stacked Bar Chart': StackedBarChart.display_module,
+    'Cherry Picking': CherryPicking.display_module,
+    'Concealed Uncertainty': ConcealedUncertainty.display_module,
+    'Inappropriate Aggregation': InappropriateAggregation.display_module,
+    
 }
 
 st.sidebar.markdown('<span id="home-button-after"></span>', unsafe_allow_html=True)

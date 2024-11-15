@@ -1,5 +1,6 @@
 import streamlit as st
-from utils import display_subpage, navigate_subpage, initialize_single_module_state
+import requests
+from utils import display_subpage, initialize_single_module_state
 import plotly.graph_objects as go
 import plotly.express as px
 
@@ -27,14 +28,35 @@ def display_module(modules):
         """
     st.markdown(button_style, unsafe_allow_html=True)
 
-    # Base URL pattern
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/LineChart"
+    @st.cache_data
+    def get_image_files():
+        # GitHub API URL to list files in the folder
+        api_url = "https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/LearningContent/LineChart"
+        response = requests.get(api_url)
+        
+        if response.status_code == 200:
+            files = response.json()
+            # Filter to get only PNG files
+            image_files = [file['name'] for file in files if file['name'].endswith('.png')]
+            return image_files
+        else:
+            st.error("Failed to load image files.")
+            return []
 
+    # Call the cached function
+    image_files = get_image_files()
+    num_files = len(image_files)
 
-    # Check if the current subpage index is within the range you expect
-    if 0 <= current_subpage_index < 13:  # Adjust the range as needed
-        # Generate the URL using the current_subpage_index + 1
-        url = f"{base_url}{current_subpage_index + 1:02}.png"
+    # Define base URL to fetch files from GitHub
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/LineChart/LineChart"
+
+    # Pre-generate URLs for each image
+    image_urls = [f"{base_url} ({i + 1}).png" for i in range(num_files)]
+
+    # Check if the current subpage index is within the dynamic range
+    if 0 <= current_subpage_index < num_files:
+        # Get the pre-generated URL based on current index
+        url = image_urls[current_subpage_index]
         
         # Display the image using st.markdown()
         image_markdown = f'<img src="{url}" style="width:100%;">'
