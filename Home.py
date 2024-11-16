@@ -2,7 +2,9 @@ import streamlit as st
 from utils import get_score_icon, all_subpages_accessed, initialize_session_state
 from Modules import BarChart, AreaChart, PieChart, LineChart, Maps, ScatterPlot, StackedBarChart  # type: ignore
 from Modules import CherryPicking, ConcealedUncertainty, InappropriateAggregation, MisleadingAnnotation  # type: ignore
-from Modules import MissingData, TruncatedAxis, MissingNormalization  # type: ignore
+from Modules import MissingData, TruncatedAxis, MissingNormalization, Overplotting  # type: ignore
+from Modules import InappropriateScaleDirection, InappropriateScaleFunction, InappropriateScaleOrder  # type: ignore
+
 
 import plotly.graph_objects as go
 
@@ -83,8 +85,8 @@ pitfalls = {
     'Concealed Uncertainty': 0,
     'Inappropriate Aggregation': 1,
     'Inappropriate Scale Order': 1,
-    'Inappropriate Scale Functions': 0,
-    'Inappropriate Scale Directions': 1,
+    'Inappropriate Scale Function': 0,
+    'Inappropriate Scale Direction': 1,
     'Misleading Annotation': 1,
     'Missing Data': 1,
     'Missing Normalization': 1,
@@ -103,8 +105,8 @@ CherryPickingSubpages = [''] * 6 + ['Module Completed']
 ConcealedUncertaintySubpages = [''] * 5 + ['Module Completed']
 InappropriateAggregationSubpages =  [''] * 7 + ['Module Completed']
 InappropriateScaleOrderSubpages = [''] * 6 + ['Module Completed']
-InappropriateScaleFunctionsSubpages = [''] * 6 + ['Module Completed']
-InappropriateScaleDirectionsSubpages = [''] * 6 + ['Module Completed']
+InappropriateScaleFunctionSubpages = [''] * 6 + ['Module Completed']
+InappropriateScaleDirectionSubpages = [''] * 6 + ['Module Completed']
 MisleadingAnnotationSubpages =  [''] * 6 + ['Module Completed']
 MissingDataSubpages =  [''] * 6 + ['Module Completed']
 MissingNormalizationSubpages =  [''] * 6 + ['Module Completed']
@@ -125,8 +127,8 @@ modules = {
     'Concealed Uncertainty': ConcealedUncertaintySubpages,
     'Inappropriate Aggregation': InappropriateAggregationSubpages,
     'Inappropriate Scale Order': InappropriateScaleOrderSubpages,
-    'Inappropriate Scale Functions': InappropriateScaleFunctionsSubpages,
-    'Inappropriate Scale Directions': InappropriateScaleDirectionsSubpages,
+    'Inappropriate Scale Functions': InappropriateScaleFunctionSubpages,
+    'Inappropriate Scale Directions': InappropriateScaleDirectionSubpages,
     'Misleading Annotation': MisleadingAnnotationSubpages,
     'Missing Data': MissingDataSubpages,
     'Missing Normalization': MissingNormalizationSubpages,
@@ -136,8 +138,8 @@ modules = {
 
 
 # Define the URLs of your custom icons
-icon_well_done = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconRight2.png"
-icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconWrong2.png"
+icon_well_done = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/Icons/NotRecommended.png"
+icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/Icons/Recommended.png"
 
 
 
@@ -183,7 +185,14 @@ module_display_mapping = {
     'Cherry Picking': CherryPicking.display_module,
     'Concealed Uncertainty': ConcealedUncertainty.display_module,
     'Inappropriate Aggregation': InappropriateAggregation.display_module,
-    
+    'Inappropriate Scale Order': InappropriateScaleOrder.display_module,
+    'Inappropriate Scale Function': InappropriateScaleFunction.display_module,
+    'Inappropriate Scale Direction': InappropriateScaleDirection.display_module,
+    'Misleading Annotation': MisleadingAnnotation.display_module,
+    'Missing Data': MissingData.display_module,
+    'Missing Normalization': MissingNormalization.display_module,
+    'Overplotting': Overplotting.display_module,
+    'Truncated Axis': TruncatedAxis.display_module,
 }
 
 st.sidebar.markdown('<span id="home-button-after"></span>', unsafe_allow_html=True)

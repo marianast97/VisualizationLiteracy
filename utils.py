@@ -36,10 +36,10 @@ def display_subpage(module_name, subpage_index, modules):
 # Function to get an icon based on score
 def get_score_icon(score):
     if score >= GOOD_SCORE_THRESHOLD:
-        return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconRight2.png"
+        return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/Icons/NotRecommended.png"
 
     else:
-        return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/IconWrong2.png"
+        return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/Icons/Recommended.png"
 
 # Function to handle subpage navigation
 def navigate_subpage(module_name, direction, modules):
