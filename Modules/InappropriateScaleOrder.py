@@ -94,61 +94,77 @@ def display_module(modules):
 
         # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
-        # Create the chart using Plotly
 
+        # Data for emergency admissions due to flu
         data = {
-            "State": ["AL", "MS", "LA", "AR", "TN", "GA", "FL", "SC", "NC", "VA", "KY", "WV", "TX", "MO", "OK", "KS", "CO", 
-                    "UT", "NM", "AZ", "NV", "CA", "OR", "WA", "ID", "MT", "WY", "ND", "SD", "NE", "IA", "MN", "WI", "MI", 
-                    "IL", "IN", "OH", "PA", "ME", "NJ", "MA", "CT", "VT", "NH", "RI", "NY", "MD", "DE"],
-            # Randomly distribute values across 3 bins: 40-50%, 20-39%, and 0-19%
-            "Percentage": [48, 25, 38, 43, 43, 23, 26, 30, 37, 25, 50, 38, 26, 45, 
-                        45, 39, 42, 32, 28, 33, 32, 37, 28, 44, 34, 40, 32, 12, 
-                        44, 49, 12, 13, 18, 30, 39, 29, 41, 13, 36, 37, 45, 43, 42, 33, 41, 25, 14, 15]
+            "Year": ["Year 22", "Year 23", "Year 21", "Year 20", "Year 19", "Year 18"],  # Correct chronological order
+            "Admissions": [1350, 1500, 1200, 1050, 1000, 900]          # Same admission numbers
+
         }
 
-        # Ensure both lists have the same length
-        assert len(data['State']) == len(data['Percentage']), "State and Percentage arrays must be of the same length"
+        # Misleading chart: Incorrect order of years
+        df_misleading = pd.DataFrame(data)
 
-        # Convert to DataFrame
-        df = pd.DataFrame(data)
-
-        # Handle NaN values by ensuring that all percentages fit in defined bins
-        df['Percentage'] = df['Percentage'].clip(upper=50)
-
-        # Create bins for the percentage ranges (3 bins)
-        bins = [9, 19, 39, 50]
-        labels = ["40 - 50%", "20 - 39%", "10 - 19%"]
-        df['Percentage Range'] = pd.cut(df['Percentage'], bins=bins, labels=labels, include_lowest=True)
-
-        # Create the choropleth map with the new green palette
-        fig = px.choropleth(
-            df,
-            locations="State",
-            locationmode="USA-states",
-            color="Percentage Range",  # Use the binned percentage ranges
-            scope="usa",
-            title="Renewable Energy Adoption by State",
-            category_orders={"Percentage Range": labels},  # Sort legend from bottom to top
-            #color_discrete_map={
-            #    "10 - 19%": "#D9F0A3",  # Very light green
-            #    "20 - 39%": "#41AB5D",  # Darker medium green
-            #    "40 - 50%": "#005A32"  # Very dark green
-            #},
-            labels={"Percentage Range": "Renewable Energy (%)"}
+        fig_misleading = px.bar(
+            df_misleading,
+            x="Year",
+            y="Admissions",
+            title="Emergency Admissions Due to Flu",
+            labels={"Admissions": "Number of Admissions", "Year": "Year"}
         )
 
-        # Add state labels using Scattergeo
-        fig.add_trace(go.Scattergeo(
-            locationmode='USA-states',
-            locations=df['State'],
-            text=df['State'],  # Use state abbreviations as labels
-            mode='text',
-            textfont=dict(size=12, color="black"),  # Customize font size and color
-            showlegend=False  # Do not show in legend
-        ))
+        fig_misleading.update_layout(
+            #title="Average Coffee Consumption in Selected Countries",
+            title={
+                #'text': "text here",
+                'font': {
+                'size': 24  # Set title size larger
+                },
+                #'x': 0.5,  # Center the title
+            },
+            #xaxis_title="Product",
+            #yaxis_title="Coffee Consumption (kg per capita)",
+            xaxis={
+                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+            },
+            yaxis={
+                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+            },
+            legend={
+                'title': {
+                    'font': {'color': 'black'}  # Set legend title font color to black
+                }
+            },
+            width=800,  # Set the width of the chart
+            height=500  # Set the height of the chart
+        )
 
+        # Deactivate mode bar in the plotly chart
+        config = {
+            'displayModeBar': False  # This will hide the toolbar
+        }
 
-        fig.update_layout(
+        # Display the figure in Streamlit
+        st.plotly_chart(fig_misleading, config=config)
+
+        # Correct chart: Chronological order of years
+        data_correct = {
+            "Year": ["Year 18", "Year 19", "Year 20", "Year 21", "Year 22", "Year 23"],  # Correct chronological order
+            "Admissions": [900, 1000, 1050, 1200, 1350, 1500]          # Same admission numbers
+        }
+
+        df_correct = pd.DataFrame(data_correct)
+
+        fig_correct = px.bar(
+            df_correct,
+            x="Year",
+            y="Admissions",
+            title="Emergency Admissions Due to Flu",
+            labels={"Admissions": "Number of Admissions", "Year": "Year"}
+        )
+        fig_correct.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
                 #'text': "text here",
@@ -189,9 +205,4 @@ def display_module(modules):
         }
 
         # Display the figure in Streamlit
-        st.plotly_chart(fig, config=config)
-
-        # Add a footnote below the chart
-        st.markdown("""
-        **Data source**: the author (2024). This is a fictional example created for educational purposes only. Data is fictional and should not be used for any actual analysis.
-        """)
+        st.plotly_chart(fig_correct, config=config)

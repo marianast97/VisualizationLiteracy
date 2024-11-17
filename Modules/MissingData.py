@@ -4,6 +4,8 @@ from utils import display_subpage, navigate_subpage, initialize_single_module_st
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
+from pycountry import countries
+
 
 
 
@@ -94,61 +96,37 @@ def display_module(modules):
 
         # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
-        # Create the chart using Plotly
 
-        data = {
-            "State": ["AL", "MS", "LA", "AR", "TN", "GA", "FL", "SC", "NC", "VA", "KY", "WV", "TX", "MO", "OK", "KS", "CO", 
-                    "UT", "NM", "AZ", "NV", "CA", "OR", "WA", "ID", "MT", "WY", "ND", "SD", "NE", "IA", "MN", "WI", "MI", 
-                    "IL", "IN", "OH", "PA", "ME", "NJ", "MA", "CT", "VT", "NH", "RI", "NY", "MD", "DE"],
-            # Randomly distribute values across 3 bins: 40-50%, 20-39%, and 0-19%
-            "Percentage": [48, 25, 38, 43, 43, 23, 26, 30, 37, 25, 50, 38, 26, 45, 
-                        45, 39, 42, 32, 28, 33, 32, 37, 28, 44, 34, 40, 32, 12, 
-                        44, 49, 12, 13, 18, 30, 39, 29, 41, 13, 36, 37, 45, 43, 42, 33, 41, 25, 14, 15]
+        # Toy Example: Percentage of Renewable Energy Usage with missing data for some countries
+        data_energy = {
+            "Country": [
+                "USA", "CAN", "BRA", "IND", "AUS", "ZAF", "RUS", "CHN", 
+                "GER", "FRA", "JPN", "MEX", "ITA", "ESP", "KOR", "ARG", 
+                "SAU", "UK", "IDN", "NGA", "PAK", "EGY", "TUR", "IRN"
+            ],
+            "Renewable Energy Usage (%)": [
+                15, 25, 40, None, 10, 5, None, 20, 
+                45, 50, 25, 18, 35, 40, 30, 22, 
+                None, 50, 12, 7, 8, 3, 27, 6  # Some countries have missing data (None)
+            ]
         }
 
-        # Ensure both lists have the same length
-        assert len(data['State']) == len(data['Percentage']), "State and Percentage arrays must be of the same length"
-
         # Convert to DataFrame
-        df = pd.DataFrame(data)
+        df_energy = pd.DataFrame(data_energy)
 
-        # Handle NaN values by ensuring that all percentages fit in defined bins
-        df['Percentage'] = df['Percentage'].clip(upper=50)
-
-        # Create bins for the percentage ranges (3 bins)
-        bins = [9, 19, 39, 50]
-        labels = ["40 - 50%", "20 - 39%", "10 - 19%"]
-        df['Percentage Range'] = pd.cut(df['Percentage'], bins=bins, labels=labels, include_lowest=True)
-
-        # Create the choropleth map with the new green palette
-        fig = px.choropleth(
-            df,
-            locations="State",
-            locationmode="USA-states",
-            color="Percentage Range",  # Use the binned percentage ranges
-            scope="usa",
-            title="Renewable Energy Adoption by State",
-            category_orders={"Percentage Range": labels},  # Sort legend from bottom to top
-            #color_discrete_map={
-            #    "10 - 19%": "#D9F0A3",  # Very light green
-            #    "20 - 39%": "#41AB5D",  # Darker medium green
-            #    "40 - 50%": "#005A32"  # Very dark green
-            #},
-            labels={"Percentage Range": "Renewable Energy (%)"}
+        # Create the choropleth map with missing data
+        fig_misleading_energy = px.choropleth(
+            df_energy,
+            locations="Country",
+            locationmode="ISO-3",
+            color="Renewable Energy Usage (%)",
+            title="Renewable Energy Usage",
+            color_continuous_scale=px.colors.sequential.Blues,
+            labels={"Renewable Energy Usage (%)": "Renewable Energy (%)"}
         )
 
-        # Add state labels using Scattergeo
-        fig.add_trace(go.Scattergeo(
-            locationmode='USA-states',
-            locations=df['State'],
-            text=df['State'],  # Use state abbreviations as labels
-            mode='text',
-            textfont=dict(size=12, color="black"),  # Customize font size and color
-            showlegend=False  # Do not show in legend
-        ))
 
-
-        fig.update_layout(
+        fig_misleading_energy.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
                 #'text': "text here",
@@ -176,12 +154,6 @@ def display_module(modules):
             height=500  # Set the height of the chart
         )
 
-        # Update traces to increase label size
-        #fig.update_traces(
-        #    textfont={
-        #        'size': 18  # Increase the size of the labels
-        #    }
-        #)
 
          # Deactivate mode bar in the plotly chart
         config = {
@@ -189,9 +161,78 @@ def display_module(modules):
         }
 
         # Display the figure in Streamlit
-        st.plotly_chart(fig, config=config)
+        st.plotly_chart(fig_misleading_energy, config=config)
 
-        # Add a footnote below the chart
-        st.markdown("""
-        **Data source**: the author (2024). This is a fictional example created for educational purposes only. Data is fictional and should not be used for any actual analysis.
-        """)
+        # Updated data with missing values
+        data_energy = {
+            "Country": [
+                "USA", "CAN", "BRA", "IND", "AUS", "ZAF", "RUS", "CHN", 
+                "GER", "FRA", "JPN", "MEX", "ITA", "ESP", "KOR", "ARG", 
+                "SAU", "UK", "IDN", "NGA", "PAK", "EGY", "TUR", "IRN"
+            ],
+            "Renewable Energy Usage (%)": [
+                15, 25, 40, None, 10, 5, None, 20, 
+                45, 50, 25, 18, 35, 40, 30, 22, 
+                None, 50, 12, 7, 8, 3, 27, 6
+            ]
+        }
+
+        # Convert to DataFrame
+        df_energy = pd.DataFrame(data_energy)
+
+        # Fill missing values with a placeholder (-1)
+        df_energy["Renewable Energy Usage (%)"] = df_energy["Renewable Energy Usage (%)"].fillna(-1)
+
+        all_countries = [country.alpha_3 for country in countries]
+
+        # Add missing countries to the dataset and mark them with -1
+        existing_countries = df_energy["Country"].tolist()
+        missing_countries = [country for country in all_countries if country not in existing_countries]
+
+        # Append missing countries to the DataFrame with placeholder data
+        missing_data = pd.DataFrame({
+            "Country": missing_countries,
+            "Renewable Energy Usage (%)": -1
+        })
+        df_energy = pd.concat([df_energy, missing_data], ignore_index=True)
+
+        # Define a custom color scale
+        color_scale = [
+            (0.0, "LightGray"),  # Map missing data (-1) to gray
+            (0.00001, "yellow"),  # Transition color for valid data
+            (1.0, "red")       # Scale up to red for higher values
+        ]
+
+        # Create the choropleth map with the custom color scale
+        fig_correct_energy_discrete = px.choropleth(
+            df_energy,
+            locations="Country",
+            locationmode="ISO-3",
+            color="Renewable Energy Usage (%)",
+            title="Renewable Energy Usage",
+            color_continuous_scale=color_scale,
+            range_color=(-1, 50),  # Ensure -1 (missing data) is included in the range
+            labels={"Renewable Energy Usage (%)": "Renewable Energy (%)"}
+        )
+
+        # Add annotation indicating missing data
+        fig_correct_energy_discrete.add_annotation(
+            x=0.5, y=-0.1, text="Gray regions indicate missing data", showarrow=False,
+            font=dict(size=14, color="black"), xref="paper", yref="paper"
+        )
+
+        fig_correct_energy_discrete.update_layout(
+            title={
+                'font': {'size': 24}
+            },
+            legend={
+                'title': {
+                    'font': {'color': 'black'}
+                }
+            },
+            width=800,
+            height=500
+        )
+
+        # Display the figure in Streamlit
+        st.plotly_chart(fig_correct_energy_discrete, config={"displayModeBar": False})

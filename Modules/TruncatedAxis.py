@@ -95,24 +95,19 @@ def display_module(modules):
         # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
         
-        # Toy Example: Wrong Deliveries - Misleading chart with partial data for 2022
+        # Data for the bar chart
         data = {
-            "Year": ["2021", "2022", "2023", "2024"],
-            "Wrong Deliveries": [300, 276, 288, 66]  # 2022 data is incomplete (only 5 months)
+            "Student": ["Student A", "Student B"],
+            "Score": [85, 90]
         }
 
-        # Convert to DataFrame
-        df_data = pd.DataFrame(data)
-        
-        # Create the misleading bar chart
+        # Creating the bar chart using Plotly Express
         fig = px.bar(
-            df_data,
-            x="Year",
-            y="Wrong Deliveries",
-            title="Wrong Deliveries",
-            labels={"Wrong Deliveries": "Number of Wrong Deliveries", "Year": "Year"}
+            data, 
+            x="Student", 
+            y="Score", 
+            title="Scores of Students A and B"
         )
- 
         fig.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
@@ -137,6 +132,7 @@ def display_module(modules):
                     'font': {'color': 'black'}  # Set legend title font color to black
                 }
             },
+            yaxis_range=[80, 90],  # Start the y-axis at 80
             width=400,  # Set the width of the chart
             height=500  # Set the height of the chart
         )
@@ -148,24 +144,13 @@ def display_module(modules):
         # Display the figure in Streamlit
         st.plotly_chart(fig, config=config)
 
-        # Create a dataset showing the average number of wrong deliveries per month for each year
-        data_avg = {
-            "Year": ["2021", "2022", "2023", "2024"],
-            "Wrong Deliveries (Avg per Month)": [300/12, 276/12, 288/12, 66/3]  # Average for 2022 based on 5 months
-        }
-
-        # Convert to DataFrame
-        df_avg = pd.DataFrame(data_avg)
-
-        # Create the correct bar chart
+        # Creating the bar chart using Plotly Express
         fig_correct = px.bar(
-            df_avg,
-            x="Year",
-            y="Wrong Deliveries (Avg per Month)",
-            title="Average Wrong Deliveries per Month",
-            labels={"Wrong Deliveries (Avg per Month)": "Average Wrong Deliveries per Month", "Year": "Year"}
+            data, 
+            x="Student", 
+            y="Score", 
+            title="Scores of Students A and B"
         )
-
 
         fig_correct.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
@@ -191,22 +176,15 @@ def display_module(modules):
                     'font': {'color': 'black'}  # Set legend title font color to black
                 }
             },
+            #yaxis_range=[80, 90],  # Start the y-axis at 80
             width=400,  # Set the width of the chart
             height=500  # Set the height of the chart
         )
+         # Deactivate mode bar in the plotly chart
+        config = {
+            'displayModeBar': False  # This will hide the toolbar
+        }
 
-
-        # Add annotation for 2024 data
-        fig_correct.add_annotation(
-            x="2024",
-            y=df_avg.loc[df_avg['Year'] == "2024", "Wrong Deliveries (Avg per Month)"].values[0],
-            text="Partial data (3 months only)",
-            showarrow=True,
-            arrowhead=1,
-            ax=0,
-            ay=-40,  # Adjust the position of the annotation arrow as needed
-            font=dict(size=14, color="black"),  # Customize font size and color for visibility
-        )
          # Deactivate mode bar in the plotly chart
         config = {
             'displayModeBar': False  # This will hide the toolbar
@@ -214,3 +192,4 @@ def display_module(modules):
 
         # Display the figure in Streamlit
         st.plotly_chart(fig_correct, config=config)
+        

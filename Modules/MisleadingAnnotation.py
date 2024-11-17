@@ -95,44 +95,41 @@ def display_module(modules):
         # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
         
-        data = {
+        # Toy Example: Misleading chart showing Transportation Preferences with incorrect annotation
+        data_transportation = {
             "Mode of Transportation": ["Driving", "Public Transportation"],
             "Percentage": [60, 40],
             "Wrong": [40, 60]  # Incorrect values to mislead
         }
 
         # Convert to DataFrame
-        df_data = pd.DataFrame(data)
-        
+        df_transportation = pd.DataFrame(data_transportation)
+
         # Create the misleading pie chart
         fig_misleading_transport = px.pie(
-            df_data,
+            df_transportation,
             names="Mode of Transportation",
             values="Percentage",
             title="Transportation Preferences"
         )
- 
+
         # Add wrong label using hovertemplate and texttemplate for misleading information
         fig_misleading_transport.update_traces(
             hovertemplate="<b>%{label}</b><br>Actual Value: %{value}<br>Wrong Value: %{customdata[0]}%",
             customdata=df_transportation[['Wrong']],  # Use the 'Wrong' column for hover
             texttemplate="%{customdata[0]}%",  # Show wrong values directly on the chart
             textposition="inside",  # Position text inside the pie slices
-            showlegend=True  # Ensure legend is displayed
+            showlegend=True,  # Ensure legend is displayed
+            textfont=dict(size=18)  # Increase text size to 16
         )
 
 
         fig_misleading_transport.update_layout(
-            #title="Average Coffee Consumption in Selected Countries",
             title={
-                #'text': "Average Coffee Consumption in Selected Countries",
                 'font': {
                 'size': 24  # Set title size larger
                 },
-                #'x': 0.5,  # Center the title
             },
-            #xaxis_title="Product",
-            #yaxis_title="Coffee Consumption (kg per capita)",
             xaxis={
                 'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
                 'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
@@ -157,71 +154,16 @@ def display_module(modules):
         # Display the figure in Streamlit
         st.plotly_chart(fig_misleading_transport, config=config)
 
-        # Toy Example: Misleading chart showing Transportation Preferences with incorrect annotation
-        data_transportation = {
-            "Mode of Transportation": ["Driving", "Public Transportation"],
-            "Percentage": [60, 40],
-            "Wrong": [40, 65]
-        }
-
-        # Convert to DataFrame
-        df_transportation = pd.DataFrame(data_transportation)
-
-        # Create the misleading pie chart
-        fig_correct = px.pie(
-            df_transportation,
-            names="Mode of Transportation",
-            values="Percentage",
-            title="Transportation Preferences",
-            labels="Wrong"
-            #hole=0.3
+        # Add wrong label using hovertemplate and texttemplate for misleading information
+        fig_misleading_transport.update_traces(
+            hovertemplate="<b>%{label}</b><br>Actual Value: %{value}<br>Wrong Value: %{customdata[0]}%",
+            customdata=df_transportation[['Percentage']],  # Use the 'Wrong' column for hover
+            texttemplate="%{customdata[0]}%",  # Show wrong values directly on the chart
+            textposition="inside",  # Position text inside the pie slices
+            showlegend=True,  # Ensure legend is displayed
+            textfont=dict(size=18)  # Increase text size to 16
         )
-
-
-        fig_correct.update_layout(
-            #title="Average Coffee Consumption in Selected Countries",
-            title={
-                #'text': "Average Coffee Consumption in Selected Countries",
-                'font': {
-                'size': 24  # Set title size larger
-                },
-                #'x': 0.5,  # Center the title
-            },
-            #xaxis_title="Product",
-            #yaxis_title="Coffee Consumption (kg per capita)",
-            xaxis={
-                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
-            },
-            yaxis={
-                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
-            },
-            legend={
-                'title': {
-                    'font': {'color': 'black'}  # Set legend title font color to black
-                }
-            },
-            width=400,  # Set the width of the chart
-            height=500  # Set the height of the chart
-        )
-
-
-        # Add annotation for 2024 data
-        fig_correct.add_annotation(
-            x="2024",
-            y=df_avg.loc[df_avg['Year'] == "2024", "Wrong Deliveries (Avg per Month)"].values[0],
-            text="Partial data (3 months only)",
-            showarrow=True,
-            arrowhead=1,
-            ax=0,
-            ay=-40,  # Adjust the position of the annotation arrow as needed
-            font=dict(size=14, color="black"),  # Customize font size and color for visibility
-        )
-         # Deactivate mode bar in the plotly chart
-        config = {
-            'displayModeBar': False  # This will hide the toolbar
-        }
 
         # Display the figure in Streamlit
-        st.plotly_chart(fig_correct, config=config)
+        st.plotly_chart(fig_misleading_transport, config=config)
+

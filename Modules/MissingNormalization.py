@@ -96,59 +96,27 @@ def display_module(modules):
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
         # Create the chart using Plotly
 
-        data = {
-            "State": ["AL", "MS", "LA", "AR", "TN", "GA", "FL", "SC", "NC", "VA", "KY", "WV", "TX", "MO", "OK", "KS", "CO", 
-                    "UT", "NM", "AZ", "NV", "CA", "OR", "WA", "ID", "MT", "WY", "ND", "SD", "NE", "IA", "MN", "WI", "MI", 
-                    "IL", "IN", "OH", "PA", "ME", "NJ", "MA", "CT", "VT", "NH", "RI", "NY", "MD", "DE"],
-            # Randomly distribute values across 3 bins: 40-50%, 20-39%, and 0-19%
-            "Percentage": [48, 25, 38, 43, 43, 23, 26, 30, 37, 25, 50, 38, 26, 45, 
-                        45, 39, 42, 32, 28, 33, 32, 37, 28, 44, 34, 40, 32, 12, 
-                        44, 49, 12, 13, 18, 30, 39, 29, 41, 13, 36, 37, 45, 43, 42, 33, 41, 25, 14, 15]
+        # Toy Example: Total Carbon Emissions with Missing Normalization for various countries
+        data_emissions = {
+            "Country": ["USA", "CHN", "IND", "BRA", "RUS", "AUS", "CAN", "ZAF"],
+            "Total Carbon Emissions (Million Tons)": [5000, 10000, 3000, 1200, 2000, 1500, 1400, 800]  # Raw emissions data
         }
 
-        # Ensure both lists have the same length
-        assert len(data['State']) == len(data['Percentage']), "State and Percentage arrays must be of the same length"
-
         # Convert to DataFrame
-        df = pd.DataFrame(data)
+        df_emissions = pd.DataFrame(data_emissions)
 
-        # Handle NaN values by ensuring that all percentages fit in defined bins
-        df['Percentage'] = df['Percentage'].clip(upper=50)
-
-        # Create bins for the percentage ranges (3 bins)
-        bins = [9, 19, 39, 50]
-        labels = ["40 - 50%", "20 - 39%", "10 - 19%"]
-        df['Percentage Range'] = pd.cut(df['Percentage'], bins=bins, labels=labels, include_lowest=True)
-
-        # Create the choropleth map with the new green palette
-        fig = px.choropleth(
-            df,
-            locations="State",
-            locationmode="USA-states",
-            color="Percentage Range",  # Use the binned percentage ranges
-            scope="usa",
-            title="Renewable Energy Adoption by State",
-            category_orders={"Percentage Range": labels},  # Sort legend from bottom to top
-            #color_discrete_map={
-            #    "10 - 19%": "#D9F0A3",  # Very light green
-            #    "20 - 39%": "#41AB5D",  # Darker medium green
-            #    "40 - 50%": "#005A32"  # Very dark green
-            #},
-            labels={"Percentage Range": "Renewable Energy (%)"}
+        # Create the misleading choropleth map with missing normalization
+        fig_misleading_emissions = px.choropleth(
+            df_emissions,
+            locations="Country",
+            locationmode="ISO-3",
+            color="Total Carbon Emissions (Million Tons)",
+            title="Carbon Emissions Data",
+            color_continuous_scale=px.colors.sequential.YlOrRd,
+            labels={"Total Carbon Emissions (Million Tons)": "Total Emissions (Million Tons)"}
         )
 
-        # Add state labels using Scattergeo
-        fig.add_trace(go.Scattergeo(
-            locationmode='USA-states',
-            locations=df['State'],
-            text=df['State'],  # Use state abbreviations as labels
-            mode='text',
-            textfont=dict(size=12, color="black"),  # Customize font size and color
-            showlegend=False  # Do not show in legend
-        ))
-
-
-        fig.update_layout(
+        fig_misleading_emissions.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
                 #'text': "text here",
@@ -189,9 +157,56 @@ def display_module(modules):
         }
 
         # Display the figure in Streamlit
-        st.plotly_chart(fig, config=config)
+        st.plotly_chart(fig_misleading_emissions, config=config)
 
-        # Add a footnote below the chart
-        st.markdown("""
-        **Data source**: the author (2024). This is a fictional example created for educational purposes only. Data is fictional and should not be used for any actual analysis.
-        """)
+        # Add per capita emissions to the dataset
+        data_emissions_normalized = {
+            "Country": ["USA", "CHN", "IND", "BRA", "RUS", "AUS", "CAN", "ZAF"],
+            "Carbon Emissions per Capita (Tons)": [15, 7, 2.2, 2.5, 10, 18, 12, 9]  # Normalized data
+        }
+
+        # Convert to DataFrame
+        df_emissions_normalized = pd.DataFrame(data_emissions_normalized)
+
+        # Create the correct choropleth map with normalized data
+        fig_correct_emissions = px.choropleth(
+            df_emissions_normalized,
+            locations="Country",
+            locationmode="ISO-3",
+            color="Carbon Emissions per Capita (Tons)",
+            title="Carbon Emissions Data (Per Capita)",
+            color_continuous_scale=px.colors.sequential.YlOrRd,
+            labels={"Carbon Emissions per Capita (Tons)": "Emissions per Capita (Tons)"}
+        )
+
+        fig_correct_emissions.update_layout(
+            #title="Average Coffee Consumption in Selected Countries",
+            title={
+                #'text': "text here",
+                'font': {
+                'size': 24  # Set title size larger
+                },
+                #'x': 0.5,  # Center the title
+            },
+            #xaxis_title="Product",
+            #yaxis_title="Coffee Consumption (kg per capita)",
+            xaxis={
+                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+            },
+            yaxis={
+                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+            },
+            legend={
+                'title': {
+                    'font': {'color': 'black'}  # Set legend title font color to black
+                }
+            },
+            width=800,  # Set the width of the chart
+            height=500  # Set the height of the chart
+        )
+
+        # Display the correct chart
+        st.plotly_chart(fig_correct_emissions, config=config)
+  

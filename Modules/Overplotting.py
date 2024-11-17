@@ -4,6 +4,7 @@ from utils import display_subpage, initialize_single_module_state
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
+import numpy as np
 
 
 
@@ -96,36 +97,36 @@ def display_module(modules):
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
         # Create the chart using Plotly
 
-        data = {
-            "University": ["Ocean State Institute", "Ocean State Institute", "Mountain Ridge College", 
-                        "Ocean State Institute", "Tech Valley University", "Mountain Ridge College", 
-                        "Tech Valley University", "Tech Valley University", "Mountain Ridge College", 
-                        "Ocean State Institute", "Mountain Ridge College", "Tech Valley University", 
-                        "Ocean State Institute", "Tech Valley University", "Mountain Ridge College"],
-            "Hours of Study": [5, 8, 6, 10, 12, 9, 12, 15, 8, 6, 7, 11, 9, 13, 10],
-            "Exam Score (%)": [75, 85, 78, 90, 80, 88, 95, 98, 82, 79, 85, 92, 87, 96, 89]
+        # Creating a new toy example dataset: Hours Studied vs Exam Scores
+        np.random.seed(42)
+        hours_studied = np.random.normal(loc=4, scale=1, size=150)  # Hours studied per day
+        exam_scores = 50 + 10 * hours_studied + np.random.normal(loc=0, scale=5, size=150)  # Exam scores with noise
+
+        # Clip the data to keep it realistic
+        hours_studied = np.clip(hours_studied, 1, 7)
+        exam_scores = np.clip(exam_scores, 50, 100)
+
+        # Create DataFrame for the new example
+        data_new = {
+            "Hours Studied": hours_studied,
+            "Exam Scores": exam_scores
         }
+        df_new = pd.DataFrame(data_new)
 
-        # Convert to DataFrame
-        df = pd.DataFrame(data)
-
-        # Create scatter plot
-        fig = px.scatter(
-            df,
-            x="Hours of Study",
-            y="Exam Score (%)",
-            color="University",  # Changed to use the fictional university names
-            title="Relationship Between Study Hours and Exam Scores by University",
-            labels={"Hours of Study": "Hours of Study", "Exam Score (%)": "Exam Score (%)"},
-            trendline="ols",  # Add a trendline (correlation line)
-            trendline_scope="overall",  # Apply one trendline for the entire dataset
-            trendline_color_override="black"  # Set the trendline color to black for visibility
+        # Create the scatter plot for the new example
+        fig_new = px.scatter(
+            df_new,
+            x="Hours Studied",
+            y="Exam Scores",
+            title="Relationship Between Hours Studied and Exam Scores",
+            labels={"Hours Studied": "Hours Studied (per day)", "Exam Scores": "Exam Scores (%)"},
+            #opacity=0.7
         )
 
-        # Customize the marker appearance (optional)
-        fig.update_traces(marker=dict(size=10))  # Adjust marker size
+        # Increase the size of the data points
+        fig_new.update_traces(marker=dict(size=20))  # Set marker size to 12
 
-        fig.update_layout(
+        fig_new.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
                 #'text': "text here",
@@ -154,7 +155,7 @@ def display_module(modules):
         )
 
         # Update traces to increase label size
-        fig.update_traces(
+        fig_new.update_traces(
             textfont={
                 'size': 18  # Increase the size of the labels
             }
@@ -165,9 +166,62 @@ def display_module(modules):
         }
 
         # Display the figure in Streamlit
-        st.plotly_chart(fig, config=config)
+        st.plotly_chart(fig_new, config=config)
 
-        # Add a footnote below the chart
-        st.markdown("""
-        **Data source**: the author (2024). This is a fictional example created for educational purposes only. Data is fictional and should not be used for any actual analysis.
-        """)
+        # Create the scatter plot for the new example
+        fig_better = px.scatter(
+            df_new,
+            x="Hours Studied",
+            y="Exam Scores",
+            title="Relationship Between Hours Studied and Exam Scores",
+            labels={"Hours Studied": "Hours Studied (per day)", "Exam Scores": "Exam Scores (%)"},
+            opacity=0.5
+        )
+        # Increase the size of the data points
+        fig_better.update_traces(marker=dict(size=12))  # Set marker size to 12
+
+        fig_better.update_layout(
+            #title="Average Coffee Consumption in Selected Countries",
+            title={
+                #'text': "text here",
+                'font': {
+                'size': 24  # Set title size larger
+                },
+                #'x': 0.5,  # Center the title
+            },
+            #xaxis_title="Product",
+            #yaxis_title="Coffee Consumption (kg per capita)",
+            xaxis={
+                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+            },
+            yaxis={
+                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+            },
+            legend={
+                'title': {
+                    'font': {'color': 'black'}  # Set legend title font color to black
+                }
+            },
+            width=800,  # Set the width of the chart
+            height=500  # Set the height of the chart
+        )
+
+        # Update traces to increase label size
+        fig_better.update_traces(
+            textfont={
+                'size': 13  # Increase the size of the labels
+            }
+        )
+         # Deactivate mode bar in the plotly chart
+        config = {
+            'displayModeBar': False  # This will hide the toolbar
+        }
+
+        # Display the figure in Streamlit
+        st.plotly_chart(fig_better, config=config)
+
+
+
+  

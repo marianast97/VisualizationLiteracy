@@ -93,38 +93,32 @@ def display_module(modules):
     st.write(f"Page {current_subpage_index + 1} of {len(modules[selected_module])}")
 
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
-        # Create the chart using Plotly
 
-        # Full data for the past 3 years with fluctuating unemployment rate, but increasing overall (except the last 5 months)
-        full_data = {
-            "Month": [
-                "Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023", "May 2023", "Jun 2023", "Jul 2023", "Aug 2023", "Sep 2023", "Oct 2023", "Nov 2023", "Dec 2023",
-                "Jan 2024", "Feb 2024", "Mar 2024", "Apr 2024", "May 2024", "Jun 2024", "Jul 2024", "Aug 2024"
-            ],
-            # Unemployment rate fluctuating but increasing overall except last 5 months
-            "Unemployment Rate (%)": [
-                5.3, 5.5, 5.4, 5.6, 5.8, 5.7, 5.9, 6.0, 6.1, 6.0, 6.2, 6.3,  # 2022
-                6.4, 6.3, 6.1, 6.4, 6.37, 6.28, 6.25, 6.2                # 2023
-            ]
+        # Data for Annual Sales
+        data = {
+            "Year": ["2018", "2019", "2020", "2021", "2022", "2023"],
+            "Test Failures": [50, 60, 55, 70, 75, 80]
+
         }
 
         # Convert to DataFrame
-        df_full = pd.DataFrame(full_data)
+        df = pd.DataFrame(data)
 
-        # Creating the line chart using Plotly Express
-        fig = px.line(
-            df_full, 
-            x="Month",
-            y="Unemployment Rate (%)",
-            title="Unemployment Rate Trend",
-            labels={"Unemployment Rate (%)": "Unemployment Rate (%)", "Month": "Month"},
-            markers=True
-        )
+        # Create the misleading chart with an inverted y-axis
+        fig = go.Figure()
+
+        fig.add_trace(go.Scatter(
+            x=df["Year"],
+            y=df["Test Failures"],
+            mode="lines+markers",
+            marker=dict(size=8),
+            name="Test Failures"
+        ))
 
         fig.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
-                #'text': "text here",
+                'text': "Number of Test Failures Over Time",
                 'font': {
                 'size': 24  # Set title size larger
                 },
@@ -136,10 +130,12 @@ def display_module(modules):
                 'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
                 'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
-            yaxis={
-                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
-            },
+            yaxis=dict(
+                title="Number of Test Failures",
+                autorange="reversed",  # Invert the y-axis
+                tickfont=dict(size=18),
+                titlefont=dict(size=18)
+            ),
             legend={
                 'title': {
                     'font': {'color': 'black'}  # Set legend title font color to black
@@ -149,42 +145,29 @@ def display_module(modules):
             height=500  # Set the height of the chart
         )
 
-        # Update traces to increase label size
-        fig.update_traces(
-            textfont={
-                'size': 18  # Increase the size of the labels
-            }
-        )
-         # Deactivate mode bar in the plotly chart
+        # Deactivate mode bar in the plotly chart
         config = {
             'displayModeBar': False  # This will hide the toolbar
         }
 
-        # Display the figure in Streamlit
-        st.plotly_chart(fig, config=config)
+        # Display the misleading figure with a unique key
+        st.plotly_chart(fig, config=config, key="misleading_chart")
 
-        # Add a footnote below the chart
-        st.markdown("""
-        **Data source**: the author (2024). This is a fictional example created for educational purposes only. Data is fictional and should not be used for any actual analysis.
-        """)
+        # Create the misleading chart with an inverted y-axis
+        fig_correct = go.Figure()
 
-        # Filter the DataFrame to show only May 2024 to August 2024
-        df_filtered = df_full[df_full['Month'].isin(["May 2024", "Jun 2024", "Jul 2024", "Aug 2024"])]
+        fig_correct.add_trace(go.Scatter(
+            x=df["Year"],
+            y=df["Test Failures"],
+            mode="lines+markers",
+            marker=dict(size=8),
+            name="Test Failures"
+        ))
 
-        # Creating the line chart using Plotly Express
-        fig_filtered = px.line(
-            df_filtered, 
-            x="Month",
-            y="Unemployment Rate (%)",
-            title="Unemployment Rate Trend",
-            labels={"Unemployment Rate (%)": "Unemployment Rate (%)", "Month": "Month"},
-            markers=True
-        )
-
-        fig_filtered.update_layout(
+        fig_correct.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
-                #'text': "text here",
+                'text': "Number of Test Failures Over Time",
                 'font': {
                 'size': 24  # Set title size larger
                 },
@@ -196,10 +179,12 @@ def display_module(modules):
                 'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
                 'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
-            yaxis={
-                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
-            },
+            yaxis=dict(
+                title="Number of Test Failures",
+                #autorange="reversed",  # Invert the y-axis
+                tickfont=dict(size=18),
+                titlefont=dict(size=18)
+            ),
             legend={
                 'title': {
                     'font': {'color': 'black'}  # Set legend title font color to black
@@ -208,22 +193,10 @@ def display_module(modules):
             width=800,  # Set the width of the chart
             height=500  # Set the height of the chart
         )
-
-        # Update traces to increase label size
-        fig_filtered.update_traces(
-            textfont={
-                'size': 18  # Increase the size of the labels
-            }
-        )
-         # Deactivate mode bar in the plotly chart
+        # Deactivate mode bar in the plotly chart
         config = {
             'displayModeBar': False  # This will hide the toolbar
         }
 
         # Display the figure in Streamlit
-        st.plotly_chart(fig_filtered, config=config)
-
-        # Add a footnote below the chart
-        st.markdown("""
-        **Data source**: the author (2024). This is a fictional example created for educational purposes only. Data is fictional and should not be used for any actual analysis.
-        """)
+        st.plotly_chart(fig_correct, config=config, key="correct_chart")
