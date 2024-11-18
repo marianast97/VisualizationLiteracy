@@ -56,14 +56,33 @@ def display_module(modules):
 
     # Check if the current subpage index is within the dynamic range
     if 0 <= current_subpage_index < num_files:
+
+        st.markdown(
+        """
+        <div style="text-align: center; font-size: 20px; ">
+            An inappropriate scale function occurs when the intervals on an axis are <strong>not uniform</strong>, distorting the visual representation of data. 
+        </div>
+        """,
+        unsafe_allow_html=True
+        )
+                
         # Get the pre-generated URL based on current index
         url = image_urls[current_subpage_index]
         
         # Display the image using st.markdown()
         image_markdown = f'<img src="{url}" style="width:100%;">'
         st.markdown(image_markdown, unsafe_allow_html=True)
-    # Keep navigation buttons at the bottom
 
+        st.markdown(
+        """
+        <div style="text-align: center; font-size: 20px; ">
+            The logical order of categories, such as years, is crucial to accurately conveying trends and changes. Always check that the scale is presented in a conventional way before drawing conclusions.
+        </div>
+        """,
+        unsafe_allow_html=True
+        )
+
+    # Keep navigation buttons at the bottom
     col1, col2, col3, col4, col5, col6 = st.columns(6)
 
     # Handle navigation buttons

@@ -32,7 +32,7 @@ def display_module(modules):
     @st.cache_data
     def get_image_files():
         # GitHub API URL to list files in the folder
-        api_url = "https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/LearningContent/ConcealedUncertainty"
+        api_url = "https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/LearningContent/InappropriateAggregation"
         response = requests.get(api_url)
         
         if response.status_code == 200:
@@ -49,19 +49,38 @@ def display_module(modules):
     num_files = len(image_files)
 
     # Base URL pattern
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/LearningContent/ConcealedUncertainty/ConcealedUncertainty"
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/LearningContent/InappropriateAggregation/InappropriateAggregation"
 
     # Pre-generate URLs for each image
     image_urls = [f"{base_url} ({i + 1}).png" for i in range(num_files)]
 
     # Check if the current subpage index is within the dynamic range
     if 0 <= current_subpage_index < num_files:
+
+        st.markdown(
+        """
+        <div style="text-align: center; font-size: 20px; ">
+            Inappropriate aggregation occurs when <strong>data is combined</strong> in a way that <strong>hides important patterns or details</strong>, leading to misleading conclusions.
+        </div>
+        """,
+        unsafe_allow_html=True
+        )
+
         # Get the pre-generated URL based on current index
         url = image_urls[current_subpage_index]
         
         # Display the image using st.markdown()
         image_markdown = f'<img src="{url}" style="width:100%;">'
         st.markdown(image_markdown, unsafe_allow_html=True)
+
+        st.markdown(
+        """
+        <div style="text-align: center; font-size: 20px; ">
+            Inappropriate aggregation can mislead by ignoring key data or context. Always check if the dataset is complete or use averages to make data comparable across different time periods.
+        </div>
+        """,
+        unsafe_allow_html=True
+        )
 
     # Keep navigation buttons at the bottom
     col1, col2, col3, col4, col5, col6 = st.columns(6)

@@ -56,12 +56,31 @@ def display_module(modules):
 
     # Check if the current subpage index is within the dynamic range
     if 0 <= current_subpage_index < num_files:
+
+        st.markdown(
+        """
+        <div style="text-align: center; font-size: 20px; ">
+            An inappropriate scale function occurs when the intervals on an axis are <strong>not uniform</strong>, distorting the visual representation of data. 
+        </div>
+        """,
+        unsafe_allow_html=True
+        )
+            
         # Get the pre-generated URL based on current index
         url = image_urls[current_subpage_index]
         
         # Display the image using st.markdown()
         image_markdown = f'<img src="{url}" style="width:100%;">'
         st.markdown(image_markdown, unsafe_allow_html=True)
+        
+        st.markdown(
+        """
+        <div style="text-align: center; font-size: 20px; ">
+            Inappropriate scale function can mislead viewers by exaggerating or minimizing differences. Ensure that axes have consistent intervals to avoid visual distortions.
+        </div>
+        """,
+        unsafe_allow_html=True
+        )
 
     # Keep navigation buttons at the bottom
     col1, col2, col3, col4, col5, col6 = st.columns(6)
