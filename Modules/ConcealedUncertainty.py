@@ -83,6 +83,15 @@ def display_module(modules):
                 """,
                 unsafe_allow_html=True
             )
+        else:
+            st.markdown(
+                """
+                <div style="text-align: center; font-size: 20px;">
+                <span style="color: white;"> Placeholder </span>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
 
     # Keep navigation buttons at the bottom
     col1, col2, col3, col4, col5, col6 = st.columns(6)

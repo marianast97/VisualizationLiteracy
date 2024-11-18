@@ -73,15 +73,28 @@ def display_module(modules):
         image_markdown = f'<img src="{url}" style="width:100%;">'
         st.markdown(image_markdown, unsafe_allow_html=True)
 
-        st.markdown(
-        """
-        <div style="text-align: center; font-size: 20px; ">
-            The logical order of categories, such as years, is crucial to accurately conveying trends and changes. Always check that the scale is presented in a conventional way before drawing conclusions.
-        </div>
-        """,
-        unsafe_allow_html=True
-        )
+        # Conditionally display the second text on the last and penultimate pages
+        if current_subpage_index in {num_files - 1, num_files - 2}:
 
+            st.markdown(
+            """
+            <div style="text-align: center; font-size: 20px; ">
+                The logical order of categories, such as years, is crucial to accurately conveying trends and changes. Always check that the scale is presented in a conventional way before drawing conclusions.
+            </div>
+            """,
+            unsafe_allow_html=True
+            )
+
+        else:
+            st.markdown(
+                """
+                <div style="text-align: center; font-size: 20px;">
+                <span style="color: white;"> Placeholder </span>
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+            
     # Keep navigation buttons at the bottom
     col1, col2, col3, col4, col5, col6 = st.columns(6)
 
