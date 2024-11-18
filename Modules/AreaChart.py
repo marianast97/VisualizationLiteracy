@@ -48,7 +48,6 @@ def display_module(modules):
     num_files = len(image_files)
 
     # Define base URL to fetch files from GitHub
-    #base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/AreaChart/AreaChart"
     base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/LearningContent/AreaChart/AreaChart"
 
 

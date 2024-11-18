@@ -49,7 +49,7 @@ def display_module(modules):
     num_files = len(image_files)
 
     # Base URL pattern
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/LearningContent/TruncatedAxis/TruncatedAxis"
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/LearningContent/TruncatedAxis/TruncatedAxis"
 
     # Pre-generate URLs for each image
     image_urls = [f"{base_url} ({i + 1}).png" for i in range(num_files)]
