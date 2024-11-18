@@ -56,6 +56,16 @@ def display_module(modules):
 
     # Check if the current subpage index is within the dynamic range
     if 0 <= current_subpage_index < num_files:
+
+        st.markdown(
+        """
+        <div style="text-align: center; font-size: 20px; ">
+            The term "cherry-picking" refers to <strong>presenting only the best data</strong> and <strong>omitting</strong> less favorable data points to support a particular narrative.
+        </div>
+        """,
+        unsafe_allow_html=True
+        )
+        
         # Get the pre-generated URL based on current index
         url = image_urls[current_subpage_index]
         
@@ -63,6 +73,18 @@ def display_module(modules):
         image_markdown = f'<img src="{url}" style="width:100%;">'
         st.markdown(image_markdown, unsafe_allow_html=True)
 
+        # Conditionally display the second text on the last and penultimate pages
+        if current_subpage_index in {num_files - 1, num_files - 2}:
+            st.markdown(
+                """
+                <div style="text-align: center; font-size: 20px;">
+                    Cherry-picking selects specific data to tell a misleading story. Always think critically about the visualization to avoid falling into this type of manipulation.
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
+        
     # Keep navigation buttons at the bottom
     col1, col2, col3, col4, col5, col6 = st.columns(6)
 

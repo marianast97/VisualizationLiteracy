@@ -4,12 +4,12 @@ from Modules import BarChart, AreaChart, PieChart, LineChart, Maps, ScatterPlot,
 from Modules import CherryPicking, ConcealedUncertainty, InappropriateAggregation, MisleadingAnnotation  # type: ignore
 from Modules import MissingData, TruncatedAxis, MissingNormalization, Overplotting  # type: ignore
 from Modules import InappropriateScaleDirection, InappropriateScaleFunction, InappropriateScaleOrder  # type: ignore
-
-
 import plotly.graph_objects as go
 
-st.set_page_config(layout="wide") #"centered"
-
+st.set_page_config(
+    layout="wide",
+    initial_sidebar_state="expanded",
+    )
 
 # Custom CSS to adjust sidebar spacing and fix the final assessment at the bottom
 sidebar_adjustment_style = """
@@ -101,7 +101,7 @@ MapsSubpages = ['Anatomy'] * 5 + ['Common Tasks associated to Bar Chart'] * 3 + 
 PieChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 5 + ['Module Completed']
 ScatterPlotSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
 StackedBarChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 3 + ['Module Completed']
-CherryPickingSubpages = [''] * 6 + ['Module Completed']
+CherryPickingSubpages = [''] * 8 + ['Module Completed']
 ConcealedUncertaintySubpages = [''] * 5 + ['Module Completed']
 InappropriateAggregationSubpages =  [''] * 7 + ['Module Completed']
 InappropriateScaleOrderSubpages = [''] * 6 + ['Module Completed']
