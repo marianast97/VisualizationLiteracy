@@ -79,7 +79,7 @@ def display_module(modules):
             st.markdown(
             """
             <div style="text-align: center; font-size: 20px; ">
-                The logical order of categories, such as years, is crucial to accurately conveying trends and changes. Always check that the scale is presented in a conventional way before drawing conclusions.
+                The logical order of categories is crucial to accurately conveying trends and changes. Always check if data is presented in a logical order before drawing conclusions.
             </div>
             """,
             unsafe_allow_html=True
@@ -157,12 +157,12 @@ def display_module(modules):
             #xaxis_title="Product",
             #yaxis_title="Coffee Consumption (kg per capita)",
             xaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
             yaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
             legend={
                 'title': {
@@ -208,12 +208,12 @@ def display_module(modules):
             #xaxis_title="Product",
             #yaxis_title="Coffee Consumption (kg per capita)",
             xaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
             yaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
             legend={
                 'title': {

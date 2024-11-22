@@ -60,7 +60,7 @@ def display_module(modules):
         st.markdown(
         """
         <div style="text-align: center; font-size: 20px; ">
-            A truncated axis occurs when the <strong>y-axis</strong> of a bar chart or area chart does <strong>not start at zero</strong>, causing the differences between data points to appear larger than they really are.
+            A truncated axis occurs when the <strong>y-axis</strong> of a bar chart or area chart does <strong>not start at zero</strong>.
         </div>
         """,
         unsafe_allow_html=True
@@ -79,7 +79,7 @@ def display_module(modules):
             st.markdown(
             """
             <div style="text-align: center; font-size: 20px; ">
-                A truncated axis can <strong>exaggerate differences</strong> in data. When encountering a bar chart or area chart, always check if the y-axis starts at zero to avoid misleading interpretations.
+                A truncated axis can <strong>exaggerate differences</strong> in data. When encountering a bar chart or area chart, always check if the y-axis starts at zero.
             </div>
             """,
             unsafe_allow_html=True

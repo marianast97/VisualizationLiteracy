@@ -79,7 +79,7 @@ def display_module(modules):
             st.markdown(
             """
             <div style="text-align: center; font-size: 20px; ">
-                Inappropriate aggregation can mislead by ignoring key data or context. Always check if the dataset is complete or use averages to make data comparable across different time periods.
+                Inappropriate aggregation misleads by ignoring key data or context. Check if the dataset is complete and comparable across different time periods.
             </div>
             """,
             unsafe_allow_html=True
