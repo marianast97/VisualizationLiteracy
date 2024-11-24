@@ -124,7 +124,7 @@ def display_module(modules):
     # Display current page number
     st.write(f"Page {current_subpage_index + 1} of {len(modules[selected_module])}")
 
-    if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
+"""     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
         # Create the chart using Plotly
 
         # Full data for the past 3 years with fluctuating unemployment rate, but increasing overall (except the last 5 months)
@@ -195,11 +195,6 @@ def display_module(modules):
         # Display the figure in Streamlit
         st.plotly_chart(fig, config=config)
 
-        # Add a footnote below the chart
-        st.markdown("""
-        **Data source**: the author (2024). This is a fictional example created for educational purposes only. Data is fictional and should not be used for any actual analysis.
-        """)
-
         # Filter the DataFrame to show only May 2024 to August 2024
         df_filtered = df_full[df_full['Month'].isin(["May 2024", "Jun 2024", "Jul 2024", "Aug 2024"])]
 
@@ -254,8 +249,4 @@ def display_module(modules):
 
         # Display the figure in Streamlit
         st.plotly_chart(fig_filtered, config=config)
-
-        # Add a footnote below the chart
-        st.markdown("""
-        **Data source**: the author (2024). This is a fictional example created for educational purposes only. Data is fictional and should not be used for any actual analysis.
-        """)
+ """

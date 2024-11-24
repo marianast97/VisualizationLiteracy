@@ -122,7 +122,7 @@ def display_module(modules):
     # Display current page number
     st.write(f"Page {current_subpage_index + 1} of {len(modules[selected_module])}")
 
-        # Add the chart for 'Bar Chart Anatomy' subpage
+"""         # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
         
         data = {
@@ -226,3 +226,4 @@ def display_module(modules):
 
         # Display the figure in Streamlit
         st.plotly_chart(fig_correct, config=config)
+ """
