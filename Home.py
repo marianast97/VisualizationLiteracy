@@ -21,12 +21,11 @@ SURVEY_ID = "967331"
 
 # Extract token from the URL
 query_params = st.query_params
-user_token = query_params.get("token", [""])[0]
+user_token = query_params.get("token", [""])[0].strip().lower()
 
 if not user_token:
-    st.error("No token provided. Please complete the survey.")
-
-
+    st.error("No token provided in the URL. Please complete the survey or ensure the token is passed.")
+    st.stop()
 
 # Authenticate and fetch data
 session_key = get_session_key(USERNAME, PASSWORD)
@@ -37,8 +36,9 @@ if session_key:
     if responses:
         # Convert responses to a DataFrame
         df = pd.DataFrame(responses["responses"])
-        
-        # Filter the responses by the user's token
+
+        # Normalize token column and filter by user token
+        df["token"] = df["token"].astype(str).str.strip().str.lower()
         user_response = df[df["token"] == user_token]
 
         if not user_response.empty:
@@ -66,7 +66,7 @@ if session_key:
 
             # Display the score
             st.write(f"### Your Score: {user_score}/{len(correct_answers)}")
-            
+
             # Visualize the score with the gauge chart
             fig = go.Figure(go.Indicator(
                 mode="gauge+number",
