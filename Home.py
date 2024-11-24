@@ -14,72 +14,6 @@ st.set_page_config(
     initial_sidebar_state="expanded",
     )
 
-# LimeSurvey API Configuration
-USERNAME = "marianasteffens"  # Replace with your LimeSurvey admin username
-PASSWORD = "MyThesis123"  # Replace with your LimeSurvey admin password
-SURVEY_ID = "967331"
-
-# Extract query parameters
-query_params = st.query_params
-
-# Extract the token value from the query parameters
-user_token_raw = query_params["token"]  # Get the first item in the list
-
-# Normalize the token (strip spaces, convert to lowercase if needed)
-user_token = user_token_raw.strip().lower() if user_token_raw else ""
-
-# Handle missing token
-if not user_token:
-    st.error("No token provided in the URL. Please complete the survey.")
-    st.stop()
-
-# Authenticate and fetch data
-session_key = get_session_key(USERNAME, PASSWORD)
-if session_key:
-    responses = fetch_responses(session_key, SURVEY_ID)
-    release_session_key(session_key)
-
-    if responses:
-        # Convert responses to a DataFrame
-        df = pd.DataFrame(responses["responses"])
-
-        # Normalize token column and filter by user token
-        df["token"] = df["token"].astype(str).str.strip().str.lower()
-        user_response = df[df["token"] == user_token]
-
-        if not user_response.empty:
-            # Display user's response
-            #st.write("### Your Survey Response:")
-            #st.dataframe(user_response)
-
-            # Add logic to calculate the score
-            correct_answers = {
-                "N1": "AO02",
-                "N2": "AO03",
-                "N3": "AO03",
-                "N4": "AO02",
-                "N5": "AO01",
-                "N6": "AO01",
-                "N7": "AO01",
-                "N8": "AO01"
-            }
-
-            # Check correctness of answers
-            user_score = 0
-            for question, correct_answer in correct_answers.items():
-                if user_response.iloc[0][question] == correct_answer:
-                    user_score += 1
-
-        else:
-            st.error("No response found for your token.")
-            st.write(user_token)
-    else:
-        st.error("No responses found.")
-else:
-    st.error("Failed to connect to LimeSurvey API.")
-
-
-
 # Custom CSS to adjust sidebar spacing and fix the final assessment at the bottom
 sidebar_adjustment_style = """
     <style>
@@ -239,6 +173,72 @@ st.markdown("""
 # Ensure session state is initialized before proceeding
 initialize_session_state(modules)
 
+# LimeSurvey API Configuration
+USERNAME = "marianasteffens"  # Replace with your LimeSurvey admin username
+PASSWORD = "MyThesis123"  # Replace with your LimeSurvey admin password
+SURVEY_ID = "967331"
+
+# Extract query parameters
+query_params = st.query_params
+
+# Extract the token value from the query parameters
+user_token_raw = query_params["token"]  # Get the first item in the list
+
+# Normalize the token (strip spaces, convert to lowercase if needed)
+user_token = user_token_raw.strip().lower() if user_token_raw else ""
+
+# Handle missing token
+if not user_token:
+    st.error("No token provided in the URL. Please complete the survey.")
+    st.stop()
+
+# Authenticate and fetch data
+session_key = get_session_key(USERNAME, PASSWORD)
+if session_key:
+    responses = fetch_responses(session_key, SURVEY_ID)
+    release_session_key(session_key)
+
+    if responses:
+        # Convert responses to a DataFrame
+        df = pd.DataFrame(responses["responses"])
+
+        # Normalize token column and filter by user token
+        df["token"] = df["token"].astype(str).str.strip().str.lower()
+        user_response = df[df["token"] == user_token]
+
+        if not user_response.empty:
+            # Display user's response
+            #st.write("### Your Survey Response:")
+            #st.dataframe(user_response)
+
+            # Add logic to calculate the score
+            correct_answers = {
+                "N1": "AO02",
+                "N2": "AO03",
+                "N3": "AO03",
+                "N4": "AO02",
+                "N5": "AO01",
+                "N6": "AO01",
+                "N7": "AO01",
+                "N8": "AO01"
+            }
+
+            # Check correctness of answers
+            user_score = 0
+            for question, correct_answer in correct_answers.items():
+                if user_response.iloc[0][question] == correct_answer:
+                    user_score += 1
+
+        else:
+            st.error("No response found for your token.")
+            st.write(user_token)
+    else:
+        st.error("No responses found.")
+else:
+    st.error("Failed to connect to LimeSurvey API.")
+
+
+
 if 'selected_module' not in st.session_state:
     st.session_state['selected_module'] = 'Home: My Scores'
 
@@ -323,7 +323,7 @@ if selected_module == 'Home: My Scores':
             'threshold': {
                 'line': {'color': "#ff6666", 'width': 6},  # Soft red threshold line
                 'thickness': 0.75,
-                'value': 21  # Replace with your dynamic score if needed
+                'value': user_score  # Replace with your dynamic score if needed
             }
         }
     ))
