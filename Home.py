@@ -183,18 +183,21 @@ SURVEY_ID = "967331"
 
 
 # Extract query parameters
-query_params = st.query_params
+try:
+    query_params = st.query_params  # Attempt to fetch query parameters
+    user_token_raw = query_params["token"]
+    user_token = user_token_raw.strip().lower() if user_token_raw else ""
+except Exception as e:
+    # Handle any error by assigning a fallback URL and token
+    #st.warning("No token found in the query parameters. Using a default token for testing.")
+    user_token_raw = "NNCzENfS2kY27uI"  # Default dummy token for local testing
+    user_token = user_token_raw.strip().lower() if user_token_raw else ""
 
-# Extract the token value from the query parameters
-user_token_raw = query_params["token"]  # Get the first item in the list
-
-# Normalize the token (strip spaces, convert to lowercase if needed)
-user_token = user_token_raw.strip().lower() if user_token_raw else ""
 
 # Handle missing token
 if not user_token:
     st.error("No token provided in the URL. Please complete the survey.")
-    st.stop()
+
 
 @st.cache_data
 def fetch_survey_data(username, password, survey_id):
