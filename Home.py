@@ -23,11 +23,16 @@ SURVEY_ID = "967331"
 query_params = st.query_params
 st.write("Query Parameters:", query_params)
 
-user_token = query_params.get("token", [""])[0].strip().lower()
-st.write("Extracted User Token:", user_token)
+# Get the token directly without modification
+user_token_raw = query_params.get("token", [""])[0]
+st.write("Raw Token:", user_token_raw)
+
+# Strip and normalize the token
+user_token = user_token_raw.strip().lower()
+st.write("Normalized Token:", user_token)
 
 if not user_token:
-    st.error("No token provided in the URL. Please complete the survey or ensure the token is passed.")
+    st.error("No token provided in the URL. Please complete the survey.")
     st.stop()
 
 # Authenticate and fetch data
