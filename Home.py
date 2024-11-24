@@ -215,10 +215,6 @@ if responses:
     user_response = df[df["token"] == user_token]
 
     if not user_response.empty:
-        # Display user's response
-        st.write("### Your Survey Response:")
-        st.dataframe(user_response)
-
         # Calculate and display score
         correct_answers = {
             "N1": "AO02", "N2": "AO03", "N3": "AO03",
@@ -230,7 +226,6 @@ if responses:
             user_response.iloc[0][q] == a
             for q, a in correct_answers.items()
         )
-        st.write(f"### Your Score: {user_score}/{len(correct_answers)}")
     else:
         st.error("No response found for your token.")
 else:
