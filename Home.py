@@ -19,23 +19,24 @@ USERNAME = "marianasteffens"  # Replace with your LimeSurvey admin username
 PASSWORD = "MyThesis123"  # Replace with your LimeSurvey admin password
 SURVEY_ID = "967331"
 
-# Extract token from the URL
+# Extract query parameters
 query_params = st.query_params
 st.write("Query Parameters:", query_params)
 
-# Ensure proper extraction of the token value
-token_value = query_params.get("token")
-if token_value and isinstance(token_value, list) and len(token_value) > 0:
-    user_token_raw = token_value[0]  # Get the first item in the list
+# Extract the token value from the query parameters
+if "token" in query_params and isinstance(query_params["token"], list) and len(query_params["token"]) > 0:
+    user_token_raw = query_params["token"][0]  # Get the first item in the list
 else:
     user_token_raw = ""
 
+# Display the extracted raw token
 st.write("Extracted Token (Raw):", user_token_raw)
 
-# Normalize token (if required)
+# Normalize the token (strip spaces, convert to lowercase if needed)
 user_token = user_token_raw.strip().lower() if user_token_raw else ""
 st.write("Normalized Token:", user_token)
 
+# Handle missing token
 if not user_token:
     st.error("No token provided in the URL. Please complete the survey.")
     st.stop()
