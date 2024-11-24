@@ -24,10 +24,7 @@ query_params = st.query_params
 st.write("Query Parameters:", query_params)
 
 # Extract the token value from the query parameters
-if "token" in query_params and isinstance(query_params["token"], list) and len(query_params["token"]) > 0:
-    user_token_raw = query_params["token"][0]  # Get the first item in the list
-else:
-    user_token_raw = ""
+user_token_raw = query_params["token"][1]  # Get the first item in the list
 
 # Display the extracted raw token
 st.write("Extracted Token (Raw):", user_token_raw)
