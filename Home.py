@@ -33,7 +33,6 @@ if not user_token:
     st.error("No token provided in the URL. Please complete the survey.")
     st.stop()
 
-
 # Authenticate and fetch data
 session_key = get_session_key(USERNAME, PASSWORD)
 if session_key:
@@ -50,8 +49,8 @@ if session_key:
 
         if not user_response.empty:
             # Display user's response
-            st.write("### Your Survey Response:")
-            st.dataframe(user_response)
+            #st.write("### Your Survey Response:")
+            #st.dataframe(user_response)
 
             # Add logic to calculate the score
             correct_answers = {
@@ -71,25 +70,6 @@ if session_key:
                 if user_response.iloc[0][question] == correct_answer:
                     user_score += 1
 
-            # Display the score
-            st.write(f"### Your Score: {user_score}/{len(correct_answers)}")
-
-            # Visualize the score with the gauge chart
-            fig = go.Figure(go.Indicator(
-                mode="gauge+number",
-                value=user_score,
-                number={'font': {'color': 'black', 'size': 100}},
-                title={'text': "Your Score", 'font': {'size': 26, 'color': "#2b2b2b"}},
-                gauge={
-                    'axis': {'range': [0, len(correct_answers)], 'tickwidth': 2, 'tickcolor': "black"},
-                    'bar': {'color': "rgba(0,127,255,0.8)", 'thickness': 0.3},
-                    'steps': [
-                        {'range': [0, len(correct_answers) // 2], 'color': "#f7d8d8"},
-                        {'range': [len(correct_answers) // 2, len(correct_answers)], 'color': "#d6e5ff"}
-                    ],
-                }
-            ))
-            st.plotly_chart(fig, use_container_width=True)
         else:
             st.error("No response found for your token.")
             st.write(user_token)
@@ -97,9 +77,6 @@ if session_key:
         st.error("No responses found.")
 else:
     st.error("Failed to connect to LimeSurvey API.")
-
-
-
 
 
 
@@ -327,7 +304,7 @@ if selected_module == 'Home: My Scores':
     # Add the Plotly gauge chart with improved styling and black numbers
     fig = go.Figure(go.Indicator(
         mode="gauge+number",
-        value=21,  # Replace with your desired score variable if needed
+        value=user_score,  # Replace with your desired score variable if needed
         number={'font': {'color': 'black', 'size': 100}},  # Set the inside value to black and larger size
         domain={'x': [0, 1], 'y': [0, 1]},
         title={'text': "My Scores", 'font': {'size': 26, 'color': "#2b2b2b"}},  # Modern font and color for the title
