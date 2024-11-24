@@ -1,4 +1,7 @@
 import streamlit as st
+import requests
+import pandas as pd
+from API_LimeSurvey import get_session_key, release_session_key, fetch_responses
 from utils import get_score_icon, all_subpages_accessed, initialize_session_state
 from Modules import BarChart, AreaChart, PieChart, LineChart, Maps, ScatterPlot, StackedBarChart  # type: ignore
 from Modules import CherryPicking, ConcealedUncertainty, InappropriateAggregation, MisleadingAnnotation  # type: ignore
@@ -10,6 +13,83 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
     )
+
+# LimeSurvey API Configuration
+USERNAME = "marianasteffens"  # Replace with your LimeSurvey admin username
+PASSWORD = "MyThesis123"  # Replace with your LimeSurvey admin password
+SURVEY_ID = "967331"
+
+# Extract token from the URL
+query_params = st.query_params
+user_token = query_params.get("token", [""])[0]
+
+if not user_token:
+    st.error("No token provided. Please complete the survey.")
+
+
+
+# Authenticate and fetch data
+session_key = get_session_key(USERNAME, PASSWORD)
+if session_key:
+    responses = fetch_responses(session_key, SURVEY_ID)
+    release_session_key(session_key)
+
+    if responses:
+        # Convert responses to a DataFrame
+        df = pd.DataFrame(responses["responses"])
+        
+        # Filter the responses by the user's token
+        user_response = df[df["token"] == user_token]
+
+        if not user_response.empty:
+            # Display user's response
+            st.write("### Your Survey Response:")
+            st.dataframe(user_response)
+
+            # Add logic to calculate the score
+            correct_answers = {
+                "N1": "AO02",
+                "N2": "AO03",
+                "N3": "AO03",
+                "N4": "AO02",
+                "N5": "AO01",
+                "N6": "AO01",
+                "N7": "AO02",
+                "N8": "AO03"
+            }
+
+            # Check correctness of answers
+            user_score = 0
+            for question, correct_answer in correct_answers.items():
+                if user_response.iloc[0][question] == correct_answer:
+                    user_score += 1
+
+            # Display the score
+            st.write(f"### Your Score: {user_score}/{len(correct_answers)}")
+            
+            # Visualize the score with the gauge chart
+            fig = go.Figure(go.Indicator(
+                mode="gauge+number",
+                value=user_score,
+                number={'font': {'color': 'black', 'size': 100}},
+                title={'text': "Your Score", 'font': {'size': 26, 'color': "#2b2b2b"}},
+                gauge={
+                    'axis': {'range': [0, len(correct_answers)], 'tickwidth': 2, 'tickcolor': "black"},
+                    'bar': {'color': "rgba(0,127,255,0.8)", 'thickness': 0.3},
+                    'steps': [
+                        {'range': [0, len(correct_answers) // 2], 'color': "#f7d8d8"},
+                        {'range': [len(correct_answers) // 2, len(correct_answers)], 'color': "#d6e5ff"}
+                    ],
+                }
+            ))
+            st.plotly_chart(fig, use_container_width=True)
+        else:
+            st.error("No response found for your token.")
+    else:
+        st.error("No responses found.")
+else:
+    st.error("Failed to connect to LimeSurvey API.")
+
 
 # Custom CSS to adjust sidebar spacing and fix the final assessment at the bottom
 sidebar_adjustment_style = """
@@ -290,13 +370,6 @@ else:
     if selected_module in module_display_mapping:
         module_display_mapping[selected_module](modules)
 
-
-#st.sidebar.subheader("", divider="red")
-
-# Example of adding a link to the sidebar
-#st.sidebar.markdown("When you are confident that you have learnt enough, click on the link below to proceed to the final assessment:", unsafe_allow_html=True)
-
-#st.sidebar.markdown("[When you feel like you're ready, click here for the Final Assessment](https://example.com/final-assessment)", unsafe_allow_html=True)
 
 # Fixed block for Final Assessment in the sidebar
 final_assessment_html = """
