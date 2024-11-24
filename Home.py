@@ -77,8 +77,8 @@ if session_key:
                 "N4": "AO02",
                 "N5": "AO01",
                 "N6": "AO01",
-                "N7": "AO02",
-                "N8": "AO03"
+                "N7": "AO01",
+                "N8": "AO01"
             }
 
             # Check correctness of answers
