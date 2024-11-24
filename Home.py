@@ -21,28 +21,12 @@ SURVEY_ID = "967331"
 
 # Extract query parameters
 query_params = st.query_params
-st.write("Query Parameters:", query_params)  # Check the structure
-
-# Extract and display the token
-if "token" in query_params:
-    st.write("Token Value (List):", query_params["token"])
-    if len(query_params["token"]) > 0:
-        st.write("First Token Value:", query_params["token"][0])
-    else:
-        st.write("Token List is Empty")
-else:
-    st.write("Token Not Found in Query Parameters")
-
 
 # Extract the token value from the query parameters
 user_token_raw = query_params["token"]  # Get the first item in the list
 
-# Display the extracted raw token
-st.write("Extracted Token (Raw):", user_token_raw)
-
 # Normalize the token (strip spaces, convert to lowercase if needed)
 user_token = user_token_raw.strip().lower() if user_token_raw else ""
-st.write("Normalized Token:", user_token)
 
 # Handle missing token
 if not user_token:
