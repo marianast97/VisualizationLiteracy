@@ -21,6 +21,8 @@ SURVEY_ID = "967331"
 
 # Extract token from the URL
 query_params = st.query_params
+st.write("Query Parameters:", query_params)
+
 user_token = query_params.get("token", [""])[0].strip().lower()
 st.write(user_token)
 
