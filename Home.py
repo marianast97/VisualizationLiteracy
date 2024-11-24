@@ -181,6 +181,7 @@ USERNAME = "marianasteffens"  # Replace with your LimeSurvey admin username
 PASSWORD = "MyThesis123"  # Replace with your LimeSurvey admin password
 SURVEY_ID = "967331"
 
+
 # Extract query parameters
 query_params = st.query_params
 
@@ -195,51 +196,45 @@ if not user_token:
     st.error("No token provided in the URL. Please complete the survey.")
     st.stop()
 
-# Authenticate and fetch data
-session_key = get_session_key(USERNAME, PASSWORD)
-if session_key:
-    responses = fetch_responses(session_key, SURVEY_ID)
-    release_session_key(session_key)
+@st.cache_data
+def fetch_survey_data(username, password, survey_id):
+    """Fetch and cache survey responses."""
+    session_key = get_session_key(username, password)
+    if session_key:
+        responses = fetch_responses(session_key, survey_id)
+        release_session_key(session_key)
+        return responses
+    return None
 
-    if responses:
-        # Convert responses to a DataFrame
-        df = pd.DataFrame(responses["responses"])
+# Fetch survey data once and cache it
+responses = fetch_survey_data(USERNAME, PASSWORD, SURVEY_ID)
 
-        # Normalize token column and filter by user token
-        df["token"] = df["token"].astype(str).str.strip().str.lower()
-        user_response = df[df["token"] == user_token]
+if responses:
+    df = pd.DataFrame(responses["responses"])
+    df["token"] = df["token"].astype(str).str.strip().str.lower()
+    user_response = df[df["token"] == user_token]
 
-        if not user_response.empty:
-            # Display user's response
-            #st.write("### Your Survey Response:")
-            #st.dataframe(user_response)
+    if not user_response.empty:
+        # Display user's response
+        st.write("### Your Survey Response:")
+        st.dataframe(user_response)
 
-            # Add logic to calculate the score
-            correct_answers = {
-                "N1": "AO02",
-                "N2": "AO03",
-                "N3": "AO03",
-                "N4": "AO02",
-                "N5": "AO01",
-                "N6": "AO01",
-                "N7": "AO01",
-                "N8": "AO01"
-            }
+        # Calculate and display score
+        correct_answers = {
+            "N1": "AO02", "N2": "AO03", "N3": "AO03",
+            "N4": "AO02", "N5": "AO01", "N6": "AO01",
+            "N7": "AO01", "N8": "AO01"
+        }
 
-            # Check correctness of answers
-            user_score = 0
-            for question, correct_answer in correct_answers.items():
-                if user_response.iloc[0][question] == correct_answer:
-                    user_score += 1
-
-        else:
-            st.error("No response found for your token.")
-            st.write(user_token)
+        user_score = sum(
+            user_response.iloc[0][q] == a
+            for q, a in correct_answers.items()
+        )
+        st.write(f"### Your Score: {user_score}/{len(correct_answers)}")
     else:
-        st.error("No responses found.")
+        st.error("No response found for your token.")
 else:
-    st.error("Failed to connect to LimeSurvey API.")
-
+    st.error("Failed to fetch survey responses.")
 
 if 'selected_module' not in st.session_state:
     st.session_state['selected_module'] = 'Home: My Scores'
