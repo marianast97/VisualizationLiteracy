@@ -24,7 +24,7 @@ query_params = st.query_params
 st.write("Query Parameters:", query_params)
 
 user_token = query_params.get("token", [""])[0].strip().lower()
-st.write(user_token)
+st.write("Extracted User Token:", user_token)
 
 if not user_token:
     st.error("No token provided in the URL. Please complete the survey or ensure the token is passed.")
