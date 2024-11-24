@@ -86,6 +86,7 @@ if session_key:
             st.plotly_chart(fig, use_container_width=True)
         else:
             st.error("No response found for your token.")
+            st.write(user_token)
     else:
         st.error("No responses found.")
 else:
