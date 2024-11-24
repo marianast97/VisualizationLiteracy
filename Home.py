@@ -171,7 +171,10 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # Ensure session state is initialized before proceeding
-initialize_session_state(modules)
+#initialize_session_state(modules)
+
+if 'accessed_subpages' not in st.session_state:
+    initialize_session_state(modules)
 
 # LimeSurvey API Configuration
 USERNAME = "marianasteffens"  # Replace with your LimeSurvey admin username
@@ -236,7 +239,6 @@ if session_key:
         st.error("No responses found.")
 else:
     st.error("Failed to connect to LimeSurvey API.")
-
 
 
 if 'selected_module' not in st.session_state:
