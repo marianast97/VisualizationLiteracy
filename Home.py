@@ -91,6 +91,10 @@ else:
     st.error("Failed to connect to LimeSurvey API.")
 
 
+
+
+
+
 # Custom CSS to adjust sidebar spacing and fix the final assessment at the bottom
 sidebar_adjustment_style = """
     <style>
