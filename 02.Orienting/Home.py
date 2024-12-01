@@ -141,10 +141,9 @@ modules = {
 
 
 # Define the URLs of your custom icons
-icon_well_done = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/Icons/NotRecommended.png"
-icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/Icons/Recommended.png"
+icon_well_done   = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/Icons/NotRecommended.png"
 
-
+icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/Icons/Recommended.png"
 
 # Add custom CSS to target a specific button using a span element         
 st.markdown("""

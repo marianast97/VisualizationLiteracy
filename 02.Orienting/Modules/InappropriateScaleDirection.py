@@ -32,7 +32,7 @@ def display_module(modules):
     @st.cache_data
     def get_image_files():
         # GitHub API URL to list files in the folder
-        api_url = "https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/LearningContent/InappropriateScaleDirection"
+        api_url = "https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/02.Orienting/LearningContent/InappropriateScaleDirection"
         response = requests.get(api_url)
         
         if response.status_code == 200:
@@ -49,7 +49,7 @@ def display_module(modules):
     num_files = len(image_files)
 
     # Base URL pattern
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/LearningContent/InappropriateScaleDirection/InappropriateScaleDirection"
+    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/LearningContent/InappropriateScaleDirection/InappropriateScaleDirection"
 
     # Pre-generate URLs for each image
     image_urls = [f"{base_url} ({i + 1}).png" for i in range(num_files)]
