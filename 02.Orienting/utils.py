@@ -59,7 +59,7 @@ def all_subpages_accessed(module_name, modules):
 
 
 # Base paths for GitHub repository
-GITHUB_FOLDER_PATH = "LearningContent/"
+GITHUB_FOLDER_PATH = "02.Directing/LearningContent/"
 GITHUB_BASE_URL = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/" + GITHUB_FOLDER_PATH
 
 
