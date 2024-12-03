@@ -1,9 +1,9 @@
 import streamlit as st
-import requests
-import os
-
 
 SCORE_THRESHOLD = 0
+
+# Base URL for accessing files directly from GitHub's raw content
+GITHUB_BASE_URL = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/LearningContent"
 
 # Function to initialize session state for all modules
 def initialize_session_state(modules):
@@ -15,12 +15,37 @@ def initialize_session_state(modules):
 
 # Function to initialize session state for a specific module
 def initialize_single_module_state(module_name, modules):
-    # Ensure 'accessed_subpages' and 'current_subpage' are initialized for the specific module
     if 'accessed_subpages' in st.session_state and module_name not in st.session_state['accessed_subpages']:
         st.session_state['accessed_subpages'][module_name] = [False] * len(modules[module_name])
 
     if 'current_subpage' in st.session_state and module_name not in st.session_state['current_subpage']:
         st.session_state['current_subpage'][module_name] = 0
+
+# Function to get image files for a specific chart type
+def get_image_files(chart_type):
+    """
+    Return the list of image files for a given chart type.
+    
+    Args:
+        chart_type (str): The name of the chart type (e.g., "AreaChart", "BarChart").
+        
+    Returns:
+        list: List of image file names.
+    """
+    return IMAGE_FILES.get(chart_type, [])
+
+# Function to get base URL for a specific chart type
+def get_base_url(chart_type):
+    """
+    Get the base URL for fetching chart images from the GitHub repository.
+    
+    Args:
+        chart_type (str): The name of the chart type (e.g., "AreaChart", "BarChart").
+        
+    Returns:
+        str: The base URL for the chart type.
+    """
+    return f"{GITHUB_BASE_URL}/{chart_type}/{chart_type}"
 
 # Function to display content for each subpage of a module
 def display_subpage(module_name, subpage_index, modules):
@@ -30,19 +55,15 @@ def display_subpage(module_name, subpage_index, modules):
     st.markdown(f"<h1 style='text-align: center;'>{module_name}</h1>", unsafe_allow_html=True)
     # Center the subpage name
     st.markdown(f"<h3 style='text-align: center;'>{subpage_name}</h3>", unsafe_allow_html=True)
-    #st.title(module_name)
-    #st.write(f"### {module_name} - {subpage_name}")
-    # st.write(f"This is the content for {subpage_name} in {module_name}.")
     
     st.session_state['accessed_subpages'][module_name][subpage_index] = True
 
 # Function to get an icon based on score
 def get_score_icon(score):
     if score > SCORE_THRESHOLD:
-        return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/Icons/Recommended.png"
-
+        return f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/Icons/Recommended.png"
     else:
-        return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/Icons/NotRecommended.png"
+        return f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/Icons/NotRecommended.png"
 
 # Function to handle subpage navigation
 def navigate_subpage(module_name, direction, modules):
@@ -58,52 +79,78 @@ def all_subpages_accessed(module_name, modules):
         return all(st.session_state['accessed_subpages'][module_name])
     return False
 
-# Base paths for GitHub repository
-GITHUB_FOLDER_PATH = "02.Orienting/LearningContent/"
-GITHUB_BASE_URL = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/" + GITHUB_FOLDER_PATH
-
-# Fetch the token from environment variables
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
-
-@st.cache_data
-def get_image_files(chart_type):
-    """
-    Fetch image files for a specific chart type from the GitHub repository.
-    
-    Args:
-        chart_type (str): The name of the chart type (e.g., "AreaChart", "BarChart").
-        
-    Returns:
-        list: List of image file names (PNG) in the folder.
-    """
-    # Construct the full folder path
-    folder_path = f"{GITHUB_FOLDER_PATH}{chart_type}"
-    api_url = f"https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/{folder_path}"
-
-    # Include the token in the headers for authentication
-    headers = {"Authorization": f"token {GITHUB_TOKEN}"}
-    response = requests.get(api_url, headers=headers)
-    
-    if response.status_code == 200:
-        files = response.json()
-        # Filter to get only PNG files
-        image_files = [file['name'] for file in files if file['name'].endswith('.png')]
-        return image_files
-    elif response.status_code == 403 and "rate limit exceeded" in response.text:
-        st.error("GitHub API rate limit exceeded. Try again later.")
-        return []
-    else:
-        st.error("Failed to load image files.")
-        return []
-
-def get_base_url(chart_type):
-    """
-    Get the base URL for fetching chart images from the GitHub repository.
-    
-    Args:
-        chart_type (str): The name of the chart type (e.g., "AreaChart", "BarChart").
-        
-    Returns:
-        str: The base URL for the chart type.
-    """
-    return f"{GITHUB_BASE_URL}{chart_type}/{chart_type}"
+# Dictionary containing image files for each module
+IMAGE_FILES = {
+    "CherryPicking": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/CherryPicking/CherryPicking%20({i}).png"
+        for i in range(1, 7)
+    ],
+    "AreaChart": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/AreaChart/AreaChart%20({i}).png"
+        for i in range(1, 17)
+    ],
+    "BarChart": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/BarChart/BarChart%20({i}).png"
+        for i in range(1, 14)
+    ],
+    "ConcealedUncertainty": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/ConcealedUncertainty/ConcealedUncertainty%20({i}).png"
+        for i in range(1, 7)
+    ],
+    "InappropriateAggregation": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/InappropriateAggregation/InappropriateAggregation%20({i}).png"
+        for i in range(1, 8)
+    ],
+    "InappropriateScaleDirection": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/InappropriateScaleDirection/InappropriateScaleDirection%20({i}).png"
+        for i in range(1, 8)
+    ],
+    "InappropriateScaleFunction": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/InappropriateScaleFunction/InappropriateScaleFunction%20({i}).png"
+        for i in range(1, 8)
+    ],
+    "InappropriateScaleOrder": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/InappropriateScaleOrder/InappropriateScaleOrder%20({i}).png"
+        for i in range(1, 8)
+    ],
+    "LineChart": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/LineChart/LineChart%20({i}).png"
+        for i in range(1, 15)
+    ],
+    "Maps": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/Maps/Maps%20({i}).png"
+        for i in range(1, 10)
+    ],
+    "MisleadingAnnotation": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/MisleadingAnnotation/MisleadingAnnotation%20({i}).png"
+        for i in range(1, 7)
+    ],
+    "MissingData": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/MissingData/MissingData%20({i}).png"
+        for i in range(1, 8)
+    ],
+    "MissingNormalization": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/MissingNormalization/MissingNormalization%20({i}).png"
+        for i in range(1, 8)
+    ],
+    "Overplotting": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/Overplotting/Overplotting%20({i}).png"
+        for i in range(1, 7)
+    ],
+    "PieChart": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/PieChart/PieChart%20({i}).png"
+        for i in range(1, 13)
+    ],
+    "ScatterPlot": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/ScatterPlot/ScatterPlot%20({i}).png"
+        for i in range(1, 16)
+    ],
+    "StackedBarChart": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/StackedBarChart/StackedBarChart%20({i}).png"
+        for i in range(1, 12)
+    ],
+    "TruncatedAxis": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/TruncatedAxis/TruncatedAxis%20({i}).png"
+        for i in range(1, 8)
+    ],
+}
