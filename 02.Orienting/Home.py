@@ -73,28 +73,28 @@ st.markdown(sidebar_adjustment_style, unsafe_allow_html=True)
 
 # Example of scores assigned to the two modules
 basics = {
-    'Area Chart': 1,
-    'Bar Chart': 0,
-    'Maps': 0,
-    'Line Chart': 0,
-    'Pie Chart': 0,
-    'Scatter Plot': 0,
-    'Stacked Bar Chart': 0,
+    'Area Chart': 0,
+    'Bar Chart': 1,
+    'Maps': 1,
+    'Line Chart': 1,
+    'Pie Chart': 1,
+    'Scatter Plot': 1,
+    'Stacked Bar Chart': 1,
 }
 
 # Example of scores assigned to the two modules
 pitfalls = {
-    'Cherry Picking': 1,
-    'Concealed Uncertainty': 1,
-    'Inappropriate Aggregation': 0,
-    'Inappropriate Scale Order': 0,
-    'Inappropriate Scale Function': 1,
-    'Inappropriate Scale Direction': 0,
-    'Misleading Annotation': 0,
-    'Missing Data': 0,
-    'Missing Normalization': 0,
-    'Overplotting': 0,
-    'Truncated Axis': 1
+    'Cherry Picking': 0,
+    'Concealed Uncertainty': 0,
+    'Inappropriate Aggregation': 1,
+    'Inappropriate Scale Order': 1,
+    'Inappropriate Scale Function': 0,
+    'Inappropriate Scale Direction': 1,
+    'Misleading Annotation': 1,
+    'Missing Data': 1,
+    'Missing Normalization': 1,
+    'Overplotting': 1,
+    'Truncated Axis': 0
 }
 
 BarChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 6 + ['Module Completed']
