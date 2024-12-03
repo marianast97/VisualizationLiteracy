@@ -1,6 +1,6 @@
 import streamlit as st
 import requests
-from utils import display_subpage, navigate_subpage, initialize_single_module_state
+from utils import display_subpage, initialize_single_module_state, get_image_files,get_base_url
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
@@ -29,27 +29,13 @@ def display_module(modules):
         """
     st.markdown(button_style, unsafe_allow_html=True)
 
-    @st.cache_data
-    def get_image_files():
-        # GitHub API URL to list files in the folder
-        api_url = "https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/02.Orienting/LearningContent/InappropriateScaleOrder"
-        response = requests.get(api_url)
-        
-        if response.status_code == 200:
-            files = response.json()
-            # Filter to get only PNG files
-            image_files = [file['name'] for file in files if file['name'].endswith('.png')]
-            return image_files
-        else:
-            st.error("Failed to load image files.")
-            return []
+    # Specify chart type
+    chart_type = "InappropriateScaleOrder"
 
-    # Call the cached function
-    image_files = get_image_files()
+    # Get image files and base URL
+    image_files = get_image_files(chart_type)
     num_files = len(image_files)
-
-    # Define base URL to fetch files from GitHub
-    base_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/LearningContent/InappropriateScaleOrder/InappropriateScaleOrder"
+    base_url = get_base_url(chart_type)
 
     # Pre-generate URLs for each image
     image_urls = [f"{base_url} ({i + 1}).png" for i in range(num_files)]
