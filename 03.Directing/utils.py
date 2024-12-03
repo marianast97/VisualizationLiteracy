@@ -1,4 +1,6 @@
 import streamlit as st
+import requests
+
 
 SCORE_THRESHOLD = 0
 
@@ -36,10 +38,10 @@ def display_subpage(module_name, subpage_index, modules):
 # Function to get an icon based on score
 def get_score_icon(score):
     if score > SCORE_THRESHOLD:
-        return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/Icons/Recommended.png"
+        return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Directing/Icons/Recommended.png"
 
     else:
-        return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/Icons/NotRecommended.png"
+        return "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Directing/Icons/NotRecommended.png"
 
 # Function to handle subpage navigation
 def navigate_subpage(module_name, direction, modules):
@@ -55,5 +57,52 @@ def all_subpages_accessed(module_name, modules):
         return all(st.session_state['accessed_subpages'][module_name])
     return False
 
+# Base paths for GitHub repository
+GITHUB_FOLDER_PATH = "03.Directing/LearningContent/"
+GITHUB_BASE_URL = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/" + GITHUB_FOLDER_PATH
 
+# Personal Access Token
+GITHUB_TOKEN = "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"
 
+@st.cache_data
+def get_image_files(chart_type):
+    """
+    Fetch image files for a specific chart type from the GitHub repository.
+    
+    Args:
+        chart_type (str): The name of the chart type (e.g., "AreaChart", "BarChart").
+        
+    Returns:
+        list: List of image file names (PNG) in the folder.
+    """
+    # Construct the full folder path
+    folder_path = f"{GITHUB_FOLDER_PATH}{chart_type}"
+    api_url = f"https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/{folder_path}"
+
+    # Include the token in the headers for authentication
+    headers = {"Authorization": f"token {GITHUB_TOKEN}"}
+    response = requests.get(api_url, headers=headers)
+    
+    if response.status_code == 200:
+        files = response.json()
+        # Filter to get only PNG files
+        image_files = [file['name'] for file in files if file['name'].endswith('.png')]
+        return image_files
+    elif response.status_code == 403 and "rate limit exceeded" in response.text:
+        st.error("GitHub API rate limit exceeded. Try again later.")
+        return []
+    else:
+        st.error("Failed to load image files.")
+        return []
+
+def get_base_url(chart_type):
+    """
+    Get the base URL for fetching chart images from the GitHub repository.
+    
+    Args:
+        chart_type (str): The name of the chart type (e.g., "AreaChart", "BarChart").
+        
+    Returns:
+        str: The base URL for the chart type.
+    """
+    return f"{GITHUB_BASE_URL}{chart_type}/{chart_type}"

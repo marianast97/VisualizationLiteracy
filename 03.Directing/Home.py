@@ -74,27 +74,27 @@ st.markdown(sidebar_adjustment_style, unsafe_allow_html=True)
 # Example of scores assigned to the two modules
 basics = {
     'Area Chart': 0,
-    'Bar Chart': 1,
-    'Maps': 1,
-    'Line Chart': 1,
-    'Pie Chart': 1,
-    'Scatter Plot': 1,
-    'Stacked Bar Chart': 1,
+    'Bar Chart': 0,
+    'Maps': 0,
+    'Line Chart': 0,
+    'Pie Chart': 0,
+    'Scatter Plot': 3,
+    'Stacked Bar Chart': 0,
 }
 
 # Example of scores assigned to the two modules
 pitfalls = {
-    'Cherry Picking': 0,
+    'Cherry Picking': 2,
     'Concealed Uncertainty': 0,
-    'Inappropriate Aggregation': 1,
-    'Inappropriate Scale Order': 1,
+    'Inappropriate Aggregation': 0,
+    'Inappropriate Scale Order': 0,
     'Inappropriate Scale Function': 0,
-    'Inappropriate Scale Direction': 1,
-    'Misleading Annotation': 1,
+    'Inappropriate Scale Direction': 0,
+    'Misleading Annotation': 0,
     'Missing Data': 1,
-    'Missing Normalization': 1,
-    'Overplotting': 1,
-    'Truncated Axis': 0
+    'Missing Normalization': 0,
+    'Overplotting': 0,
+    'Truncated Axis': 1
 }
 
 BarChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 6 + ['Module Completed']
@@ -141,10 +141,9 @@ modules = {
 
 
 # Define the URLs of your custom icons
-icon_well_done = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/Icons/NotRecommended.png"
-icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/Icons/Recommended.png"
+icon_well_done   = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/Icons/NotRecommended.png"
 
-
+icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/Icons/Recommended.png"
 
 # Add custom CSS to target a specific button using a span element         
 st.markdown("""
@@ -263,31 +262,86 @@ st.sidebar.markdown('<span id="home-button-after"></span>', unsafe_allow_html=Tr
 if st.sidebar.button("Home: My Scores"):
     st.session_state['selected_module'] = 'Home: My Scores'
 
-# Sidebar Basics section
-st.sidebar.subheader("Basics")
-for module, score in basics.items():
-    score_icon = get_score_icon(score)
-    accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
+# Function to render a styled section header
+def render_section_header(main_header, sub_header):
+    """
+    Render a styled section header with a main title and sub-title.
     
-    col1, col2 = st.sidebar.columns([0.6, 4])
-    with col1:
-        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
-    with col2:
-        if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
-            st.session_state['selected_module'] = module
+    Args:
+        main_header (str): The main header (e.g., "Content Recommended").
+        sub_header (str): The sub-header (e.g., "Basics").
+    """
+    st.sidebar.markdown(
+        f"""
+        <div style="padding: 10px 0;">
+            <h4 style="margin: 0; font-size: 16px; color: #777;">{sub_header}</h4>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
-# Sidebar Common Pitfalls section
-st.sidebar.subheader("Common Pitfalls")
-for module, score in pitfalls.items():
-    score_icon = get_score_icon(score)
-    accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
+def categorize_modules(basics, pitfalls):
+    """
+    Categorize and sort modules into four sections based on scores.
     
-    col1, col2 = st.sidebar.columns([0.6, 4])
-    with col1:
-        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
-    with col2:
-        if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
-            st.session_state['selected_module'] = module
+    Args:
+        basics (dict): Scores for basics modules.
+        pitfalls (dict): Scores for pitfalls modules.
+    
+    Returns:
+        dict: A dictionary with categorized and sorted modules.
+    """
+    categorized = {
+        "Recommended: Basics": sorted(
+            [module for module, score in basics.items() if score > 0],
+            key=lambda x: basics[x],
+            reverse=True
+        ),
+        "Recommended: Common Pitfalls": sorted(
+            [module for module, score in pitfalls.items() if score > 0],
+            key=lambda x: pitfalls[x],
+            reverse=True
+        ),
+        "Other: Pitfalls": sorted(
+            [module for module, score in pitfalls.items() if score == 0]
+        ),
+        "Other: Basics": sorted(
+            [module for module, score in basics.items() if score == 0]
+        ),
+    }
+    return categorized
+
+
+# Categorize modules with sorting
+categorized_modules = categorize_modules(basics, pitfalls)
+
+# Define the main sections and their subcategories
+sections = {
+    "Top Recommended": ["Recommended: Basics", "Recommended: Common Pitfalls"],
+    "Others": ["Other: Basics", "Other: Pitfalls"],
+}
+
+# Render the sidebar content
+for main_section, sub_sections in sections.items():
+    # Render the main section header
+    st.sidebar.markdown(f"<h1 style='font-size: 22px; color: #333;'>{main_section}</h1>", unsafe_allow_html=True)
+    for sub_section in sub_sections:
+        # Render the sub-section header
+        render_section_header(main_section, sub_section.split(": ")[1])  # Extract "Basics" or "Common Pitfalls"
+        # Display modules under the sub-section
+        for module in categorized_modules.get(sub_section, []):
+            # Determine score and accessed status
+            score = basics.get(module, pitfalls.get(module, 0))  # Get the score from basics or pitfalls
+            score_icon = get_score_icon(score)
+            accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
+
+            # Display module button with icon
+            col1, col2 = st.sidebar.columns([0.6, 4])
+            with col1:
+                st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+            with col2:
+                if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
+                    st.session_state['selected_module'] = module
 
 # Display content based on selection
 selected_module = st.session_state['selected_module']

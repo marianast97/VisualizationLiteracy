@@ -74,27 +74,27 @@ st.markdown(sidebar_adjustment_style, unsafe_allow_html=True)
 # Example of scores assigned to the two modules
 basics = {
     'Area Chart': 0,
-    'Bar Chart': 1,
-    'Maps': 1,
-    'Line Chart': 1,
-    'Pie Chart': 1,
-    'Scatter Plot': 1,
-    'Stacked Bar Chart': 1,
+    'Bar Chart': 0,
+    'Maps': 0,
+    'Line Chart': 0,
+    'Pie Chart': 0,
+    'Scatter Plot': 3,
+    'Stacked Bar Chart': 0,
 }
 
 # Example of scores assigned to the two modules
 pitfalls = {
-    'Cherry Picking': 0,
+    'Cherry Picking': 2,
     'Concealed Uncertainty': 0,
-    'Inappropriate Aggregation': 1,
-    'Inappropriate Scale Order': 1,
+    'Inappropriate Aggregation': 0,
+    'Inappropriate Scale Order': 0,
     'Inappropriate Scale Function': 0,
-    'Inappropriate Scale Direction': 1,
-    'Misleading Annotation': 1,
+    'Inappropriate Scale Direction': 0,
+    'Misleading Annotation': 0,
     'Missing Data': 1,
-    'Missing Normalization': 1,
-    'Overplotting': 1,
-    'Truncated Axis': 0
+    'Missing Normalization': 0,
+    'Overplotting': 0,
+    'Truncated Axis': 1
 }
 
 BarChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 6 + ['Module Completed']
@@ -275,27 +275,29 @@ if st.sidebar.button("Home: My Scores"):
     st.session_state['selected_module'] = 'Home: My Scores'
 
 # Sidebar Basics section
+st.sidebar.header("Top Recommended")
+
 st.sidebar.subheader("Basics")
-for module in recommended_basics:
-    #score_icon = get_score_icon(score)
+for module, score in recommended_basics.items():
+    score_icon = get_score_icon(score)
     accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
     
-    col1, col2 = st.sidebar.columns([0.1, 4])
-    #with col1:
-    #    st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+    col1, col2 = st.sidebar.columns([0.6, 4])
+    with col1:
+        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
     with col2:
         if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
             st.session_state['selected_module'] = module
 
 # Sidebar Common Pitfalls section
 st.sidebar.subheader("Common Pitfalls")
-for module in recommended_pitfalls:
-    #score_icon = get_score_icon(score)
+for module, score in recommended_pitfalls.items():
+    score_icon = get_score_icon(score)
     accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
     
-    col1, col2 = st.sidebar.columns([0.1, 4])
-    #with col1:
-    #    st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+    col1, col2 = st.sidebar.columns([0.6, 4])
+    with col1:
+        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
     with col2:
         if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
             st.session_state['selected_module'] = module
@@ -354,10 +356,7 @@ if selected_module == 'Home: My Scores':
         ### Keep Learning!
         To get further insights into Visualization Literacy and improve your scores, check out the content by navigating through the menu on the left.
         
-        **Legend:**
-        
-        - <span style="color:black"><img src="{icon_well_done}" width="22px" >  Well done! You seem to master this topic! </span>
-        - <span style="color:black"><img src="{icon_improvement}" width="22px" >  There is some room for improvement here :) </span>
+
     """, unsafe_allow_html=True)
 
 else:
@@ -376,4 +375,3 @@ final_assessment_html = """
 """
 
 st.sidebar.markdown(final_assessment_html, unsafe_allow_html=True)
-
