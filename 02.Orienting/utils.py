@@ -1,6 +1,4 @@
 import streamlit as st
-import requests
-
 
 SCORE_THRESHOLD = 0
 
@@ -58,44 +56,4 @@ def all_subpages_accessed(module_name, modules):
     return False
 
 
-# Base paths for GitHub repository
-GITHUB_FOLDER_PATH = "02.Orienting/LearningContent/"
-GITHUB_BASE_URL = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/" + GITHUB_FOLDER_PATH
 
-
-@st.cache_data
-def get_image_files(chart_type):
-    """
-    Fetch image files for a specific chart type from the GitHub repository.
-    
-    Args:
-        chart_type (str): The name of the chart type (e.g., "AreaChart", "BarChart").
-        
-    Returns:
-        list: List of image file names (PNG) in the folder.
-    """
-    # Construct the full folder path
-    folder_path = f"{GITHUB_FOLDER_PATH}{chart_type}"
-    api_url = f"https://api.github.com/repos/marianast97/VisualizationLiteracy/contents/{folder_path}"
-    response = requests.get(api_url)
-    
-    if response.status_code == 200:
-        files = response.json()
-        # Filter to get only PNG files
-        image_files = [file['name'] for file in files if file['name'].endswith('.png')]
-        return image_files
-    else:
-        st.error("Failed to load image files.")
-        return []
-
-def get_base_url(chart_type):
-    """
-    Get the base URL for fetching chart images from the GitHub repository.
-    
-    Args:
-        chart_type (str): The name of the chart type (e.g., "AreaChart", "BarChart").
-        
-    Returns:
-        str: The base URL for the chart type.
-    """
-    return f"{GITHUB_BASE_URL}{chart_type}/{chart_type}"
