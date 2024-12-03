@@ -1,6 +1,13 @@
 import streamlit as st
 import requests
+from dotenv import load_dotenv
+import os
 
+# Load variables from the .env file
+load_dotenv()
+
+# Access the environment variables
+api_token = os.getenv("API_TOKEN")
 
 SCORE_THRESHOLD = 0
 
@@ -62,7 +69,7 @@ GITHUB_FOLDER_PATH = "03.Directing/LearningContent/"
 GITHUB_BASE_URL = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/" + GITHUB_FOLDER_PATH
 
 # Personal Access Token
-GITHUB_TOKEN = "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"
+GITHUB_TOKEN = api_token 
 
 @st.cache_data
 def get_image_files(chart_type):
