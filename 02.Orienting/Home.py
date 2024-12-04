@@ -4,9 +4,9 @@ import pandas as pd
 from API_LimeSurvey import get_session_key, release_session_key, fetch_responses
 from utils import get_score_icon, all_subpages_accessed, initialize_session_state
 from Modules import BarChart, AreaChart, PieChart, LineChart, Maps, ScatterPlot, StackedBarChart  # type: ignore
-from Modules import CherryPicking, ConcealedUncertainty, InappropriateAggregation, MisleadingAnnotation  # type: ignore
+from Modules import CherryPicking, ConcealedUncertainty, FalseAggregation, MisleadingAnnotation  # type: ignore
 from Modules import MissingData, TruncatedAxis, MissingNormalization, Overplotting  # type: ignore
-from Modules import InappropriateScaleDirection, InappropriateScaleFunction, InappropriateScaleOrder  # type: ignore
+from Modules import FalseScaleDirection, FalseScaleFunction, FalseScaleOrder  # type: ignore
 import plotly.graph_objects as go
 
 st.set_page_config(
@@ -86,10 +86,10 @@ basics = {
 pitfalls = {
     'Cherry Picking': 2,
     'Concealed Uncertainty': 0,
-    'Inappropriate Aggregation': 0,
-    'Inappropriate Scale Order': 0,
-    'Inappropriate Scale Function': 0,
-    'Inappropriate Scale Direction': 0,
+    'False Aggregation': 0,
+    'False Scale Order': 0,
+    'False Scale Function': 0,
+    'False Scale Direction': 0,
     'Misleading Annotation': 0,
     'Missing Data': 1,
     'Missing Normalization': 0,
@@ -106,10 +106,10 @@ ScatterPlotSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart']
 StackedBarChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 3 + ['Module Completed']
 CherryPickingSubpages = [''] * 5 + ['Module Completed']
 ConcealedUncertaintySubpages = [''] * 5 + ['Module Completed']
-InappropriateAggregationSubpages =  [''] * 6 + ['Module Completed']
-InappropriateScaleOrderSubpages = [''] * 6 + ['Module Completed']
-InappropriateScaleFunctionSubpages = [''] * 6 + ['Module Completed']
-InappropriateScaleDirectionSubpages = [''] * 6 + ['Module Completed']
+FalseAggregationSubpages =  [''] * 6 + ['Module Completed']
+FalseScaleOrderSubpages = [''] * 6 + ['Module Completed']
+FalseScaleFunctionSubpages = [''] * 6 + ['Module Completed']
+FalseScaleDirectionSubpages = [''] * 6 + ['Module Completed']
 MisleadingAnnotationSubpages =  [''] * 5 + ['Module Completed']
 MissingDataSubpages =  [''] * 6 + ['Module Completed']
 MissingNormalizationSubpages =  [''] * 6 + ['Module Completed']
@@ -128,10 +128,10 @@ modules = {
     'Stacked Bar Chart': StackedBarChartSubpages,
     'Cherry Picking': CherryPickingSubpages,
     'Concealed Uncertainty': ConcealedUncertaintySubpages,
-    'Inappropriate Aggregation': InappropriateAggregationSubpages,
-    'Inappropriate Scale Order': InappropriateScaleOrderSubpages,
-    'Inappropriate Scale Function': InappropriateScaleFunctionSubpages,
-    'Inappropriate Scale Direction': InappropriateScaleDirectionSubpages,
+    'False Aggregation': FalseAggregationSubpages,
+    'False Scale Order': FalseScaleOrderSubpages,
+    'False Scale Function': FalseScaleFunctionSubpages,
+    'False Scale Direction': FalseScaleDirectionSubpages,
     'Misleading Annotation': MisleadingAnnotationSubpages,
     'Missing Data': MissingDataSubpages,
     'Missing Normalization': MissingNormalizationSubpages,
@@ -247,10 +247,10 @@ module_display_mapping = {
     'Stacked Bar Chart': StackedBarChart.display_module,
     'Cherry Picking': CherryPicking.display_module,
     'Concealed Uncertainty': ConcealedUncertainty.display_module,
-    'Inappropriate Aggregation': InappropriateAggregation.display_module,
-    'Inappropriate Scale Order': InappropriateScaleOrder.display_module,
-    'Inappropriate Scale Function': InappropriateScaleFunction.display_module,
-    'Inappropriate Scale Direction': InappropriateScaleDirection.display_module,
+    'False Aggregation': FalseAggregation.display_module,
+    'False Scale Order': FalseScaleOrder.display_module,
+    'False Scale Function': FalseScaleFunction.display_module,
+    'False Scale Direction': FalseScaleDirection.display_module,
     'Misleading Annotation': MisleadingAnnotation.display_module,
     'Missing Data': MissingData.display_module,
     'Missing Normalization': MissingNormalization.display_module,

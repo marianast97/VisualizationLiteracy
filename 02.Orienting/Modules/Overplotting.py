@@ -44,24 +44,25 @@ def display_module(modules):
     # Check if the current subpage index is within the dynamic range
     if 0 <= current_subpage_index < num_files:
 
-        st.markdown(
-        """
-        <div style="text-align: center; font-size: 20px; ">
-            Overplotting occurs when <strong>too many data points</strong> are plotted on a chart, making it difficult to distinguish between values or detect meaningful patterns. 
-        </div>
-        """,
-        unsafe_allow_html=True
-        )
-
-        # Get the pre-generated URL based on current index
-        url = image_urls[current_subpage_index]
-        
-        # Display the image using st.markdown()
-        image_markdown = f'<img src="{url}" style="width:100%;">'
-        st.markdown(image_markdown, unsafe_allow_html=True)
-
         # Conditionally display the second text on the last and penultimate pages
         if current_subpage_index in {num_files - 1, num_files - 2}:
+
+            st.markdown(
+            """
+            <div style="text-align: center; font-size: 20px; ">
+                Overplotting occurs when <strong>too many data points</strong> are plotted on a chart, making it difficult to distinguish between values or detect meaningful patterns. 
+            </div>
+            """,
+            unsafe_allow_html=True
+            )
+
+            # Get the pre-generated URL based on current index
+            url = image_urls[current_subpage_index]
+            
+            # Display the image using st.markdown()
+            image_markdown = f'<img src="{url}" style="width:100%;">'
+            st.markdown(image_markdown, unsafe_allow_html=True)
+        
             st.markdown(
             """
             <div style="text-align: center; font-size: 20px; ">
@@ -71,6 +72,22 @@ def display_module(modules):
             unsafe_allow_html=True
             )
         else:
+            st.markdown(
+            """
+            <div style="text-align: center; font-size: 20px; ">
+                Overplotting occurs when <strong>too many data points</strong> are plotted on a chart, making it difficult to distinguish between values or detect meaningful patterns. 
+            </div>
+            """,
+            unsafe_allow_html=True
+            )
+
+            # Get the pre-generated URL based on current index
+            url = image_urls[current_subpage_index]
+            
+            # Display the image using st.markdown()
+            image_markdown = f'<img src="{url}" style="width:100%;">'
+            st.markdown(image_markdown, unsafe_allow_html=True)
+            
             st.markdown(
                 """
                 <div style="text-align: center; font-size: 20px;">

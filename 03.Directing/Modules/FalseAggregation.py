@@ -4,12 +4,11 @@ from utils import display_subpage, initialize_single_module_state, get_image_fil
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
-import numpy as np
 
 
 
 def display_module(modules):
-    selected_module = 'Overplotting'
+    selected_module = 'False Aggregation'
     
     # Ensure that session state is initialized for this module
     initialize_single_module_state(selected_module, modules)
@@ -50,7 +49,7 @@ def display_module(modules):
             st.markdown(
             """
             <div style="text-align: center; font-size: 20px; ">
-                Overplotting occurs when <strong>too many data points</strong> are plotted on a chart, making it difficult to distinguish between values or detect meaningful patterns. 
+                Inappropriate aggregation occurs when <strong>data is combined</strong> in a way that <strong>hides important patterns or details</strong>, leading to misleading conclusions.
             </div>
             """,
             unsafe_allow_html=True
@@ -62,20 +61,21 @@ def display_module(modules):
             # Display the image using st.markdown()
             image_markdown = f'<img src="{url}" style="width:100%;">'
             st.markdown(image_markdown, unsafe_allow_html=True)
-        
+            
             st.markdown(
             """
             <div style="text-align: center; font-size: 20px; ">
-                Overplotting hides meaningful insights in large datasets. When faced with a dense visualisation where data points overlap, be careful not to fall into misinterpretation.
+                Inappropriate aggregation misleads by ignoring key data or context. Check if the dataset is complete and comparable across different time periods.
             </div>
             """,
             unsafe_allow_html=True
             )
+
         else:
             st.markdown(
             """
             <div style="text-align: center; font-size: 20px; ">
-                Overplotting occurs when <strong>too many data points</strong> are plotted on a chart, making it difficult to distinguish between values or detect meaningful patterns. 
+                Inappropriate aggregation occurs when <strong>data is combined</strong> in a way that <strong>hides important patterns or details</strong>, leading to misleading conclusions.
             </div>
             """,
             unsafe_allow_html=True
@@ -128,41 +128,29 @@ def display_module(modules):
 
 """         # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
-        # Create the chart using Plotly
-
-        # Creating a new toy example dataset: Hours Studied vs Exam Scores
-        np.random.seed(42)
-        hours_studied = np.random.normal(loc=4, scale=1, size=150)  # Hours studied per day
-        exam_scores = 50 + 10 * hours_studied + np.random.normal(loc=0, scale=5, size=150)  # Exam scores with noise
-
-        # Clip the data to keep it realistic
-        hours_studied = np.clip(hours_studied, 1, 7)
-        exam_scores = np.clip(exam_scores, 50, 100)
-
-        # Create DataFrame for the new example
-        data_new = {
-            "Hours Studied": hours_studied,
-            "Exam Scores": exam_scores
+        
+        # Toy Example: Wrong Deliveries - Misleading chart with partial data for 2022
+        data = {
+            "Year": ["2021", "2022", "2023", "2024"],
+            "Wrong Deliveries": [300, 276, 288, 66]  # 2022 data is incomplete (only 5 months)
         }
-        df_new = pd.DataFrame(data_new)
 
-        # Create the scatter plot for the new example
-        fig_new = px.scatter(
-            df_new,
-            x="Hours Studied",
-            y="Exam Scores",
-            title="Relationship Between Hours Studied and Exam Scores",
-            labels={"Hours Studied": "Hours Studied (per day)", "Exam Scores": "Exam Scores (%)"},
-            #opacity=0.7
+        # Convert to DataFrame
+        df_data = pd.DataFrame(data)
+        
+        # Create the misleading bar chart
+        fig = px.bar(
+            df_data,
+            x="Year",
+            y="Wrong Deliveries",
+            title="Wrong Deliveries",
+            labels={"Wrong Deliveries": "Number of Wrong Deliveries", "Year": "Year"}
         )
-
-        # Increase the size of the data points
-        fig_new.update_traces(marker=dict(size=20))  # Set marker size to 12
-
-        fig_new.update_layout(
+ 
+        fig.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
-                #'text': "text here",
+                #'text': "Average Coffee Consumption in Selected Countries",
                 'font': {
                 'size': 24  # Set title size larger
                 },
@@ -171,27 +159,20 @@ def display_module(modules):
             #xaxis_title="Product",
             #yaxis_title="Coffee Consumption (kg per capita)",
             xaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
             yaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
             legend={
                 'title': {
                     'font': {'color': 'black'}  # Set legend title font color to black
                 }
             },
-            width=800,  # Set the width of the chart
+            width=400,  # Set the width of the chart
             height=500  # Set the height of the chart
-        )
-
-        # Update traces to increase label size
-        fig_new.update_traces(
-            textfont={
-                'size': 18  # Increase the size of the labels
-            }
         )
          # Deactivate mode bar in the plotly chart
         config = {
@@ -199,24 +180,31 @@ def display_module(modules):
         }
 
         # Display the figure in Streamlit
-        st.plotly_chart(fig_new, config=config)
+        st.plotly_chart(fig, config=config)
 
-        # Create the scatter plot for the new example
-        fig_better = px.scatter(
-            df_new,
-            x="Hours Studied",
-            y="Exam Scores",
-            title="Relationship Between Hours Studied and Exam Scores",
-            labels={"Hours Studied": "Hours Studied (per day)", "Exam Scores": "Exam Scores (%)"},
-            opacity=0.5
+        # Create a dataset showing the average number of wrong deliveries per month for each year
+        data_avg = {
+            "Year": ["2021", "2022", "2023", "2024"],
+            "Wrong Deliveries (Avg per Month)": [300/12, 276/12, 288/12, 66/3]  # Average for 2022 based on 5 months
+        }
+
+        # Convert to DataFrame
+        df_avg = pd.DataFrame(data_avg)
+
+        # Create the correct bar chart
+        fig_correct = px.bar(
+            df_avg,
+            x="Year",
+            y="Wrong Deliveries (Avg per Month)",
+            title="Average Wrong Deliveries per Month",
+            labels={"Wrong Deliveries (Avg per Month)": "Average Wrong Deliveries per Month", "Year": "Year"}
         )
-        # Increase the size of the data points
-        fig_better.update_traces(marker=dict(size=12))  # Set marker size to 12
 
-        fig_better.update_layout(
+
+        fig_correct.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
-                #'text': "text here",
+                #'text': "Average Coffee Consumption in Selected Countries",
                 'font': {
                 'size': 24  # Set title size larger
                 },
@@ -225,27 +213,33 @@ def display_module(modules):
             #xaxis_title="Product",
             #yaxis_title="Coffee Consumption (kg per capita)",
             xaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
             yaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
             legend={
                 'title': {
                     'font': {'color': 'black'}  # Set legend title font color to black
                 }
             },
-            width=800,  # Set the width of the chart
+            width=400,  # Set the width of the chart
             height=500  # Set the height of the chart
         )
 
-        # Update traces to increase label size
-        fig_better.update_traces(
-            textfont={
-                'size': 13  # Increase the size of the labels
-            }
+
+        # Add annotation for 2024 data
+        fig_correct.add_annotation(
+            x="2024",
+            y=df_avg.loc[df_avg['Year'] == "2024", "Wrong Deliveries (Avg per Month)"].values[0],
+            text="Partial data (3 months only)",
+            showarrow=True,
+            arrowhead=1,
+            ax=0,
+            ay=-40,  # Adjust the position of the annotation arrow as needed
+            font=dict(size=14, color="black"),  # Customize font size and color for visibility
         )
          # Deactivate mode bar in the plotly chart
         config = {
@@ -253,8 +247,5 @@ def display_module(modules):
         }
 
         # Display the figure in Streamlit
-        st.plotly_chart(fig_better, config=config)
-
+        st.plotly_chart(fig_correct, config=config)
  """
-
-  

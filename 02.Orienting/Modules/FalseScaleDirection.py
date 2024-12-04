@@ -4,12 +4,11 @@ from utils import display_subpage, initialize_single_module_state, get_image_fil
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
-import numpy as np
 
 
 
 def display_module(modules):
-    selected_module = 'Overplotting'
+    selected_module = 'False Scale Direction'
     
     # Ensure that session state is initialized for this module
     initialize_single_module_state(selected_module, modules)
@@ -50,7 +49,33 @@ def display_module(modules):
             st.markdown(
             """
             <div style="text-align: center; font-size: 20px; ">
-                Overplotting occurs when <strong>too many data points</strong> are plotted on a chart, making it difficult to distinguish between values or detect meaningful patterns. 
+                Inappropriate Scale Direction is a misleading practice where the <strong>direction</strong> of a scale is <strong>flipped</strong> to misrepresent the data.
+            </div>
+            """,
+            unsafe_allow_html=True
+            )
+
+            # Get the pre-generated URL based on current index
+            url = image_urls[current_subpage_index]
+            
+            # Display the image using st.markdown()
+            image_markdown = f'<img src="{url}" style="width:100%;">'
+            st.markdown(image_markdown, unsafe_allow_html=True)
+            
+            st.markdown(
+            """
+            <div style="text-align: center; font-size: 20px; ">
+                The inverted scale direction confuses viewers, suggesting incorrect trends. Always double check how the scale is presented.
+            </div>
+            """,
+            unsafe_allow_html=True
+            )
+        else:
+
+            st.markdown(
+            """
+            <div style="text-align: center; font-size: 20px; ">
+                Inappropriate Scale Direction is a misleading practice where the <strong>direction</strong> of a scale is <strong>flipped</strong> to misrepresent the data.
             </div>
             """,
             unsafe_allow_html=True
@@ -63,31 +88,6 @@ def display_module(modules):
             image_markdown = f'<img src="{url}" style="width:100%;">'
             st.markdown(image_markdown, unsafe_allow_html=True)
         
-            st.markdown(
-            """
-            <div style="text-align: center; font-size: 20px; ">
-                Overplotting hides meaningful insights in large datasets. When faced with a dense visualisation where data points overlap, be careful not to fall into misinterpretation.
-            </div>
-            """,
-            unsafe_allow_html=True
-            )
-        else:
-            st.markdown(
-            """
-            <div style="text-align: center; font-size: 20px; ">
-                Overplotting occurs when <strong>too many data points</strong> are plotted on a chart, making it difficult to distinguish between values or detect meaningful patterns. 
-            </div>
-            """,
-            unsafe_allow_html=True
-            )
-
-            # Get the pre-generated URL based on current index
-            url = image_urls[current_subpage_index]
-            
-            # Display the image using st.markdown()
-            image_markdown = f'<img src="{url}" style="width:100%;">'
-            st.markdown(image_markdown, unsafe_allow_html=True)
-            
             st.markdown(
                 """
                 <div style="text-align: center; font-size: 20px;">
@@ -125,44 +125,34 @@ def display_module(modules):
 
     # Display current page number
     st.write(f"Page {current_subpage_index + 1} of {len(modules[selected_module])}")
-
-"""         # Add the chart for 'Bar Chart Anatomy' subpage
+""" 
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
-        # Create the chart using Plotly
 
-        # Creating a new toy example dataset: Hours Studied vs Exam Scores
-        np.random.seed(42)
-        hours_studied = np.random.normal(loc=4, scale=1, size=150)  # Hours studied per day
-        exam_scores = 50 + 10 * hours_studied + np.random.normal(loc=0, scale=5, size=150)  # Exam scores with noise
+        # Data for Annual Sales
+        data = {
+            "Year": ["2018", "2019", "2020", "2021", "2022", "2023"],
+            "Test Failures": [50, 60, 55, 70, 75, 80]
 
-        # Clip the data to keep it realistic
-        hours_studied = np.clip(hours_studied, 1, 7)
-        exam_scores = np.clip(exam_scores, 50, 100)
-
-        # Create DataFrame for the new example
-        data_new = {
-            "Hours Studied": hours_studied,
-            "Exam Scores": exam_scores
         }
-        df_new = pd.DataFrame(data_new)
 
-        # Create the scatter plot for the new example
-        fig_new = px.scatter(
-            df_new,
-            x="Hours Studied",
-            y="Exam Scores",
-            title="Relationship Between Hours Studied and Exam Scores",
-            labels={"Hours Studied": "Hours Studied (per day)", "Exam Scores": "Exam Scores (%)"},
-            #opacity=0.7
-        )
+        # Convert to DataFrame
+        df = pd.DataFrame(data)
 
-        # Increase the size of the data points
-        fig_new.update_traces(marker=dict(size=20))  # Set marker size to 12
+        # Create the misleading chart with an inverted y-axis
+        fig = go.Figure()
 
-        fig_new.update_layout(
+        fig.add_trace(go.Scatter(
+            x=df["Year"],
+            y=df["Test Failures"],
+            mode="lines+markers",
+            marker=dict(size=8),
+            name="Test Failures"
+        ))
+
+        fig.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
-                #'text': "text here",
+                'text': "Number of Test Failures Over Time",
                 'font': {
                 'size': 24  # Set title size larger
                 },
@@ -171,13 +161,15 @@ def display_module(modules):
             #xaxis_title="Product",
             #yaxis_title="Coffee Consumption (kg per capita)",
             xaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
-            yaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
-            },
+            yaxis=dict(
+                title="Number of Test Failures",
+                autorange="reversed",  # Invert the y-axis
+                tickfont=dict(size=18),
+                titlefont=dict(size=18)
+            ),
             legend={
                 'title': {
                     'font': {'color': 'black'}  # Set legend title font color to black
@@ -187,36 +179,29 @@ def display_module(modules):
             height=500  # Set the height of the chart
         )
 
-        # Update traces to increase label size
-        fig_new.update_traces(
-            textfont={
-                'size': 18  # Increase the size of the labels
-            }
-        )
-         # Deactivate mode bar in the plotly chart
+        # Deactivate mode bar in the plotly chart
         config = {
             'displayModeBar': False  # This will hide the toolbar
         }
 
-        # Display the figure in Streamlit
-        st.plotly_chart(fig_new, config=config)
+        # Display the misleading figure with a unique key
+        st.plotly_chart(fig, config=config, key="misleading_chart")
 
-        # Create the scatter plot for the new example
-        fig_better = px.scatter(
-            df_new,
-            x="Hours Studied",
-            y="Exam Scores",
-            title="Relationship Between Hours Studied and Exam Scores",
-            labels={"Hours Studied": "Hours Studied (per day)", "Exam Scores": "Exam Scores (%)"},
-            opacity=0.5
-        )
-        # Increase the size of the data points
-        fig_better.update_traces(marker=dict(size=12))  # Set marker size to 12
+        # Create the misleading chart with an inverted y-axis
+        fig_correct = go.Figure()
 
-        fig_better.update_layout(
+        fig_correct.add_trace(go.Scatter(
+            x=df["Year"],
+            y=df["Test Failures"],
+            mode="lines+markers",
+            marker=dict(size=8),
+            name="Test Failures"
+        ))
+
+        fig_correct.update_layout(
             #title="Average Coffee Consumption in Selected Countries",
             title={
-                #'text': "text here",
+                'text': "Number of Test Failures Over Time",
                 'font': {
                 'size': 24  # Set title size larger
                 },
@@ -225,13 +210,15 @@ def display_module(modules):
             #xaxis_title="Product",
             #yaxis_title="Coffee Consumption (kg per capita)",
             xaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
-            yaxis={
-                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
-            },
+            yaxis=dict(
+                title="Number of Test Failures",
+                #autorange="reversed",  # Invert the y-axis
+                tickfont=dict(size=18),
+                titlefont=dict(size=18)
+            ),
             legend={
                 'title': {
                     'font': {'color': 'black'}  # Set legend title font color to black
@@ -240,21 +227,11 @@ def display_module(modules):
             width=800,  # Set the width of the chart
             height=500  # Set the height of the chart
         )
-
-        # Update traces to increase label size
-        fig_better.update_traces(
-            textfont={
-                'size': 13  # Increase the size of the labels
-            }
-        )
-         # Deactivate mode bar in the plotly chart
+        # Deactivate mode bar in the plotly chart
         config = {
             'displayModeBar': False  # This will hide the toolbar
         }
 
         # Display the figure in Streamlit
-        st.plotly_chart(fig_better, config=config)
-
+        st.plotly_chart(fig_correct, config=config, key="correct_chart")
  """
-
-  

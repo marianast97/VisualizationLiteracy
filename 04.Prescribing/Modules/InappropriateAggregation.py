@@ -43,24 +43,24 @@ def display_module(modules):
     # Check if the current subpage index is within the dynamic range
     if 0 <= current_subpage_index < num_files:
 
-        st.markdown(
-        """
-        <div style="text-align: center; font-size: 20px; ">
-            Inappropriate aggregation occurs when <strong>data is combined</strong> in a way that <strong>hides important patterns or details</strong>, leading to misleading conclusions.
-        </div>
-        """,
-        unsafe_allow_html=True
-        )
-
-        # Get the pre-generated URL based on current index
-        url = image_urls[current_subpage_index]
-        
-        # Display the image using st.markdown()
-        image_markdown = f'<img src="{url}" style="width:100%;">'
-        st.markdown(image_markdown, unsafe_allow_html=True)
-
         # Conditionally display the second text on the last and penultimate pages
         if current_subpage_index in {num_files - 1, num_files - 2}:
+
+            st.markdown(
+            """
+            <div style="text-align: center; font-size: 20px; ">
+                Inappropriate aggregation occurs when <strong>data is combined</strong> in a way that <strong>hides important patterns or details</strong>, leading to misleading conclusions.
+            </div>
+            """,
+            unsafe_allow_html=True
+            )
+
+            # Get the pre-generated URL based on current index
+            url = image_urls[current_subpage_index]
+            
+            # Display the image using st.markdown()
+            image_markdown = f'<img src="{url}" style="width:100%;">'
+            st.markdown(image_markdown, unsafe_allow_html=True)
             
             st.markdown(
             """
@@ -72,6 +72,22 @@ def display_module(modules):
             )
 
         else:
+            st.markdown(
+            """
+            <div style="text-align: center; font-size: 20px; ">
+                Inappropriate aggregation occurs when <strong>data is combined</strong> in a way that <strong>hides important patterns or details</strong>, leading to misleading conclusions.
+            </div>
+            """,
+            unsafe_allow_html=True
+            )
+
+            # Get the pre-generated URL based on current index
+            url = image_urls[current_subpage_index]
+            
+            # Display the image using st.markdown()
+            image_markdown = f'<img src="{url}" style="width:100%;">'
+            st.markdown(image_markdown, unsafe_allow_html=True)
+            
             st.markdown(
                 """
                 <div style="text-align: center; font-size: 20px;">

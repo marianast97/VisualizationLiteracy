@@ -4,9 +4,9 @@ import pandas as pd
 from API_LimeSurvey import get_session_key, release_session_key, fetch_responses
 from utils import get_score_icon, all_subpages_accessed, initialize_session_state
 from Modules import BarChart, AreaChart, PieChart, LineChart, Maps, ScatterPlot, StackedBarChart  # type: ignore
-from Modules import CherryPicking, ConcealedUncertainty, InappropriateAggregation, MisleadingAnnotation  # type: ignore
+from Modules import CherryPicking, ConcealedUncertainty, FalseAggregation, MisleadingAnnotation  # type: ignore
 from Modules import MissingData, TruncatedAxis, MissingNormalization, Overplotting  # type: ignore
-from Modules import InappropriateScaleDirection, InappropriateScaleFunction, InappropriateScaleOrder  # type: ignore
+from Modules import FalseScaleDirection, FalseScaleFunction, FalseScaleOrder  # type: ignore
 import plotly.graph_objects as go
 
 st.set_page_config(
@@ -86,10 +86,10 @@ basics = {
 pitfalls = {
     'Cherry Picking': 2,
     'Concealed Uncertainty': 0,
-    'Inappropriate Aggregation': 0,
-    'Inappropriate Scale Order': 0,
-    'Inappropriate Scale Function': 0,
-    'Inappropriate Scale Direction': 0,
+    'False Aggregation': 0,
+    'False Scale Order': 0,
+    'False Scale Function': 0,
+    'False Scale Direction': 0,
     'Misleading Annotation': 0,
     'Missing Data': 1,
     'Missing Normalization': 0,
@@ -106,10 +106,10 @@ ScatterPlotSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart']
 StackedBarChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 3 + ['Module Completed']
 CherryPickingSubpages = [''] * 5 + ['Module Completed']
 ConcealedUncertaintySubpages = [''] * 5 + ['Module Completed']
-InappropriateAggregationSubpages =  [''] * 6 + ['Module Completed']
-InappropriateScaleOrderSubpages = [''] * 6 + ['Module Completed']
-InappropriateScaleFunctionSubpages = [''] * 6 + ['Module Completed']
-InappropriateScaleDirectionSubpages = [''] * 6 + ['Module Completed']
+FalseAggregationSubpages =  [''] * 6 + ['Module Completed']
+FalseScaleOrderSubpages = [''] * 6 + ['Module Completed']
+FalseScaleFunctionSubpages = [''] * 6 + ['Module Completed']
+FalseScaleDirectionSubpages = [''] * 6 + ['Module Completed']
 MisleadingAnnotationSubpages =  [''] * 5 + ['Module Completed']
 MissingDataSubpages =  [''] * 6 + ['Module Completed']
 MissingNormalizationSubpages =  [''] * 6 + ['Module Completed']
@@ -128,10 +128,10 @@ modules = {
     'Stacked Bar Chart': StackedBarChartSubpages,
     'Cherry Picking': CherryPickingSubpages,
     'Concealed Uncertainty': ConcealedUncertaintySubpages,
-    'Inappropriate Aggregation': InappropriateAggregationSubpages,
-    'Inappropriate Scale Order': InappropriateScaleOrderSubpages,
-    'Inappropriate Scale Function': InappropriateScaleFunctionSubpages,
-    'Inappropriate Scale Direction': InappropriateScaleDirectionSubpages,
+    'False Aggregation': FalseAggregationSubpages,
+    'False Scale Order': FalseScaleOrderSubpages,
+    'False Scale Function': FalseScaleFunctionSubpages,
+    'False Scale Direction': FalseScaleDirectionSubpages,
     'Misleading Annotation': MisleadingAnnotationSubpages,
     'Missing Data': MissingDataSubpages,
     'Missing Normalization': MissingNormalizationSubpages,
@@ -259,10 +259,10 @@ module_display_mapping = {
     'Stacked Bar Chart': StackedBarChart.display_module,
     'Cherry Picking': CherryPicking.display_module,
     'Concealed Uncertainty': ConcealedUncertainty.display_module,
-    'Inappropriate Aggregation': InappropriateAggregation.display_module,
-    'Inappropriate Scale Order': InappropriateScaleOrder.display_module,
-    'Inappropriate Scale Function': InappropriateScaleFunction.display_module,
-    'Inappropriate Scale Direction': InappropriateScaleDirection.display_module,
+    'False Aggregation': FalseAggregation.display_module,
+    'False Scale Order': FalseScaleOrder.display_module,
+    'False Scale Function': FalseScaleFunction.display_module,
+    'False Scale Direction': FalseScaleDirection.display_module,
     'Misleading Annotation': MisleadingAnnotation.display_module,
     'Missing Data': MissingData.display_module,
     'Missing Normalization': MissingNormalization.display_module,
@@ -274,33 +274,61 @@ st.sidebar.markdown('<span id="home-button-after"></span>', unsafe_allow_html=Tr
 if st.sidebar.button("Home: My Scores"):
     st.session_state['selected_module'] = 'Home: My Scores'
 
-# Sidebar Basics section
-st.sidebar.header("Top Recommended")
+# Define the main sections and their subcategories
+sections = {
+    "Top Recommended": ["Recommended: Basics", "Recommended: Common Pitfalls"],
+    "Others": ["Other: Basics", "Other: Pitfalls"],
+}
 
-st.sidebar.subheader("Basics")
-for module, score in recommended_basics.items():
-    score_icon = get_score_icon(score)
-    accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
-    
-    col1, col2 = st.sidebar.columns([0.6, 4])
-    with col1:
-        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
-    with col2:
-        if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
-            st.session_state['selected_module'] = module
+# Render the sidebar content
+for main_section, sub_sections in sections.items():
+    # Render the main section header
+    st.sidebar.markdown(f"<h1 style='font-size: 22px; color: #333;'>{main_section}</h1>", unsafe_allow_html=True)
 
-# Sidebar Common Pitfalls section
-st.sidebar.subheader("Common Pitfalls")
-for module, score in recommended_pitfalls.items():
-    score_icon = get_score_icon(score)
-    accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
-    
-    col1, col2 = st.sidebar.columns([0.6, 4])
-    with col1:
-        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
-    with col2:
-        if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
-            st.session_state['selected_module'] = module
+    if main_section == "Top Recommended":
+        # Counter for the order of recommendation
+        recommendation_order = 1
+
+        # Display all modules directly for "Top Recommended"
+        for sub_section in sub_sections:
+            for module in categorized_modules.get(sub_section, []):
+                # Determine score and accessed status
+                score = basics.get(module, pitfalls.get(module, 0))  # Get the score from basics or pitfalls
+                score_icon = get_score_icon(score)
+                accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
+
+                # Display module button with icon and recommendation order
+                col1, col2, col3 = st.sidebar.columns([0.1, 0.8, 3.8])  # Adjust column widths
+                with col1:
+                    st.markdown(f"<p font-size: 20px;'>{recommendation_order}</p>", unsafe_allow_html=True) #style='text-align: center; 
+                with col2:
+                    st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+                with col3:
+                    if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
+                        st.session_state['selected_module'] = module
+
+                recommendation_order += 1
+    else:
+        # Render subcategories for "Others"
+        for sub_section in sub_sections:
+            # Render the sub-section header
+            render_section_header(main_section, sub_section.split(": ")[1])  # Extract "Basics" or "Common Pitfalls"
+            # Display modules under the sub-section
+            for module in categorized_modules.get(sub_section, []):
+                # Determine score and accessed status
+                score = basics.get(module, pitfalls.get(module, 0))  # Get the score from basics or pitfalls
+                score_icon = get_score_icon(score)
+                accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
+
+                # Display module button with icon
+                col1, col2, col3 = st.sidebar.columns([0.1, 0.8, 3.8])  # Adjust column widths
+                with col1:
+                    st.markdown("")  # Leave empty for "Others" as no order is needed
+                with col2:
+                    st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+                with col3:
+                    if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
+                        st.session_state['selected_module'] = module
 
 # Display content based on selection
 selected_module = st.session_state['selected_module']
