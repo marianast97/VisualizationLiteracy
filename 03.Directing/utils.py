@@ -106,11 +106,11 @@ IMAGE_FILES = {
         for i in range(1, 8)
     ],
     "FalseScaleFunction": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseScaleDirection/FalseScaleDirection%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseScaleFunction/FalseScaleFunction%20({i}).png"
         for i in range(1, 8)
     ],
     "FalseScaleOrder": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseScaleDirection/FalseScaleDirection%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseScaleOrder/FalseScaleOrder%20({i}).png"
         for i in range(1, 8)
     ],
     "LineChart": [

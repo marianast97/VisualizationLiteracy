@@ -97,20 +97,20 @@ IMAGE_FILES = {
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/ConcealedUncertainty/ConcealedUncertainty%20({i}).png"
         for i in range(1, 7)
     ],
-    "InappropriateAggregation": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/InappropriateAggregation/InappropriateAggregation%20({i}).png"
+    "FalseAggregation": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseAggregation/FalseAggregation%20({i}).png"
         for i in range(1, 8)
     ],
-    "InappropriateScaleDirection": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/InappropriateScaleDirection/InappropriateScaleDirection%20({i}).png"
+    "FalseScaleDirection": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseScaleDirection/FalseScaleDirection%20({i}).png"
         for i in range(1, 8)
     ],
-    "InappropriateScaleFunction": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/InappropriateScaleFunction/InappropriateScaleFunction%20({i}).png"
+    "FalseScaleFunction": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseScaleFunction/FalseScaleFunction%20({i}).png"
         for i in range(1, 8)
     ],
-    "InappropriateScaleOrder": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/InappropriateScaleOrder/InappropriateScaleOrder%20({i}).png"
+    "FalseScaleOrder": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseScaleOrder/FalseScaleOrder%20({i}).png"
         for i in range(1, 8)
     ],
     "LineChart": [
