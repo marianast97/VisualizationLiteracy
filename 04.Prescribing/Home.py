@@ -104,17 +104,17 @@ MapsSubpages = ['Anatomy'] * 5 + ['Common Tasks associated to Bar Chart'] * 3 + 
 PieChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 5 + ['Module Completed']
 ScatterPlotSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
 StackedBarChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 3 + ['Module Completed']
-CherryPickingSubpages = [''] * 5 + ['Module Completed']
-ConcealedUncertaintySubpages = [''] * 5 + ['Module Completed']
-FalseAggregationSubpages =  [''] * 6 + ['Module Completed']
-FalseScaleOrderSubpages = [''] * 6 + ['Module Completed']
-FalseScaleFunctionSubpages = [''] * 6 + ['Module Completed']
-FalseScaleDirectionSubpages = [''] * 6 + ['Module Completed']
-MisleadingAnnotationSubpages =  [''] * 5 + ['Module Completed']
-MissingDataSubpages =  [''] * 6 + ['Module Completed']
-MissingNormalizationSubpages =  [''] * 6 + ['Module Completed']
-OverplottingSubpages =  [''] * 5 + ['Module Completed']
-TruncatedAxisSubpages =  [''] * 6 + ['Module Completed']
+CherryPickingSubpages = [''] * 6 + ['Module Completed']
+ConcealedUncertaintySubpages = [''] * 6 + ['Module Completed']
+FalseAggregationSubpages =  [''] * 7 + ['Module Completed']
+FalseScaleOrderSubpages = [''] * 7 + ['Module Completed']
+FalseScaleFunctionSubpages = [''] * 7 + ['Module Completed']
+FalseScaleDirectionSubpages = [''] * 7 + ['Module Completed']
+MisleadingAnnotationSubpages =  [''] * 6 + ['Module Completed']
+MissingDataSubpages =  [''] * 7 + ['Module Completed']
+MissingNormalizationSubpages =  [''] * 7 + ['Module Completed']
+OverplottingSubpages =  [''] * 6 + ['Module Completed']
+TruncatedAxisSubpages =  [''] * 7 + ['Module Completed']
 
 
 
@@ -139,6 +139,7 @@ modules = {
     'Truncated Axis': TruncatedAxisSubpages,
 }
 
+
 # Filter modules for recommended basics and pitfalls (score == 0)
 recommended_basics = {k: v for k, v in basics.items() if v >= 1}
 recommended_pitfalls = {k: v for k, v in pitfalls.items() if v >= 1}
@@ -152,8 +153,9 @@ filtered_modules = {
 
 
 # Define the URLs of your custom icons
-icon_well_done = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/Icons/NotRecommended.png"
-icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/Icons/Recommended.png"
+icon_well_done   = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/04.Prescribing/Icons/NotRecommended.png"
+
+icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/04.Prescribing/Icons/Recommended.png"
 
 
 
@@ -274,61 +276,34 @@ st.sidebar.markdown('<span id="home-button-after"></span>', unsafe_allow_html=Tr
 if st.sidebar.button("Home: My Scores"):
     st.session_state['selected_module'] = 'Home: My Scores'
 
-# Define the main sections and their subcategories
-sections = {
-    "Top Recommended": ["Recommended: Basics", "Recommended: Common Pitfalls"],
-    "Others": ["Other: Basics", "Other: Pitfalls"],
-}
+# Sidebar Basics section
+#st.sidebar.header("Top Recommended")
 
-# Render the sidebar content
-for main_section, sub_sections in sections.items():
-    # Render the main section header
-    st.sidebar.markdown(f"<h1 style='font-size: 22px; color: #333;'>{main_section}</h1>", unsafe_allow_html=True)
+st.sidebar.subheader("Basics")
+for module, score in recommended_basics.items():
+    score_icon = get_score_icon(score)
+    accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
+    
+    col1, col2 = st.sidebar.columns([0.6, 4])
+    with col1:
+        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+    with col2:
+        if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
+            st.session_state['selected_module'] = module
 
-    if main_section == "Top Recommended":
-        # Counter for the order of recommendation
-        recommendation_order = 1
+# Sidebar Common Pitfalls section
+st.sidebar.subheader("Common Pitfalls")
+for module, score in recommended_pitfalls.items():
+    score_icon = get_score_icon(score)
+    accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
+    
+    col1, col2 = st.sidebar.columns([0.6, 4])
+    with col1:
+        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+    with col2:
+        if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
+            st.session_state['selected_module'] = module
 
-        # Display all modules directly for "Top Recommended"
-        for sub_section in sub_sections:
-            for module in categorized_modules.get(sub_section, []):
-                # Determine score and accessed status
-                score = basics.get(module, pitfalls.get(module, 0))  # Get the score from basics or pitfalls
-                score_icon = get_score_icon(score)
-                accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
-
-                # Display module button with icon and recommendation order
-                col1, col2, col3 = st.sidebar.columns([0.1, 0.8, 3.8])  # Adjust column widths
-                with col1:
-                    st.markdown(f"<p font-size: 20px;'>{recommendation_order}</p>", unsafe_allow_html=True) #style='text-align: center; 
-                with col2:
-                    st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
-                with col3:
-                    if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
-                        st.session_state['selected_module'] = module
-
-                recommendation_order += 1
-    else:
-        # Render subcategories for "Others"
-        for sub_section in sub_sections:
-            # Render the sub-section header
-            render_section_header(main_section, sub_section.split(": ")[1])  # Extract "Basics" or "Common Pitfalls"
-            # Display modules under the sub-section
-            for module in categorized_modules.get(sub_section, []):
-                # Determine score and accessed status
-                score = basics.get(module, pitfalls.get(module, 0))  # Get the score from basics or pitfalls
-                score_icon = get_score_icon(score)
-                accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
-
-                # Display module button with icon
-                col1, col2, col3 = st.sidebar.columns([0.1, 0.8, 3.8])  # Adjust column widths
-                with col1:
-                    st.markdown("")  # Leave empty for "Others" as no order is needed
-                with col2:
-                    st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
-                with col3:
-                    if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
-                        st.session_state['selected_module'] = module
 
 # Display content based on selection
 selected_module = st.session_state['selected_module']
@@ -336,11 +311,21 @@ selected_module = st.session_state['selected_module']
 if selected_module == 'Home: My Scores':
     # Center the title
     st.markdown(f"<h1 style='text-align: center;'>{'Visualization Literacy Assessment'}</h1>", unsafe_allow_html=True)
+            
+    st.markdown(
+            """
+            <div style="text-align: center; font-size: 20px; ">
+                <strong>Visualization Literacy</strong> is the ability to understand, interpret and think critically about visual representations of data, enabling the discovery of patterns and insights.
+                By mastering it, we can simplify complex information, promote informed collaboration, and challenge misleading visuals for a  <b>more critical</b> and  <b>informed society</b>.
+            </div>
+            """,
+            unsafe_allow_html=True
+            )
     
     # Add the Plotly gauge chart with improved styling and black numbers
     fig = go.Figure(go.Indicator(
         mode="gauge+number",
-        value=user_score,  # Replace with your desired score variable if needed
+        value=25,  # Replace with your desired score variable if needed
         number={'font': {'color': 'black', 'size': 100}},  # Set the inside value to black and larger size
         domain={'x': [0, 1], 'y': [0, 1]},
         title={'text': "My Scores", 'font': {'size': 26, 'color': "#2b2b2b"}},  # Modern font and color for the title
@@ -359,7 +344,7 @@ if selected_module == 'Home: My Scores':
             'threshold': {
                 'line': {'color': "#ff6666", 'width': 6},  # Soft red threshold line
                 'thickness': 0.75,
-                'value': user_score  # Replace with your dynamic score if needed
+                'value': 25  # Replace with your dynamic score if needed
             }
         }
     ))
@@ -381,11 +366,23 @@ if selected_module == 'Home: My Scores':
 
     # Add the message with styled text and emoji below the gauge chart
     st.markdown(f"""
-        ### Keep Learning!
-        To get further insights into Visualization Literacy and improve your scores, check out the content by navigating through the menu on the left.
-        
-
+        ### Let's improve your skills!        
     """, unsafe_allow_html=True)
+
+    st.markdown(f"<p style='text-align: left; font-size: 20px;'>{'To get further insights into Visualization Literacy, check out the content by navigating through the menu on the left.'}</p>", unsafe_allow_html=True)
+
+    st.info("Once you feel confident with your learning, proceed to the Final Assessment located at the bottom of the sidebar.")
+
+    st.markdown(f"""
+        ###### Legend:
+        <div style="display: flex; justify-content: space-evenly; align-items: left;">
+            <div style="color:black;">
+                <img src="{icon_improvement}" width="22px"> Module recommended: you might get some new insights!
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+
+
 
 else:
     # Load only the selected module's content

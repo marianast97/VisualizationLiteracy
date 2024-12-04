@@ -104,17 +104,17 @@ MapsSubpages = ['Anatomy'] * 5 + ['Common Tasks associated to Bar Chart'] * 3 + 
 PieChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 5 + ['Module Completed']
 ScatterPlotSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
 StackedBarChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 3 + ['Module Completed']
-CherryPickingSubpages = [''] * 5 + ['Module Completed']
-ConcealedUncertaintySubpages = [''] * 5 + ['Module Completed']
-FalseAggregationSubpages =  [''] * 6 + ['Module Completed']
-FalseScaleOrderSubpages = [''] * 6 + ['Module Completed']
-FalseScaleFunctionSubpages = [''] * 6 + ['Module Completed']
-FalseScaleDirectionSubpages = [''] * 6 + ['Module Completed']
-MisleadingAnnotationSubpages =  [''] * 5 + ['Module Completed']
-MissingDataSubpages =  [''] * 6 + ['Module Completed']
-MissingNormalizationSubpages =  [''] * 6 + ['Module Completed']
-OverplottingSubpages =  [''] * 5 + ['Module Completed']
-TruncatedAxisSubpages =  [''] * 6 + ['Module Completed']
+CherryPickingSubpages = [''] * 6 + ['Module Completed']
+ConcealedUncertaintySubpages = [''] * 6 + ['Module Completed']
+FalseAggregationSubpages =  [''] * 7 + ['Module Completed']
+FalseScaleOrderSubpages = [''] * 7 + ['Module Completed']
+FalseScaleFunctionSubpages = [''] * 7 + ['Module Completed']
+FalseScaleDirectionSubpages = [''] * 7 + ['Module Completed']
+MisleadingAnnotationSubpages =  [''] * 6 + ['Module Completed']
+MissingDataSubpages =  [''] * 7 + ['Module Completed']
+MissingNormalizationSubpages =  [''] * 7 + ['Module Completed']
+OverplottingSubpages =  [''] * 6 + ['Module Completed']
+TruncatedAxisSubpages =  [''] * 7 + ['Module Completed']
 
 
 
@@ -293,12 +293,36 @@ selected_module = st.session_state['selected_module']
 
 if selected_module == 'Home: My Scores':
     # Center the title
+    #st.markdown(f"<p style='text-align: center; font-size: 24px;'>{'You have completed the assessment!'}</p>", unsafe_allow_html=True)
+
     st.markdown(f"<h1 style='text-align: center;'>{'Visualization Literacy Assessment'}</h1>", unsafe_allow_html=True)
-    
+            
+    st.markdown(
+            """
+            <div style="text-align: center; font-size: 20px; ">
+                <strong>Visualization Literacy</strong> is the ability to understand, interpret and think critically about visual representations of data, enabling the discovery of patterns and insights.
+                By mastering it, we can simplify complex information, promote informed collaboration, and challenge misleading visuals for a  <b>more critical</b> and  <b>informed society</b>.
+            </div>
+            """,
+            unsafe_allow_html=True
+            )
+                    
+    # st.markdown("""
+    # <p style='text-align: center; font-size: 18px;'>
+    # <b>Visualization Literacy</b> is the skill to understand, interpret, and create visual representations of data, enabling the discovery of patterns and insights.
+    # </p>
+    # <p style='text-align: center; font-size: 18px;'>
+    # It empowers individuals and organizations to make better decisions, communicate effectively, and foster broader understanding.
+    # </p>
+    # <p style='text-align: center; font-size: 18px;'>
+    # By mastering it, we can simplify complex information, promote informed collaboration, and challenge misleading visuals for a  <b>more critical</b> and  <b>informed society</b>.
+    # </p>
+    # """, unsafe_allow_html=True)
+
     # Add the Plotly gauge chart with improved styling and black numbers
     fig = go.Figure(go.Indicator(
         mode="gauge+number",
-        value=user_score,  # Replace with your desired score variable if needed
+        value=25,  # Replace with your desired score variable if needed #user_score
         number={'font': {'color': 'black', 'size': 100}},  # Set the inside value to black and larger size
         domain={'x': [0, 1], 'y': [0, 1]},
         title={'text': "My Scores", 'font': {'size': 26, 'color': "#2b2b2b"}},  # Modern font and color for the title
@@ -317,7 +341,7 @@ if selected_module == 'Home: My Scores':
             'threshold': {
                 'line': {'color': "#ff6666", 'width': 6},  # Soft red threshold line
                 'thickness': 0.75,
-                'value': user_score  # Replace with your dynamic score if needed
+                'value': 25  # Replace with your dynamic score if needed
             }
         }
     ))
@@ -339,10 +363,15 @@ if selected_module == 'Home: My Scores':
 
     # Add the message with styled text and emoji below the gauge chart
     st.markdown(f"""
-        ### Keep Learning!
-        To get further insights into Visualization Literacy and improve your scores, check out the content by navigating through the menu on the left.
-        
+        ### Let's improve your skills!        
     """, unsafe_allow_html=True)
+
+    st.markdown(f"<p style='text-align: left; font-size: 20px;'>{'To get further insights into Visualization Literacy, check out the content by navigating through the menu on the left.'}</p>", unsafe_allow_html=True)
+
+    st.info("Once you feel confident with your learning, proceed to the Final Assessment located at the bottom of the sidebar.")
+
+
+
 
 else:
     # Load only the selected module's content

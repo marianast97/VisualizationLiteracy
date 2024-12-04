@@ -151,6 +151,6 @@ IMAGE_FILES = {
     ],
     "TruncatedAxis": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/TruncatedAxis/TruncatedAxis%20({i}).png"
-        for i in range(1, 8)
+        for i in range(1, 9)
     ],
 }

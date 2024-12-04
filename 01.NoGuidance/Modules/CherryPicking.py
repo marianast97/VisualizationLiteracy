@@ -44,7 +44,7 @@ def display_module(modules):
     if 0 <= current_subpage_index < num_files:
 
         # Conditionally display the second text on the last and penultimate pages
-        if current_subpage_index in {num_files - 1}:
+        if current_subpage_index in {num_files - 1, num_files - 2}:
 
             st.markdown(
             """
