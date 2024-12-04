@@ -325,8 +325,9 @@ sections = {
 for main_section, sub_sections in sections.items():
     # Add a divider before the "Others" section
     if main_section == "Others":
+        st.sidebar.markdown(f"<h1 style='font-size: 22px; color: #333;'>{main_section}</h1>", unsafe_allow_html=True)
         #st.sidebar.markdown("<hr style='border: 1px solid #ccc;'>", unsafe_allow_html=True)  # Divider line
-        st.sidebar.subheader("", divider="red")
+        #st.sidebar.subheader("", divider="red")
 
     
     # Render the main section header (optional)
