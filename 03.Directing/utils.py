@@ -83,7 +83,7 @@ def all_subpages_accessed(module_name, modules):
 IMAGE_FILES = {
     "CherryPicking": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/CherryPicking/CherryPicking%20({i}).png"
-        for i in range(1, 7)
+        for i in range(1, 8)
     ],
     "AreaChart": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/AreaChart/AreaChart%20({i}).png"
@@ -95,23 +95,23 @@ IMAGE_FILES = {
     ],
     "ConcealedUncertainty": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/ConcealedUncertainty/ConcealedUncertainty%20({i}).png"
-        for i in range(1, 7)
+        for i in range(1, 8)
     ],
     "FalseAggregation": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseAggregation/FalseAggregation%20({i}).png"
-        for i in range(1, 8)
+        for i in range(1, 9)
     ],
     "FalseScaleDirection": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseScaleDirection/FalseScaleDirection%20({i}).png"
-        for i in range(1, 8)
+        for i in range(1, 9)
     ],
     "FalseScaleFunction": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseScaleFunction/FalseScaleFunction%20({i}).png"
-        for i in range(1, 8)
+        for i in range(1, 9)
     ],
     "FalseScaleOrder": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseScaleOrder/FalseScaleOrder%20({i}).png"
-        for i in range(1, 8)
+        for i in range(1, 9)
     ],
     "LineChart": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/LineChart/LineChart%20({i}).png"
@@ -123,19 +123,19 @@ IMAGE_FILES = {
     ],
     "MisleadingAnnotation": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/MisleadingAnnotation/MisleadingAnnotation%20({i}).png"
-        for i in range(1, 7)
+        for i in range(1, 8)
     ],
     "MissingData": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/MissingData/MissingData%20({i}).png"
-        for i in range(1, 8)
+        for i in range(1, 9)
     ],
     "MissingNormalization": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/MissingNormalization/MissingNormalization%20({i}).png"
-        for i in range(1, 8)
+        for i in range(1, 9)
     ],
     "Overplotting": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/Overplotting/Overplotting%20({i}).png"
-        for i in range(1, 7)
+        for i in range(1, 8)
     ],
     "PieChart": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/PieChart/PieChart%20({i}).png"
