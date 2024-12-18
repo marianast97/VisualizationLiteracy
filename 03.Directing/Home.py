@@ -343,11 +343,15 @@ for main_section, sub_sections in sections.items():
         for module in categorized_modules.get(sub_section, []):
             # Determine score and accessed status
             score = basics.get(module, pitfalls.get(module, 0))  # Get the score from basics or pitfalls
-            score_icon = get_score_icon(score)
+            #score_icon = get_score_icon(score)
+            #accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
+
             accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
 
+            score_icon = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/03.Directing/Icons/book-solid-gray.svg" if all_subpages_accessed(module, modules) and score>0 else get_score_icon(score)
+
             # Display module button with icon
-            col1, col2 = st.sidebar.columns([0.6, 4])
+            col1, col2 = st.sidebar.columns([0.5, 4])
             with col1:
                 st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
             with col2:
@@ -423,19 +427,21 @@ if selected_module == 'Home: My Scores':
 
     st.markdown(f"<p style='text-align: left; font-size: 20px;'>{'To get further insights into Visualization Literacy, check out the content by navigating through the menu on the left.'}</p>", unsafe_allow_html=True)
 
-    st.info("Once you feel confident with your learning, proceed to the Final Assessment located at the bottom of the sidebar.")
-
     st.markdown(f"""
-        ###### Legend:
-        <div style="display: flex; justify-content: space-evenly; align-items: left; gap: 5px;">
-            <div style="color:black;">
-                <img src="{icon_well_done}" width="22px"> Well done! You seem to master this topic!
-            </div>
-            <div style="color:black;">
-                <img src="{icon_improvement}" width="22px"> Module recommended: you might get some new insights!
-            </div>
+    <div style="text-align: left; align-items: left; font-size: 20px;">
+        <div style="margin-bottom: 5px;">
+            Note: The Icon <img src="{icon_improvement}" width="15px" style="vertical-align: middle; margin-right: 5px; margin-left: 5px;"> indicates that the module is recommended based on your assessment.
         </div>
+    </div>
     """, unsafe_allow_html=True)
+
+    # Add the message with styled text and emoji below the gauge chart
+    st.markdown(f"""
+        ###       
+    """, unsafe_allow_html=True)
+
+
+    st.info("Once you feel confident with your learning, proceed to the Final Assessment located at the bottom of the sidebar.")
 
 
 

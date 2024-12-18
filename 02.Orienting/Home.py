@@ -143,7 +143,7 @@ modules = {
 # Define the URLs of your custom icons
 icon_well_done   = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/Icons/NotRecommended.png"
 
-icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/Icons/Recommended.png"
+icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/Icons/book-solid.svg"
 
 # Add custom CSS to target a specific button using a span element         
 st.markdown("""
@@ -265,12 +265,27 @@ if st.sidebar.button("Home: My Scores"):
 # Sidebar Basics section
 st.sidebar.subheader("Basics")
 for module, score in basics.items():
-    score_icon = get_score_icon(score)
+    #score_icon = get_score_icon(score)
+    
     accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
     
-    col1, col2 = st.sidebar.columns([0.6, 4])
+    score_icon = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/Icons/book-solid-gray.svg" if all_subpages_accessed(module, modules) else get_score_icon(score)
+
+    col1, col2 = st.sidebar.columns([0.5, 4])
     with col1:
-        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+        #st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+        # Center-align the icon using HTML and CSS
+        st.markdown(f"""
+        <div style="
+            margin-top: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 35px;  /* Ensure icon height matches button height */
+            width: 35px;">
+            <img src="{score_icon}" width="35px" style="vertical-align: middle;">
+        </div>
+        """, unsafe_allow_html=True)
     with col2:
         if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
             st.session_state['selected_module'] = module
@@ -278,12 +293,30 @@ for module, score in basics.items():
 # Sidebar Common Pitfalls section
 st.sidebar.subheader("Common Pitfalls")
 for module, score in pitfalls.items():
-    score_icon = get_score_icon(score)
+    #score_icon = get_score_icon(score)
     accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
-    
-    col1, col2 = st.sidebar.columns([0.6, 4])
+
+    score_icon = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/Icons/book-solid-gray.svg" if all_subpages_accessed(module, modules) and score>0 else get_score_icon(score)
+
+    # Use the check-solid.svg icon instead of '✔️'
+    #accessed_icon_url = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/Icons/check-solid.svg"
+    #accessed_icon = f'<img src="{accessed_icon_url}" width="15px" style="vertical-align: middle;">' if all_subpages_accessed(module, modules) else ''
+
+    col1, col2 = st.sidebar.columns([0.5, 4])
     with col1:
-        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+        #st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+        # Center-align the icon using HTML and CSS
+        st.markdown(f"""
+        <div style="
+            margin-top: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 35px;  /* Ensure icon height matches button height */
+            width: 35px;">
+            <img src="{score_icon}" width="35px" style="vertical-align: middle;">
+        </div>
+        """, unsafe_allow_html=True)
     with col2:
         if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
             st.session_state['selected_module'] = module
@@ -354,19 +387,34 @@ if selected_module == 'Home: My Scores':
 
     st.markdown(f"<p style='text-align: left; font-size: 20px;'>{'To get further insights into Visualization Literacy, check out the content by navigating through the menu on the left.'}</p>", unsafe_allow_html=True)
 
+    #st.markdown(f"""
+        ###### Legend:
+    #    <div style="display: flex; justify-content: space-evenly; align-items: left; gap: 5px;">
+    #        <div style="color:black;">
+    #            <img src="{icon_well_done}" width="22px"> Well done! You seem to master this topic!
+    #        </div>
+    #        <div style="color:black;">
+    #            <img src="{icon_improvement}" width="22px"> Module recommended based on your assessment
+    #        </div>
+    #    </div>
+    #""", unsafe_allow_html=True)
+    
+    st.markdown(f"""
+    <div style="text-align: left; align-items: left; font-size: 20px;">
+        <div style="margin-bottom: 5px;">
+            Note: The Icon <img src="{icon_improvement}" width="15px" style="vertical-align: middle; margin-right: 5px; margin-left: 5px;"> indicates that the module is recommended based on your assessment.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Add the message with styled text and emoji below the gauge chart
+    st.markdown(f"""
+        ###       
+    """, unsafe_allow_html=True)
+
+
     st.info("Once you feel confident with your learning, proceed to the Final Assessment located at the bottom of the sidebar.")
 
-    st.markdown(f"""
-        ###### Legend:
-        <div style="display: flex; justify-content: space-evenly; align-items: left; gap: 5px;">
-            <div style="color:black;">
-                <img src="{icon_well_done}" width="22px"> Well done! You seem to master this topic!
-            </div>
-            <div style="color:black;">
-                <img src="{icon_improvement}" width="22px"> Module recommended: you might get some new insights!
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
 
 
 else:

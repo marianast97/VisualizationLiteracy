@@ -77,66 +77,67 @@ def display_module(modules):
     # Display current page number
     st.write(f"Page {current_subpage_index + 1} of {len(modules[selected_module])}")
 
-    #    # Add the chart for 'Bar Chart Anatomy' subpage
-    # if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
-    #     # Create the chart using Plotly
+"""         # Add the chart for 'Bar Chart Anatomy' subpage
+    if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
+        # Create the chart using Plotly
 
-    #     # Data for the pie chart with dummy names
-    #     data = {
-    #         "Streaming Platform": ["StreamHub", "WatchNow", "ViewPlus"],
-    #         "Market Share": [40, 35, 25]
-    #     }
+        # Data for the pie chart with dummy names
+        data = {
+            "Streaming Platform": ["StreamHub", "WatchNow", "ViewPlus"],
+            "Market Share": [40, 35, 25]
+        }
 
-    #     # Creating the pie chart using Plotly Express
-    #     fig = px.pie(
-    #         data, 
-    #         names="Streaming Platform", 
-    #         values="Market Share", 
-    #         title="Market Share of Streaming Platforms",
-    #         #color_discrete_sequence=["#7e2954", "#5da899", "#94cbec"]  # (Color-blind friendly)
+        # Creating the pie chart using Plotly Express
+        fig = px.pie(
+            data, 
+            names="Streaming Platform", 
+            values="Market Share", 
+            title="Market Share of Streaming Platforms",
+            color_discrete_sequence=["#7e2954", "#5da899", "#94cbec"]  # (Color-blind friendly)
 
-    #     )
+        )
 
-    #     fig.update_layout(
-    #         #title="Average Coffee Consumption in Selected Countries",
-    #         title={
-    #             #'text': "text here",
-    #             'font': {
-    #             'size': 24  # Set title size larger
-    #             },
-    #             #'x': 0.5,  # Center the title
-    #         },
-    #         #xaxis_title="Product",
-    #         #yaxis_title="Coffee Consumption (kg per capita)",
-    #         xaxis={
-    #             'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-    #             'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
-    #         },
-    #         yaxis={
-    #             'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
-    #             'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
-    #         },
-    #         legend={
-    #             'title': {
-    #                 'font': {'color': 'black'}  # Set legend title font color to black
-    #             }
-    #         },
-    #         width=800,  # Set the width of the chart
-    #         height=500  # Set the height of the chart
-    #     )
+        fig.update_layout(
+            #title="Average Coffee Consumption in Selected Countries",
+            title={
+                #'text': "text here",
+                'font': {
+                'size': 24  # Set title size larger
+                },
+                #'x': 0.5,  # Center the title
+            },
+            #xaxis_title="Product",
+            #yaxis_title="Coffee Consumption (kg per capita)",
+            xaxis={
+                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+            },
+            yaxis={
+                'tickfont': {'color': 'black', 'size': 14},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 16},  # Set axis title font to black and slightly larger
+            },
+            legend={
+                'title': {
+                    'font': {'color': 'black'}  # Set legend title font color to black
+                }
+            },
+            width=800,  # Set the width of the chart
+            height=500  # Set the height of the chart
+        )
 
-    #     # Update traces to increase label size
-    #     fig.update_traces(
-    #         textfont={
-    #             'size': 18  # Increase the size of the labels
-    #         }
-    #     )
-    #      # Deactivate mode bar in the plotly chart
-    #     config = {
-    #         'displayModeBar': False  # This will hide the toolbar
-    #     }
+        # Update traces to increase label size
+        fig.update_traces(
+            textfont={
+                'size': 18  # Increase the size of the labels
+            }
+        )
+         # Deactivate mode bar in the plotly chart
+        config = {
+            'displayModeBar': False  # This will hide the toolbar
+        }
 
-    #     # Display the figure in Streamlit
-    #     st.plotly_chart(fig, config=config)
+        # Display the figure in Streamlit
+        st.plotly_chart(fig, config=config)
 
 
+"""

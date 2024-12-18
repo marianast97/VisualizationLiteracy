@@ -61,9 +61,10 @@ def display_subpage(module_name, subpage_index, modules):
 # Function to get an icon based on score
 def get_score_icon(score):
     if score > SCORE_THRESHOLD:
-        return f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/Icons/Recommended.png"
+        return f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/Icons/book-solid.svg"
     else:
-        return f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/Icons/NotRecommended.png"
+        return f""
+
 
 # Function to handle subpage navigation
 def navigate_subpage(module_name, direction, modules):

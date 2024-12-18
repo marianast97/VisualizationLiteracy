@@ -151,6 +151,12 @@ filtered_modules = {
     if k in recommended_basics or k in recommended_pitfalls
 }
 
+# Filter the modules dictionary to include only unfiltered modules
+unfiltered_modules = {
+    k: v
+    for k, v in modules.items()
+    if k not in recommended_basics and k not in recommended_pitfalls
+}
 
 # Define the URLs of your custom icons
 icon_well_done   = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/04.Prescribing/Icons/NotRecommended.png"
@@ -281,10 +287,14 @@ if st.sidebar.button("Home: My Scores"):
 
 st.sidebar.subheader("Basics")
 for module, score in recommended_basics.items():
-    score_icon = get_score_icon(score)
+    #score_icon = get_score_icon(score)
+    #accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
+
     accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
-    
-    col1, col2 = st.sidebar.columns([0.6, 4])
+
+    score_icon = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/04.Prescribing/Icons/book-solid-gray.svg" if all_subpages_accessed(module, modules) and score>0 else get_score_icon(score)
+
+    col1, col2 = st.sidebar.columns([0.5, 4])
     with col1:
         st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
     with col2:
@@ -294,15 +304,40 @@ for module, score in recommended_basics.items():
 # Sidebar Common Pitfalls section
 st.sidebar.subheader("Common Pitfalls")
 for module, score in recommended_pitfalls.items():
-    score_icon = get_score_icon(score)
-    accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
+    #score_icon = get_score_icon(score)
+    #accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
     
-    col1, col2 = st.sidebar.columns([0.6, 4])
+    accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
+
+    score_icon = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/04.Prescribing/Icons/book-solid-gray.svg" if all_subpages_accessed(module, modules) and score>0 else get_score_icon(score)
+
+    col1, col2 = st.sidebar.columns([0.5, 4])
     with col1:
         st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
     with col2:
         if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
             st.session_state['selected_module'] = module
+
+# Add an expander for showing all unfiltered modules in the sidebar
+with st.sidebar.expander("Show All Modules", expanded=False):
+    #st.subheader("All Modules")
+    for module in modules.keys(): #unfiltered_modules
+        accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
+        
+        # Dynamic icon logic
+        #score_icon = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/04.Prescribing/Icons/book-solid-gray.svg" \
+        #             if all_subpages_accessed(module, modules) else icon_improvement
+
+        # Use consistent layout without X markers
+        col1, col2 = st.columns([0.5, 4])
+        #with col1:
+        #    st.markdown(
+        #        f'<img src="{score_icon}" width="20px" style="vertical-align: middle; margin-right: 5px;">',
+        #        unsafe_allow_html=True
+        #    )
+        with col2:
+            if st.button(f"{module} {accessed_icon}", key=f"all_{module}_button"):
+                st.session_state['selected_module'] = module
 
 
 # Display content based on selection
@@ -371,16 +406,22 @@ if selected_module == 'Home: My Scores':
 
     st.markdown(f"<p style='text-align: left; font-size: 20px;'>{'To get further insights into Visualization Literacy, check out the content by navigating through the menu on the left.'}</p>", unsafe_allow_html=True)
 
+    st.markdown(f"""
+    <div style="text-align: left; align-items: left; font-size: 20px;">
+        <div style="margin-bottom: 5px;">
+            Note: The Icon <img src="{icon_improvement}" width="15px" style="vertical-align: middle; margin-right: 5px; margin-left: 5px;"> indicates that the module is recommended based on your assessment.
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Add the message with styled text and emoji below the gauge chart
+    st.markdown(f"""
+        ###       
+    """, unsafe_allow_html=True)
+
+
     st.info("Once you feel confident with your learning, proceed to the Final Assessment located at the bottom of the sidebar.")
 
-    st.markdown(f"""
-        ###### Legend:
-        <div style="display: flex; justify-content: space-evenly; align-items: left;">
-            <div style="color:black;">
-                <img src="{icon_improvement}" width="22px"> Module recommended: you might get some new insights!
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
 
 
 
