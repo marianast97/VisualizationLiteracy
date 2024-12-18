@@ -82,7 +82,7 @@ def all_subpages_accessed(module_name, modules):
 # Dictionary containing image files for each module
 IMAGE_FILES = {
     "CherryPicking": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/CherryPicking/CherryPicking%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/CherryPicking/CherryPicking%20({i}).png"
         for i in range(1, 8)
     ],
     "AreaChart": [
@@ -94,23 +94,23 @@ IMAGE_FILES = {
         for i in range(1, 14)
     ],
     "ConcealedUncertainty": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/ConcealedUncertainty/ConcealedUncertainty%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/ConcealedUncertainty/ConcealedUncertainty%20({i}).png"
         for i in range(1, 8)
     ],
     "FalseAggregation": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseAggregation/FalseAggregation%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/FalseAggregation/FalseAggregation%20({i}).png"
         for i in range(1, 9)
     ],
     "FalseScaleDirection": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseScaleDirection/FalseScaleDirection%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/FalseScaleDirection/FalseScaleDirection%20({i}).png"
         for i in range(1, 9)
     ],
     "FalseScaleFunction": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseScaleFunction/FalseScaleFunction%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/FalseScaleFunction/FalseScaleFunction%20({i}).png"
         for i in range(1, 9)
     ],
     "FalseScaleOrder": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/FalseScaleOrder/FalseScaleOrder%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/FalseScaleOrder/FalseScaleOrder%20({i}).png"
         for i in range(1, 9)
     ],
     "LineChart": [
@@ -122,19 +122,19 @@ IMAGE_FILES = {
         for i in range(1, 10)
     ],
     "MisleadingAnnotation": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/MisleadingAnnotation/MisleadingAnnotation%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/MisleadingAnnotation/MisleadingAnnotation%20({i}).png"
         for i in range(1, 8)
     ],
     "MissingData": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/MissingData/MissingData%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/MissingData/MissingData%20({i}).png"
         for i in range(1, 9)
     ],
     "MissingNormalization": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/MissingNormalization/MissingNormalization%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/MissingNormalization/MissingNormalization%20({i}).png"
         for i in range(1, 9)
     ],
     "Overplotting": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/Overplotting/Overplotting%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/Overplotting/Overplotting%20({i}).png"
         for i in range(1, 8)
     ],
     "PieChart": [
@@ -150,7 +150,7 @@ IMAGE_FILES = {
         for i in range(1, 12)
     ],
     "TruncatedAxis": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Misleading/LearningContent/TruncatedAxis/TruncatedAxis%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/TruncatedAxis/TruncatedAxis%20({i}).png"
         for i in range(1, 9)
     ],
 }
