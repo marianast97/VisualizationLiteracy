@@ -141,9 +141,9 @@ modules = {
 
 
 # Define the URLs of your custom icons
-icon_well_done   = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/Icons/NotRecommended.png"
+icon_well_done   = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/Icons/NotRecommended.png"
 
-icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/Icons/Recommended.png"
+icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/Icons/Recommended.png"
 
 # Add custom CSS to target a specific button using a span element         
 st.markdown("""
@@ -281,7 +281,7 @@ for module, score in pitfalls.items():
     score_icon = get_score_icon(score)
     accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
     
-    col1, col2 = st.sidebar.columns([0.1, 4])
+    col1, col2 = st.sidebar.columns([0.5, 4])
     #with col1:
     #    st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
     with col2:

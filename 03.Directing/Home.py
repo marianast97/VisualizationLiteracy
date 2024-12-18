@@ -141,9 +141,9 @@ modules = {
 
 
 # Define the URLs of your custom icons
-icon_well_done   = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/Icons/NotRecommended.png"
+icon_well_done   = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Directing/Icons/NotRecommended.png"
 
-icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/Icons/Recommended.png"
+icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/03.Directing/Icons/Recommended.png"
 
 # Add custom CSS to target a specific button using a span element         
 st.markdown("""
@@ -274,7 +274,7 @@ def render_section_header(main_header, sub_header):
     st.sidebar.markdown(
         f"""
         <div style="padding: 10px 0;">
-            <h4 style="margin: 0; font-size: 16px; color: #333;">{sub_header}</h4>
+            <h4 style="margin: 0; font-size: 18px; color: #333;">{sub_header}</h4>
         </div>
         """,
         unsafe_allow_html=True,
@@ -353,7 +353,19 @@ for main_section, sub_sections in sections.items():
             # Display module button with icon
             col1, col2 = st.sidebar.columns([0.5, 4])
             with col1:
-                st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+                #st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+                # Center-align the icon using HTML and CSS
+                st.markdown(f"""
+                <div style="
+                    margin-top: 3px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 35px;  /* Ensure icon height matches button height */
+                    width: 35px;">
+                    <img src="{score_icon}" width="35px" style="vertical-align: middle;">
+                </div>
+                """, unsafe_allow_html=True)
             with col2:
                 if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
                     st.session_state['selected_module'] = module

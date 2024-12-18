@@ -296,7 +296,19 @@ for module, score in recommended_basics.items():
 
     col1, col2 = st.sidebar.columns([0.5, 4])
     with col1:
-        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+        #st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+        # Center-align the icon using HTML and CSS
+        st.markdown(f"""
+        <div style="
+            margin-top: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 35px;  /* Ensure icon height matches button height */
+            width: 35px;">
+            <img src="{score_icon}" width="35px" style="vertical-align: middle;">
+        </div>
+        """, unsafe_allow_html=True)
     with col2:
         if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
             st.session_state['selected_module'] = module
@@ -313,7 +325,19 @@ for module, score in recommended_pitfalls.items():
 
     col1, col2 = st.sidebar.columns([0.5, 4])
     with col1:
-        st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+        #st.markdown(f'<img src="{score_icon}" width="35px">', unsafe_allow_html=True)
+        # Center-align the icon using HTML and CSS
+        st.markdown(f"""
+        <div style="
+            margin-top: 3px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 35px;  /* Ensure icon height matches button height */
+            width: 35px;">
+            <img src="{score_icon}" width="35px" style="vertical-align: middle;">
+        </div>
+        """, unsafe_allow_html=True)
     with col2:
         if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
             st.session_state['selected_module'] = module
