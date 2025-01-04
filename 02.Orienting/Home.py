@@ -71,32 +71,6 @@ sidebar_adjustment_style = """
 st.markdown(sidebar_adjustment_style, unsafe_allow_html=True)
 
 
-# Example of scores assigned to the two modules
-basics = {
-    'Area Chart': 0,
-    'Bar Chart': 0,
-    'Maps': 0,
-    'Line Chart': 0,
-    'Pie Chart': 0,
-    'Scatter Plot': 3,
-    'Stacked Bar Chart': 0,
-}
-
-# Example of scores assigned to the two modules
-pitfalls = {
-    'Cherry Picking': 2,
-    'Concealed Uncertainty': 0,
-    'False Aggregation': 0,
-    'False Scale Order': 0,
-    'False Scale Function': 0,
-    'False Scale Direction': 0,
-    'Misleading Annotation': 0,
-    'Missing Data': 1,
-    'Missing Normalization': 0,
-    'Overplotting': 0,
-    'Truncated Axis': 1
-}
-
 BarChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 6 + ['Module Completed']
 AreaChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 8 + ['Module Completed']
 LineChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
@@ -198,7 +172,7 @@ if not user_token:
     st.error("No token provided in the URL. Please complete the survey.")
 
 
-@st.cache_data
+#@st.cache_data
 def fetch_survey_data(username, password, survey_id):
     """Fetch and cache survey responses."""
     session_key = get_session_key(username, password)
@@ -207,6 +181,45 @@ def fetch_survey_data(username, password, survey_id):
         release_session_key(session_key)
         return responses
     return None
+
+# Define the mapping of modules to their respective questions
+basics_mapping = {
+    'Area Chart': ["N08", "N09"],
+    'Bar Chart': ["N01", "N02"],
+    'Maps':  ["N14", "N15"],
+    'Line Chart': ["N06", "N07"],
+    'Pie Chart': ["N12", "N13"],
+    'Scatter Plot': ["N10", "N11"],
+    'Stacked Bar Chart': ["N03", "N04", "N05"],
+    }
+
+pitfalls_mapping = {
+    'Cherry Picking': ["T43"],
+    'Concealed Uncertainty': ["T48"],
+    'False Aggregation': ["T35", "T37"],
+    'False Scale Order': ["T20", "T25"],
+    'False Scale Function': ["T26"],
+    'False Scale Direction': ["T10", "T14"],
+    'Misleading Annotation': ["T47", "T49"],
+    'Missing Data': ["T30"],
+    'Missing Normalization': ["T42"],
+    'Overplotting': ["T40"],
+    'Truncated Axis': ["T03"],
+    }
+
+# Correct answers for all questions
+correct_answers = {
+    "N01": "AO02", "N02": "AO03", "N03": "AO02",
+    "N04": "AO03", "N05": "AO02", "N06": "AO01",
+    "N07": "AO02", "N08": "AO01", "N09": "AO04",
+    "N10": "AO01", "N11": "AO03", "N12": "AO02",
+    "N13": "AO03", "N14": "AO01", "N15": "AO03",
+    "T03": "AO04", "T10": "AO02", "T14": "AO03",
+    "T20": "AO04", "T25": "AO03", "T26": "AO04",
+    "T30": "AO03", "T35": "AO04", "T37": "AO04",
+    "T40": "AO03", "T42": "AO04", "T43": "AO04",
+    "T47": "AO02", "T48": "AO04", "T49": "AO03",
+}
 
 # Fetch survey data once and cache it
 responses = fetch_survey_data(USERNAME, PASSWORD, SURVEY_ID)
@@ -217,19 +230,27 @@ if responses:
     user_response = df[df["token"] == user_token]
 
     if not user_response.empty:
-        # Calculate and display score
-        correct_answers = {
-            "N01": "AO02", "N02": "AO03", "N03": "AO02",
-            "N04": "AO03", "N05": "AO02", "N06": "AO01",
-            "N07": "AO02", "N08": "AO01", "N09": "AO04",
-            "N10": "AO01", "N11": "AO03", "N12": "AO02",
-            "N13": "AO03", "N14": "AO01", "N15": "AO03",
-            "T03": "AO04", "T10": "AO02", "T14": "AO03",
-            "T20": "AO04", "T25": "AO03", "T26": "AO04",
-            "T30": "AO03", "T35": "AO04", "T37": "AO04",
-            "T40": "AO03", "T42": "AO04", "T43": "AO04",
-            "T47": "AO02", "T48": "AO04", "T49": "AO03",
-        }
+
+        basics = {module: 0 for module in basics_mapping.keys()}
+        pitfalls = {module: 0 for module in pitfalls_mapping.keys()}  
+
+        # Calculate scores for basics
+        for module, questions in basics_mapping.items():
+            incorrect_count = sum(
+                user_response.iloc[0].get(question, None) != correct_answers.get(question, None)
+                for question in questions
+            )
+            basics[module] = incorrect_count
+
+        # Calculate scores for pitfalls
+        for module, questions in pitfalls_mapping.items():
+            incorrect_count = sum(
+                user_response.iloc[0].get(question, None) != correct_answers.get(question, None)
+                for question in questions
+            )
+            pitfalls[module] = incorrect_count
+        
+        # Calculate overall user score
         user_score = sum(
             user_response.iloc[0][q] == a
             for q, a in correct_answers.items()
@@ -347,7 +368,7 @@ if selected_module == 'Home: My Scores':
     # Add the Plotly gauge chart with improved styling and black numbers
     fig = go.Figure(go.Indicator(
         mode="gauge+number",
-        value=25,  # Replace with your desired score variable if needed #user_score
+        value=user_score,  # Replace with your desired score variable if needed #user_score
         number={'font': {'color': 'black', 'size': 100}},  # Set the inside value to black and larger size
         domain={'x': [0, 1], 'y': [0, 1]},
         title={'text': "My Scores", 'font': {'size': 26, 'color': "#2b2b2b"}},  # Modern font and color for the title
@@ -429,14 +450,19 @@ else:
         module_display_mapping[selected_module](modules)
 
 
-# Final Assessment block with dynamic token
+# HTML block with JavaScript to reload if "Access code mismatch" occurs
 final_assessment_html = f"""
     <aside>
-        <a href="https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en" target="_blank" class="sidebar-link">
+        <a href="https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en" target="_blank" class="sidebar-link" onclick="checkErrorAndReload()">
             Final Assessment
         </a>
     </aside>
+    <script>
+        function checkErrorAndReload() {{
+            window.open("https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en", "_blank");
+            setTimeout(() => {{ window.location.reload(); }}, 1000); // Reload after 1 second
+        }}
+    </script>
 """
-
 st.sidebar.markdown(final_assessment_html, unsafe_allow_html=True)
 

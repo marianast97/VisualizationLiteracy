@@ -218,7 +218,7 @@ if not user_token:
     st.error("No token provided in the URL. Please complete the survey.")
 
 
-@st.cache_data
+#@st.cache_data
 def fetch_survey_data(username, password, survey_id):
     """Fetch and cache survey responses."""
     session_key = get_session_key(username, password)
