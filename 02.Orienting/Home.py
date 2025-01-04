@@ -178,7 +178,7 @@ if 'accessed_subpages' not in st.session_state:
 # LimeSurvey API Configuration
 USERNAME = "marianasteffens"  # Replace with your LimeSurvey admin username
 PASSWORD = "MyThesis123"  # Replace with your LimeSurvey admin password
-SURVEY_ID = "967331"
+SURVEY_ID = "177584"
 
 
 # Extract query parameters
@@ -189,7 +189,7 @@ try:
 except Exception as e:
     # Handle any error by assigning a fallback URL and token
     #st.warning("No token found in the query parameters. Using a default token for testing.")
-    user_token_raw = "NNCzENfS2kY27uI"  # Default dummy token for local testing
+    user_token_raw = "8aFs1OeBIzaV1vR"  # Default dummy token for local testing
     user_token = user_token_raw.strip().lower() if user_token_raw else ""
 
 
@@ -219,11 +219,17 @@ if responses:
     if not user_response.empty:
         # Calculate and display score
         correct_answers = {
-            "N1": "AO02", "N2": "AO03", "N3": "AO03",
-            "N4": "AO02", "N5": "AO01", "N6": "AO01",
-            "N7": "AO01", "N8": "AO01"
+            "N01": "AO02", "N02": "AO03", "N03": "AO02",
+            "N04": "AO03", "N05": "AO02", "N06": "AO01",
+            "N07": "AO02", "N08": "AO01", "N09": "AO04",
+            "N10": "AO01", "N11": "AO03", "N12": "AO02",
+            "N13": "AO03", "N14": "AO01", "N15": "AO03",
+            "T03": "AO04", "T10": "AO02", "T14": "AO03",
+            "T20": "AO04", "T25": "AO03", "T26": "AO04",
+            "T30": "AO03", "T35": "AO04", "T37": "AO04",
+            "T40": "AO03", "T42": "AO04", "T43": "AO04",
+            "T47": "AO02", "T48": "AO04", "T49": "AO03",
         }
-
         user_score = sum(
             user_response.iloc[0][q] == a
             for q, a in correct_answers.items()
@@ -423,10 +429,10 @@ else:
         module_display_mapping[selected_module](modules)
 
 
-# Fixed block for Final Assessment in the sidebar
-final_assessment_html = """
+# Final Assessment block with dynamic token
+final_assessment_html = f"""
     <aside>
-        <a href="https://example.com/final-assessment" target="_blank" class="sidebar-link">
+        <a href="https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en" target="_blank" class="sidebar-link">
             Final Assessment
         </a>
     </aside>
