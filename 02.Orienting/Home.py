@@ -18,7 +18,7 @@ st.set_page_config(
 sidebar_adjustment_style = """
     <style>
     .stButton button {
-        width: 100%;
+        width: 100%;-
         margin: 0px;
     }
     /* Style for the final assessment link */
@@ -296,7 +296,7 @@ for module, score in basics.items():
     
     accessed_icon = '✔️' if all_subpages_accessed(module, modules) else ' '
     
-    score_icon = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/Icons/book-solid-gray.svg" if all_subpages_accessed(module, modules) else get_score_icon(score)
+    score_icon = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/Icons/book-solid-gray.svg" if all_subpages_accessed(module, modules) and score>0 else get_score_icon(score)
 
     col1, col2 = st.sidebar.columns([0.5, 4])
     with col1:
