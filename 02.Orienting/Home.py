@@ -159,12 +159,12 @@ SURVEY_ID = "177584"
 try:
     query_params = st.query_params  # Attempt to fetch query parameters
     user_token_raw = query_params["token"]
-    user_token = user_token_raw.strip().lower() if user_token_raw else ""
+    user_token = user_token_raw  if user_token_raw else "" #.strip().lower()
 except Exception as e:
     # Handle any error by assigning a fallback URL and token
     #st.warning("No token found in the query parameters. Using a default token for testing.")
     user_token_raw = "8aFs1OeBIzaV1vR"  # Default dummy token for local testing
-    user_token = user_token_raw.strip().lower() if user_token_raw else ""
+    user_token = user_token_raw if user_token_raw else "" #.strip().lower() 
 
 
 # Handle missing token
@@ -226,7 +226,7 @@ responses = fetch_survey_data(USERNAME, PASSWORD, SURVEY_ID)
 
 if responses:
     df = pd.DataFrame(responses["responses"])
-    df["token"] = df["token"].astype(str).str.strip().str.lower()
+    df["token"] = df["token"].astype(str).str.strip()#.str.lower()
     user_response = df[df["token"] == user_token]
 
     if not user_response.empty:
@@ -387,7 +387,7 @@ if selected_module == 'Home: My Scores':
             'threshold': {
                 'line': {'color': "#ff6666", 'width': 6},  # Soft red threshold line
                 'thickness': 0.75,
-                'value': 25  # Replace with your dynamic score if needed
+                'value': user_score  # Replace with your dynamic score if needed
             }
         }
     ))

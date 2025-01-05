@@ -71,32 +71,6 @@ sidebar_adjustment_style = """
 st.markdown(sidebar_adjustment_style, unsafe_allow_html=True)
 
 
-# Example of scores assigned to the two modules
-basics = {
-    'Area Chart': 0,
-    'Bar Chart': 0,
-    'Maps': 0,
-    'Line Chart': 0,
-    'Pie Chart': 0,
-    'Scatter Plot': 3,
-    'Stacked Bar Chart': 0,
-}
-
-# Example of scores assigned to the two modules
-pitfalls = {
-    'Cherry Picking': 2,
-    'Concealed Uncertainty': 0,
-    'False Aggregation': 0,
-    'False Scale Order': 0,
-    'False Scale Function': 0,
-    'False Scale Direction': 0,
-    'Misleading Annotation': 0,
-    'Missing Data': 1,
-    'Missing Normalization': 0,
-    'Overplotting': 0,
-    'Truncated Axis': 1
-}
-
 BarChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 6 + ['Module Completed']
 AreaChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 8 + ['Module Completed']
 LineChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
@@ -140,30 +114,6 @@ modules = {
 }
 
 
-# Filter modules for recommended basics and pitfalls (score == 0)
-recommended_basics = {k: v for k, v in basics.items() if v >= 1}
-recommended_pitfalls = {k: v for k, v in pitfalls.items() if v >= 1}
-
-# Filter the modules dictionary to include only recommended modules
-filtered_modules = {
-    k: v
-    for k, v in modules.items()
-    if k in recommended_basics or k in recommended_pitfalls
-}
-
-# Filter the modules dictionary to include only unfiltered modules
-unfiltered_modules = {
-    k: v
-    for k, v in modules.items()
-    if k not in recommended_basics and k not in recommended_pitfalls
-}
-
-# Define the URLs of your custom icons
-icon_well_done   = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/04.Prescribing/Icons/NotRecommended.png"
-
-icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/04.Prescribing/Icons/Recommended.png"
-
-
 
 # Add custom CSS to target a specific button using a span element         
 st.markdown("""
@@ -198,19 +148,19 @@ if 'accessed_subpages' not in st.session_state:
 # LimeSurvey API Configuration
 USERNAME = "marianasteffens"  # Replace with your LimeSurvey admin username
 PASSWORD = "MyThesis123"  # Replace with your LimeSurvey admin password
-SURVEY_ID = "967331"
+SURVEY_ID = "177584"
 
 
 # Extract query parameters
 try:
     query_params = st.query_params  # Attempt to fetch query parameters
     user_token_raw = query_params["token"]
-    user_token = user_token_raw.strip().lower() if user_token_raw else ""
+    user_token = user_token_raw  if user_token_raw else "" #.strip().lower()
 except Exception as e:
     # Handle any error by assigning a fallback URL and token
     #st.warning("No token found in the query parameters. Using a default token for testing.")
-    user_token_raw = "NNCzENfS2kY27uI"  # Default dummy token for local testing
-    user_token = user_token_raw.strip().lower() if user_token_raw else ""
+    user_token_raw = "8aFs1OeBIzaV1vR"  # Default dummy token for local testing
+    user_token = user_token_raw if user_token_raw else "" #.strip().lower() 
 
 
 # Handle missing token
@@ -228,22 +178,75 @@ def fetch_survey_data(username, password, survey_id):
         return responses
     return None
 
+# Define the mapping of modules to their respective questions
+basics_mapping = {
+    'Area Chart': ["N08", "N09"],
+    'Bar Chart': ["N01", "N02"],
+    'Maps':  ["N14", "N15"],
+    'Line Chart': ["N06", "N07"],
+    'Pie Chart': ["N12", "N13"],
+    'Scatter Plot': ["N10", "N11"],
+    'Stacked Bar Chart': ["N03", "N04", "N05"],
+    }
+
+pitfalls_mapping = {
+    'Cherry Picking': ["T43"],
+    'Concealed Uncertainty': ["T48"],
+    'False Aggregation': ["T35", "T37"],
+    'False Scale Order': ["T20", "T25"],
+    'False Scale Function': ["T26"],
+    'False Scale Direction': ["T10", "T14"],
+    'Misleading Annotation': ["T47", "T49"],
+    'Missing Data': ["T30"],
+    'Missing Normalization': ["T42"],
+    'Overplotting': ["T40"],
+    'Truncated Axis': ["T03"],
+    }
+
+# Correct answers for all questions
+correct_answers = {
+    "N01": "AO02", "N02": "AO03", "N03": "AO02",
+    "N04": "AO03", "N05": "AO02", "N06": "AO01",
+    "N07": "AO02", "N08": "AO01", "N09": "AO04",
+    "N10": "AO01", "N11": "AO03", "N12": "AO02",
+    "N13": "AO03", "N14": "AO01", "N15": "AO03",
+    "T03": "AO04", "T10": "AO02", "T14": "AO03",
+    "T20": "AO04", "T25": "AO03", "T26": "AO04",
+    "T30": "AO03", "T35": "AO04", "T37": "AO04",
+    "T40": "AO03", "T42": "AO04", "T43": "AO04",
+    "T47": "AO02", "T48": "AO04", "T49": "AO03",
+}
+
 # Fetch survey data once and cache it
 responses = fetch_survey_data(USERNAME, PASSWORD, SURVEY_ID)
 
 if responses:
     df = pd.DataFrame(responses["responses"])
-    df["token"] = df["token"].astype(str).str.strip().str.lower()
+    df["token"] = df["token"].astype(str).str.strip()#.str.lower()
     user_response = df[df["token"] == user_token]
 
     if not user_response.empty:
-        # Calculate and display score
-        correct_answers = {
-            "N1": "AO02", "N2": "AO03", "N3": "AO03",
-            "N4": "AO02", "N5": "AO01", "N6": "AO01",
-            "N7": "AO01", "N8": "AO01"
-        }
 
+        basics = {module: 0 for module in basics_mapping.keys()}
+        pitfalls = {module: 0 for module in pitfalls_mapping.keys()}  
+
+        # Calculate scores for basics
+        for module, questions in basics_mapping.items():
+            incorrect_count = sum(
+                user_response.iloc[0].get(question, None) != correct_answers.get(question, None)
+                for question in questions
+            )
+            basics[module] = incorrect_count
+
+        # Calculate scores for pitfalls
+        for module, questions in pitfalls_mapping.items():
+            incorrect_count = sum(
+                user_response.iloc[0].get(question, None) != correct_answers.get(question, None)
+                for question in questions
+            )
+            pitfalls[module] = incorrect_count
+        
+        # Calculate overall user score
         user_score = sum(
             user_response.iloc[0][q] == a
             for q, a in correct_answers.items()
@@ -277,6 +280,29 @@ module_display_mapping = {
     'Overplotting': Overplotting.display_module,
     'Truncated Axis': TruncatedAxis.display_module,
 }
+
+# Filter modules for recommended basics and pitfalls (score == 0)
+recommended_basics = {k: v for k, v in basics.items() if v >= 1}
+recommended_pitfalls = {k: v for k, v in pitfalls.items() if v >= 1}
+
+# Filter the modules dictionary to include only recommended modules
+filtered_modules = {
+    k: v
+    for k, v in modules.items()
+    if k in recommended_basics or k in recommended_pitfalls
+}
+
+# Filter the modules dictionary to include only unfiltered modules
+unfiltered_modules = {
+    k: v
+    for k, v in modules.items()
+    if k not in recommended_basics and k not in recommended_pitfalls
+}
+
+# Define the URLs of your custom icons
+icon_well_done   = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/04.Prescribing/Icons/NotRecommended.png"
+
+icon_improvement = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/main/02.Orienting/Icons/book-solid.svg"
 
 st.sidebar.markdown('<span id="home-button-after"></span>', unsafe_allow_html=True)
 if st.sidebar.button("Home: My Scores"):
@@ -384,7 +410,7 @@ if selected_module == 'Home: My Scores':
     # Add the Plotly gauge chart with improved styling and black numbers
     fig = go.Figure(go.Indicator(
         mode="gauge+number",
-        value=25,  # Replace with your desired score variable if needed
+        value=user_score,  # Replace with your desired score variable if needed
         number={'font': {'color': 'black', 'size': 100}},  # Set the inside value to black and larger size
         domain={'x': [0, 1], 'y': [0, 1]},
         title={'text': "My Scores", 'font': {'size': 26, 'color': "#2b2b2b"}},  # Modern font and color for the title
@@ -403,7 +429,7 @@ if selected_module == 'Home: My Scores':
             'threshold': {
                 'line': {'color': "#ff6666", 'width': 6},  # Soft red threshold line
                 'thickness': 0.75,
-                'value': 25  # Replace with your dynamic score if needed
+                'value': user_score  # Replace with your dynamic score if needed
             }
         }
     ))
@@ -455,13 +481,18 @@ else:
         module_display_mapping[selected_module](modules)
 
 
-# Fixed block for Final Assessment in the sidebar
-final_assessment_html = """
+# HTML block with JavaScript to reload if "Access code mismatch" occurs
+final_assessment_html = f"""
     <aside>
-        <a href="https://example.com/final-assessment" target="_blank" class="sidebar-link">
+        <a href="https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en" target="_blank" class="sidebar-link" onclick="checkErrorAndReload()">
             Final Assessment
         </a>
     </aside>
+    <script>
+        function checkErrorAndReload() {{
+            window.open("https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en", "_blank");
+            setTimeout(() => {{ window.location.reload(); }}, 1000); // Reload after 1 second
+        }}
+    </script>
 """
-
 st.sidebar.markdown(final_assessment_html, unsafe_allow_html=True)
