@@ -125,43 +125,45 @@ def display_module(modules):
     # Display current page number
     st.write(f"Page {current_subpage_index + 1} of {len(modules[selected_module])}")
 
-"""         # Add the chart for 'Bar Chart Anatomy' subpage
-    if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
-        
-        # Toy Example: Misleading chart showing Transportation Preferences with incorrect annotation
-        data_transportation = {
-            "Mode of Transportation": ["Driving", "Public Transportation"],
-            "Percentage": [60, 40],
-            "Wrong": [40, 60]  # Incorrect values to mislead
+
+
+"""     # Assuming this is part of the Streamlit app
+    # Add the chart for 'Misleading Visitors Annotation Example' subpage
+    if current_subpage_index == 0:  # Replace with the appropriate index for this subpage
+
+        # Data for the bar chart
+        data = {
+            "Month": ["January", "February", "March"],
+            "Visitors": [300, 200, 400]  # Number of visitors at the museum
         }
 
-        # Convert to DataFrame
-        df_transportation = pd.DataFrame(data_transportation)
+        # Correct and misleading averages
+        correct_average = sum(data["Visitors"]) / len(data["Visitors"])
+        misleading_average = 350  # False average for misleading annotation
 
-        # Create the misleading pie chart
-        fig_misleading_transport = px.pie(
-            df_transportation,
-            names="Mode of Transportation",
-            values="Percentage",
-            title="Transportation Preferences"
+        # Creating the bar chart using Plotly Express
+        fig = px.bar(
+            data, 
+            x="Month", 
+            y="Visitors", 
+            title="Monthly Visitors to the City Museum"
         )
 
-        # Add wrong label using hovertemplate and texttemplate for misleading information
-        fig_misleading_transport.update_traces(
-            hovertemplate="<b>%{label}</b><br>Actual Value: %{value}<br>Wrong Value: %{customdata[0]}%",
-            customdata=df_transportation[['Wrong']],  # Use the 'Wrong' column for hover
-            texttemplate="%{customdata[0]}%",  # Show wrong values directly on the chart
-            textposition="inside",  # Position text inside the pie slices
-            showlegend=True,  # Ensure legend is displayed
-            textfont=dict(size=18)  # Increase text size to 16
+        # Adding the misleading averages as horizontal lines
+        fig.add_hline(
+            y=misleading_average, 
+            line_dash="dash", 
+            line_color="black", 
+            line_width=4,  # Increase line thickness
+            annotation_text=f"Average: {misleading_average:.0f}",  # Include value in annotation
+            annotation_position="bottom right",
+            annotation_font_size=16,  # Change annotation font size
+            annotation_font_color="black"  # Change annotation font color
         )
-
-
-        fig_misleading_transport.update_layout(
+        # Updating layout to improve visualization
+        fig.update_layout(
             title={
-                'font': {
-                'size': 24  # Set title size larger
-                },
+                'font': {'size': 24},  # Set title size larger
             },
             xaxis={
                 'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
@@ -171,33 +173,68 @@ def display_module(modules):
                 'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
                 'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
             },
-            legend={
-                'title': {
-                    'font': {'color': 'black'}  # Set legend title font color to black
-                }
-            },
-            width=400,  # Set the width of the chart
+            yaxis_range=[0, 600],  # Set range to visualize the misleading line better
+            width=600,  # Set the width of the chart
             height=500  # Set the height of the chart
         )
-         # Deactivate mode bar in the plotly chart
+
+        # Deactivate mode bar in the plotly chart
         config = {
             'displayModeBar': False  # This will hide the toolbar
         }
 
         # Display the figure in Streamlit
-        st.plotly_chart(fig_misleading_transport, config=config)
+        st.plotly_chart(fig, config=config)
 
-        # Add wrong label using hovertemplate and texttemplate for misleading information
-        fig_misleading_transport.update_traces(
-            hovertemplate="<b>%{label}</b><br>Actual Value: %{value}<br>Wrong Value: %{customdata[0]}%",
-            customdata=df_transportation[['Percentage']],  # Use the 'Wrong' column for hover
-            texttemplate="%{customdata[0]}%",  # Show wrong values directly on the chart
-            textposition="inside",  # Position text inside the pie slices
-            showlegend=True,  # Ensure legend is displayed
-            textfont=dict(size=18)  # Increase text size to 16
+    if current_subpage_index == 0:  # Replace with the appropriate index for this subpage
+
+
+        # Correct and misleading averages
+        correct_average = sum(data["Visitors"]) / len(data["Visitors"])
+
+        # Creating the bar chart using Plotly Express
+        fig = px.bar(
+            data, 
+            x="Month", 
+            y="Visitors", 
+            title="Monthly Visitors to the City Museum"
         )
 
-        # Display the figure in Streamlit
-        st.plotly_chart(fig_misleading_transport, config=config)
+        # Adding the correct and misleading averages as horizontal lines
+        fig.add_hline(
+            y=correct_average, 
+            line_dash="dash", 
+            line_color="black", 
+            line_width=4,  # Increase line thickness
+            annotation_text=f"Average: {correct_average:.0f}",  # Include value in annotation
+            annotation_position="bottom right",
+            annotation_font_size=16,  # Change annotation font size
+            annotation_font_color="black"  # Change annotation font color
+        )
 
+        # Updating layout to improve visualization
+        fig.update_layout(
+            title={
+                'font': {'size': 24},  # Set title size larger
+            },
+            xaxis={
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
+            },
+            yaxis={
+                'tickfont': {'color': 'black', 'size': 18},  # Set axis tick labels to black with larger font
+                'titlefont': {'color': 'black', 'size': 18},  # Set axis title font to black and slightly larger
+            },
+            yaxis_range=[0, 600],  # Set range to visualize the misleading line better
+            width=600,  # Set the width of the chart
+            height=500  # Set the height of the chart
+        )
+
+        # Deactivate mode bar in the plotly chart
+        config = {
+            'displayModeBar': False  # This will hide the toolbar
+        }
+
+        # Display the figure in Streamlit
+        st.plotly_chart(fig, config=config)
  """

@@ -127,14 +127,14 @@ def display_module(modules):
     # Display current page number
     st.write(f"Page {current_subpage_index + 1} of {len(modules[selected_module])}")
 
-"""         # Add the chart for 'Bar Chart Anatomy' subpage
+"""          # Add the chart for 'Bar Chart Anatomy' subpage
     if current_subpage_index == 0:  # Assuming Bar Chart Anatomy is at index 1
         # Create the chart using Plotly
 
         # Toy Example: Total Carbon Emissions with Missing Normalization for various countries
         data_emissions = {
             "Country": ["USA", "CHN", "IND", "BRA", "RUS", "AUS", "CAN", "ZAF"],
-            "Total Carbon Emissions (Million Tons)": [5000, 10000, 3000, 1200, 2000, 1500, 1400, 800]  # Raw emissions data
+            "Ice Cream Consumption (Million Tons)": [5000, 10000, 3000, 1200, 2000, 1500, 1400, 800]  # Raw emissions data
         }
 
         # Convert to DataFrame
@@ -145,10 +145,10 @@ def display_module(modules):
             df_emissions,
             locations="Country",
             locationmode="ISO-3",
-            color="Total Carbon Emissions (Million Tons)",
-            title="Carbon Emissions Data",
-            color_continuous_scale=px.colors.sequential.YlOrRd,
-            labels={"Total Carbon Emissions (Million Tons)": "Total Emissions (Million Tons)"}
+            color="Ice Cream Consumption (Million Tons)",
+            title="Ice Cream Country Lovers",
+            #color_continuous_scale=px.colors.sequential.YlOrRd,
+            labels={"Consumption (Million Tons)": "Consumption (Million Tons)"}
         )
 
         fig_misleading_emissions.update_layout(
@@ -197,7 +197,7 @@ def display_module(modules):
         # Add per capita emissions to the dataset
         data_emissions_normalized = {
             "Country": ["USA", "CHN", "IND", "BRA", "RUS", "AUS", "CAN", "ZAF"],
-            "Carbon Emissions per Capita (Tons)": [15, 7, 2.2, 2.5, 10, 18, 12, 9]  # Normalized data
+            "Ice Cream Consumption per Capita (Tons)": [15, 7, 2.2, 2.5, 10, 18, 12, 9]  # Normalized data
         }
 
         # Convert to DataFrame
@@ -208,10 +208,10 @@ def display_module(modules):
             df_emissions_normalized,
             locations="Country",
             locationmode="ISO-3",
-            color="Carbon Emissions per Capita (Tons)",
-            title="Carbon Emissions Data (Per Capita)",
-            color_continuous_scale=px.colors.sequential.YlOrRd,
-            labels={"Carbon Emissions per Capita (Tons)": "Emissions per Capita (Tons)"}
+            color="Ice Cream Consumption per Capita (Tons)",
+            title="Ice Cream Country Lovers",
+            #color_continuous_scale=px.colors.sequential.YlOrRd,
+            labels={"Consumption per Capita (Tons)": "Ice Cream Consumption per Capita (Tons)"}
         )
 
         fig_correct_emissions.update_layout(
@@ -244,4 +244,4 @@ def display_module(modules):
 
         # Display the correct chart
         st.plotly_chart(fig_correct_emissions, config=config)
-   """
+    """
