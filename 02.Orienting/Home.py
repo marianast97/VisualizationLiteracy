@@ -479,7 +479,7 @@ else:
         logger.info(
             f"User Token: {user_token}, "
             f"Module: {selected_module}, "
-            f"Page Number: {current_subpage_index + 1}, "
+            f"Page Number: {current_subpage_index}, "
             f"Timestamp: {datetime.now().isoformat()}"
         )
 
