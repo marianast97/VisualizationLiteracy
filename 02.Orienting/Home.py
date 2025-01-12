@@ -167,9 +167,6 @@ st.markdown("""
 if 'accessed_subpages' not in st.session_state:
     initialize_session_state(modules)
 
-if 'current_subpage' not in st.session_state:
-    st.session_state['current_subpage'] = {module: 0 for module in modules}
-
 # LimeSurvey API Configuration
 USERNAME = "marianasteffens"  # Replace with your LimeSurvey admin username
 PASSWORD = "MyThesis123"  # Replace with your LimeSurvey admin password
@@ -475,17 +472,19 @@ if selected_module == 'Home: My Scores':
 else:
     # Load only the selected module's content
     if selected_module in module_display_mapping:
-        module_display_mapping[selected_module](modules)
+        # Get the current subpage index for the selected module
+        current_subpage_index = st.session_state['current_subpage'][selected_module]
+
         # Log the activity
         logger.info(
-        f"User Token: {user_token}, "
-        f"Module: {selected_module}, "
-        f"Page Number: {current_subpage_index + 1}, "
-        f"Timestamp: {datetime.now().isoformat()}"
+            f"User Token: {user_token}, "
+            f"Module: {selected_module}, "
+            f"Page Number: {current_subpage_index + 1}, "
+            f"Timestamp: {datetime.now().isoformat()}"
         )
-        #logger.info(f"User Token: {user_token}, Module: {selected_module}, Timestamp: {datetime.now().isoformat()}")
 
-
+        # Display the selected module
+        module_display_mapping[selected_module](modules)
 
 
 # HTML block with JavaScript to reload if "Access code mismatch" occurs
