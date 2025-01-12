@@ -473,7 +473,7 @@ else:
     # Load only the selected module's content
     if selected_module in module_display_mapping:
         module_display_mapping[selected_module](modules)
-        logger.info(f"User Token: {user_token}, Module: {selected_module}, Timestamp: {datetime.now().isoformat()}")
+        #logger.info(f"User Token: {user_token}, Module: {selected_module}, Timestamp: {datetime.now().isoformat()}")
 
 
 
