@@ -1,2 +1,3 @@
 [theme]
 base = "light"
+logging.basicConfig(level=logging.INFO)
