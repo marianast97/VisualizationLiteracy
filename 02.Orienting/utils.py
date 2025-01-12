@@ -1,5 +1,4 @@
 import streamlit as st
-import json
 
 SCORE_THRESHOLD = 0
 
@@ -155,11 +154,3 @@ IMAGE_FILES = {
         for i in range(1, 9)
     ],
 }
-
-def save_activity_log_to_file():
-    """Save activity log to a JSON file."""
-    if "user_activity_log" in st.session_state:
-        with open("activity_log.json", "w") as file:
-            json.dump(st.session_state["user_activity_log"], file, indent=4)
-
-# Call this function at appropriate points, e.g., on app exit or periodically

@@ -9,12 +9,27 @@ from Modules import MissingData, TruncatedAxis, MissingNormalization, Overplotti
 from Modules import FalseScaleDirection, FalseScaleFunction, FalseScaleOrder  # type: ignore
 import plotly.graph_objects as go
 import datetime  # Import datetime to log timestamps
+import logging
 
 
 st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
     )
+
+# Configure logging
+logging.basicConfig(
+    filename="activity_log.log",  # Log file name
+    level=logging.INFO,           # Log level (INFO, DEBUG, etc.)
+    format="%(asctime)s - %(levelname)s - %(message)s",  # Log format
+)
+
+logger = logging.getLogger("streamlit")  # Use Streamlit's logger
+
+def log_user_activity(user_token, module_name):
+    """Log user activity to the Streamlit logger."""
+    logger.info(f"User Token: {user_token}, Module: {module_name}")
+
 
 # Custom CSS to adjust sidebar spacing and fix the final assessment at the bottom
 sidebar_adjustment_style = """
@@ -353,6 +368,9 @@ for module, score in pitfalls.items():
 # Display content based on selection
 selected_module = st.session_state['selected_module']
 
+if selected_module and selected_module != 'Home: My Scores':
+    log_user_activity(user_token, selected_module)
+    
 if selected_module == 'Home: My Scores':
     # Center the title
     st.markdown(f"<h1 style='text-align: center;'>{'Visualization Literacy Assessment'}</h1>", unsafe_allow_html=True)
@@ -467,22 +485,3 @@ final_assessment_html = f"""
     </script>
 """
 st.sidebar.markdown(final_assessment_html, unsafe_allow_html=True)
-
-# Function to log user activity
-def log_user_activity(user_token, module_name):
-    timestamp = datetime.datetime.now().isoformat()  # Current timestamp
-    if "user_activity_log" not in st.session_state:
-        st.session_state["user_activity_log"] = []
-    st.session_state["user_activity_log"].append({
-        "user_token": user_token,
-        "module": module_name,
-        "timestamp": timestamp,
-    })
-
-# Log activity when a module is accessed
-if selected_module and selected_module != 'Home: My Scores':
-    log_user_activity(user_token, selected_module)
-
-# Optionally display the activity log for debugging
-#st.sidebar.write("User Activity Log:")
-#st.sidebar.write(st.session_state.get("user_activity_log", []))
