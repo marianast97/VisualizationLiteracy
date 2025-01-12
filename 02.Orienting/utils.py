@@ -1,15 +1,4 @@
 import streamlit as st
-from datetime import datetime
-import logging
-
-
-""" # Configure logging
-logging.basicConfig(
-    level=logging.INFO,  # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
-    format="%(asctime)s - %(levelname)s - %(message)s",  # Log format
-)
-
-logger = logging.getLogger("streamlit")  # Use Streamlit's logger name """
 
 SCORE_THRESHOLD = 0
 
@@ -69,15 +58,6 @@ def display_subpage(module_name, subpage_index, modules):
     
     st.session_state['accessed_subpages'][module_name][subpage_index] = True
     
-"""     # Log the current page access
-    logger.info(
-        f"User Token: {st.session_state.get('user_token', 'Unknown')}, "
-        f"Module: {module_name}, "
-        f"Page Number: {subpage_index + 1}, "
-        f"Subpage Name: {subpage_name}, "
-        f"Timestamp: {datetime.now().isoformat()}"
-    ) """
-
 # Function to get an icon based on score
 def get_score_icon(score):
     if score > SCORE_THRESHOLD:

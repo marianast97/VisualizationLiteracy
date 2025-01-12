@@ -25,12 +25,6 @@ logging.basicConfig(
 
 logger = logging.getLogger("streamlit")  # Use Streamlit's logger name
 
-# Example usage
-#logger.info("Streamlit app started BY MARIANA")
-#logger.debug("Debug message for troubleshooting BY MARIANA")
-#logger.warning("This is a warning BY MARIANA")
-#logger.error("An error occurred BY MARIANA")
-
 
 # Custom CSS to adjust sidebar spacing and fix the final assessment at the bottom
 sidebar_adjustment_style = """
@@ -368,9 +362,6 @@ for module, score in pitfalls.items():
 
 # Display content based on selection
 selected_module = st.session_state['selected_module']
-
-#if selected_module and selected_module != 'Home: My Scores':
-#    logger.info(user_token, selected_module, timestamp = datetime.now().isoformat())
 
 if selected_module == 'Home: My Scores':
     

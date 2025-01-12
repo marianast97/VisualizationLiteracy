@@ -8,11 +8,23 @@ from Modules import CherryPicking, ConcealedUncertainty, FalseAggregation, Misle
 from Modules import MissingData, TruncatedAxis, MissingNormalization, Overplotting  # type: ignore
 from Modules import FalseScaleDirection, FalseScaleFunction, FalseScaleOrder  # type: ignore
 import plotly.graph_objects as go
+from datetime import datetime
+import logging
+
 
 st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
     )
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,  # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+    format="%(asctime)s - %(levelname)s - %(message)s",  # Log format
+)
+
+logger = logging.getLogger("streamlit")  # Use Streamlit's logger name
+
 
 # Custom CSS to adjust sidebar spacing and fix the final assessment at the bottom
 sidebar_adjustment_style = """
@@ -394,6 +406,10 @@ with st.sidebar.expander("Show All Modules", expanded=False):
 selected_module = st.session_state['selected_module']
 
 if selected_module == 'Home: My Scores':
+
+    #Log Info
+    logger.info(f"User Token: {user_token}, Module: {selected_module}, Timestamp: {datetime.now().isoformat()}")
+
     # Center the title
     st.markdown(f"<h1 style='text-align: center;'>{'Visualization Literacy Assessment'}</h1>", unsafe_allow_html=True)
             
@@ -478,8 +494,19 @@ if selected_module == 'Home: My Scores':
 else:
     # Load only the selected module's content
     if selected_module in module_display_mapping:
-        module_display_mapping[selected_module](modules)
+        # Get the current subpage index for the selected module
+        current_subpage_index = st.session_state['current_subpage'][selected_module]
 
+        # Log the activity
+        logger.info(
+            f"User Token: {user_token}, "
+            f"Module: {selected_module}, "
+            f"Page Number: {current_subpage_index + 1}, "
+            f"Timestamp: {datetime.now().isoformat()}"
+        )
+
+        # Display the selected module
+        module_display_mapping[selected_module](modules)
 
 # HTML block with JavaScript to reload if "Access code mismatch" occurs
 final_assessment_html = f"""
