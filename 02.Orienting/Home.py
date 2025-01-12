@@ -8,7 +8,7 @@ from Modules import CherryPicking, ConcealedUncertainty, FalseAggregation, Misle
 from Modules import MissingData, TruncatedAxis, MissingNormalization, Overplotting  # type: ignore
 from Modules import FalseScaleDirection, FalseScaleFunction, FalseScaleOrder  # type: ignore
 import plotly.graph_objects as go
-import datetime  # Import datetime to log timestamps
+from datetime import datetime
 import logging
 
 
