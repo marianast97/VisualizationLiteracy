@@ -8,6 +8,8 @@ from Modules import CherryPicking, ConcealedUncertainty, FalseAggregation, Misle
 from Modules import MissingData, TruncatedAxis, MissingNormalization, Overplotting  # type: ignore
 from Modules import FalseScaleDirection, FalseScaleFunction, FalseScaleOrder  # type: ignore
 import plotly.graph_objects as go
+import datetime  # Import datetime to log timestamps
+
 
 st.set_page_config(
     layout="wide",
@@ -466,3 +468,21 @@ final_assessment_html = f"""
 """
 st.sidebar.markdown(final_assessment_html, unsafe_allow_html=True)
 
+# Function to log user activity
+def log_user_activity(user_token, module_name):
+    timestamp = datetime.datetime.now().isoformat()  # Current timestamp
+    if "user_activity_log" not in st.session_state:
+        st.session_state["user_activity_log"] = []
+    st.session_state["user_activity_log"].append({
+        "user_token": user_token,
+        "module": module_name,
+        "timestamp": timestamp,
+    })
+
+# Log activity when a module is accessed
+if selected_module and selected_module != 'Home: My Scores':
+    log_user_activity(user_token, selected_module)
+
+# Optionally display the activity log for debugging
+#st.sidebar.write("User Activity Log:")
+#st.sidebar.write(st.session_state.get("user_activity_log", []))
