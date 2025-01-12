@@ -370,7 +370,7 @@ selected_module = st.session_state['selected_module']
 
 if selected_module and selected_module != 'Home: My Scores':
     log_user_activity(user_token, selected_module)
-    
+
 if selected_module == 'Home: My Scores':
     # Center the title
     st.markdown(f"<h1 style='text-align: center;'>{'Visualization Literacy Assessment'}</h1>", unsafe_allow_html=True)
@@ -468,6 +468,8 @@ else:
     # Load only the selected module's content
     if selected_module in module_display_mapping:
         module_display_mapping[selected_module](modules)
+        log_user_activity(user_token, selected_module)
+
 
 
 # HTML block with JavaScript to reload if "Access code mismatch" occurs
