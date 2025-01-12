@@ -1,2 +1,12 @@
 [theme]
 base = "light"
+
+[logger]
+# Set the log level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+level = "INFO"
+
+# Redirect Streamlit logs to the terminal/console
+console = true
+
+# Enable logging in Streamlit Cloud's Logs tab
+enable = true
