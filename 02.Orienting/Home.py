@@ -30,6 +30,7 @@ def log_user_activity(user_token, module_name):
     """Log user activity to the Streamlit logger."""
     logger.info(f"User Token: {user_token}, Module: {module_name}")
 
+logger.info("This is a test log from Mariana")
 
 # Custom CSS to adjust sidebar spacing and fix the final assessment at the bottom
 sidebar_adjustment_style = """
