@@ -373,6 +373,10 @@ selected_module = st.session_state['selected_module']
 #    logger.info(user_token, selected_module, timestamp = datetime.now().isoformat())
 
 if selected_module == 'Home: My Scores':
+    
+    #Log Info
+    logger.info(f"User Token: {user_token}, Module: {selected_module}, Timestamp: {datetime.now().isoformat()}")
+
     # Center the title
     st.markdown(f"<h1 style='text-align: center;'>{'Visualization Literacy Assessment'}</h1>", unsafe_allow_html=True)
             
