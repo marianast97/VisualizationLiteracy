@@ -123,7 +123,7 @@ IMAGE_FILES = {
     ],
     "MisleadingAnnotation": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/MisleadingAnnotation/MisleadingAnnotation%20({i}).png"
-        for i in range(1, 8)
+        for i in range(1, 9)
     ],
     "MissingData": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/MissingData/MissingData%20({i}).png"
