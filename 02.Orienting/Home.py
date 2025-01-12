@@ -369,8 +369,8 @@ for module, score in pitfalls.items():
 # Display content based on selection
 selected_module = st.session_state['selected_module']
 
-if selected_module and selected_module != 'Home: My Scores':
-    logger.info(user_token, selected_module)
+#if selected_module and selected_module != 'Home: My Scores':
+#    logger.info(user_token, selected_module, timestamp = datetime.now().isoformat())
 
 if selected_module == 'Home: My Scores':
     # Center the title
@@ -469,7 +469,7 @@ else:
     # Load only the selected module's content
     if selected_module in module_display_mapping:
         module_display_mapping[selected_module](modules)
-        logger.info(user_token, selected_module)
+        logger.info(user_token, selected_module, timestamp = datetime.now().isoformat())
 
 
 
