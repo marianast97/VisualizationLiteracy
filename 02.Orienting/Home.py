@@ -19,18 +19,18 @@ st.set_page_config(
 
 # Configure logging
 logging.basicConfig(
-    filename="activity_log.log",  # Log file name
-    level=logging.INFO,           # Log level (INFO, DEBUG, etc.)
+    level=logging.INFO,  # Set the logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
     format="%(asctime)s - %(levelname)s - %(message)s",  # Log format
 )
 
-logger = logging.getLogger("streamlit")  # Use Streamlit's logger
+logger = logging.getLogger("streamlit")  # Use Streamlit's logger name
 
-def log_user_activity(user_token, module_name):
-    """Log user activity to the Streamlit logger."""
-    logger.info(f"User Token: {user_token}, Module: {module_name}")
+# Example usage
+logger.info("Streamlit app started BY MARIANA")
+logger.debug("Debug message for troubleshooting BY MARIANA")
+logger.warning("This is a warning BY MARIANA")
+logger.error("An error occurred BY MARIANA")
 
-logger.info("This is a test log from Mariana")
 
 # Custom CSS to adjust sidebar spacing and fix the final assessment at the bottom
 sidebar_adjustment_style = """
