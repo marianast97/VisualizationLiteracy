@@ -273,16 +273,22 @@ correct_answers = {
 
 # Fetch survey data once and cache it
 responses = fetch_survey_data(USERNAME, PASSWORD, SURVEY_ID)
+logger.info(f"Responses: {responses}")
 
 if responses:
     df = pd.DataFrame(responses["responses"])
     df["token"] = df["token"].astype(str).str.strip()#.str.lower()
     user_response = df[df["token"] == user_token]
+    logger.info(f"User Response: {user_response}")
+
 
     if not user_response.empty:
 
         basics = {module: 0 for module in basics_mapping.keys()}
+        logger.info(f"Basics: {basics}")
+
         pitfalls = {module: 0 for module in pitfalls_mapping.keys()}  
+        logger.info(f"Pitfalls: {pitfalls}")
 
         # Calculate scores for basics
         for module, questions in basics_mapping.items():
