@@ -221,14 +221,44 @@ if not user_token:
     st.error("No token provided in the URL. Please complete the survey.")
 
 
-@st.cache_data
-def fetch_survey_data(username, password, survey_id):
-    """Fetch and cache survey responses."""
+@st.cache_data(show_spinner=True)
+def fetch_survey_data(username, password, survey_id, token):
+    """
+    Fetch and cache survey responses. Cache is valid only if the token is unchanged.
+    If no response is found, the cache is cleared, and the data is fetched again.
+    """
+    # Get the session key using the API
     session_key = get_session_key(username, password)
     if session_key:
+        # Fetch survey responses from the API
         responses = fetch_responses(session_key, survey_id)
-        release_session_key(session_key)
-        return responses
+        release_session_key(session_key)  # Release session key after use
+
+        if responses:
+            logger.info(f"Fetched Responses: {responses}")
+
+            # Filter responses to include only those matching the provided token
+            filtered_responses = [
+                response
+                for response in responses["responses"]
+                if response.get("token") == token and response.get("submitdate") is not None
+            ]
+
+            if filtered_responses:
+                return filtered_responses
+            else:
+                # Clear the cache and retry fetching
+                logger.warning("No matching responses found. Clearing cache and retrying.")
+                fetch_survey_data.clear()
+                return fetch_survey_data(username, password, survey_id, token)
+        else:
+            logger.warning("No responses found from the API.")
+            # Clear the cache and retry fetching
+            fetch_survey_data.clear()
+            return fetch_survey_data(username, password, survey_id, token)
+    else:
+        logger.error("Failed to obtain a session key from the API.")
+
     return None
 
 # Define the mapping of modules to their respective questions
@@ -271,48 +301,50 @@ correct_answers = {
 }
 
 # Fetch survey data once and cache it
-responses = fetch_survey_data(USERNAME, PASSWORD, SURVEY_ID)
-time.sleep(2)  # Adjust the delay time as needed (2 seconds in this example)
-
-logger.info(f"Responses: {responses}")
-
+responses = fetch_survey_data(USERNAME, PASSWORD, SURVEY_ID, user_token)
 
 if responses:
-    df = pd.DataFrame(responses["responses"])
-    df["token"] = df["token"].astype(str).str.strip()#.str.lower()
-    user_response = df[df["token"] == user_token]
+    # Convert the filtered responses to a DataFrame
+    df = pd.DataFrame(responses)
 
-    if not user_response.empty:
+    if not df.empty:
+        # Find the user's specific response using their token
+        user_response = df[df["token"] == user_token]
+        logger.info(f"User Response: {user_response}")
 
-        basics = {module: 0 for module in basics_mapping.keys()}
-        pitfalls = {module: 0 for module in pitfalls_mapping.keys()}  
+        if not user_response.empty:
+            # Initialize scores
+            basics = {module: 0 for module in basics_mapping.keys()}
+            pitfalls = {module: 0 for module in pitfalls_mapping.keys()}
 
-        # Calculate scores for basics
-        for module, questions in basics_mapping.items():
-            incorrect_count = sum(
-                user_response.iloc[0].get(question, None) != correct_answers.get(question, None)
-                for question in questions
+            # Calculate scores for basics
+            for module, questions in basics_mapping.items():
+                incorrect_count = sum(
+                    user_response.iloc[0].get(question, None) != correct_answers.get(question, None)
+                    for question in questions
+                )
+                basics[module] = incorrect_count
+
+            # Calculate scores for pitfalls
+            for module, questions in pitfalls_mapping.items():
+                incorrect_count = sum(
+                    user_response.iloc[0].get(question, None) != correct_answers.get(question, None)
+                    for question in questions
+                )
+                pitfalls[module] = incorrect_count
+
+            # Calculate the overall user score
+            user_score = sum(
+                user_response.iloc[0][q] == a
+                for q, a in correct_answers.items()
             )
-            basics[module] = incorrect_count
-
-        # Calculate scores for pitfalls
-        for module, questions in pitfalls_mapping.items():
-            incorrect_count = sum(
-                user_response.iloc[0].get(question, None) != correct_answers.get(question, None)
-                for question in questions
-            )
-            pitfalls[module] = incorrect_count
-        
-        # Calculate overall user score
-        user_score = sum(
-            user_response.iloc[0][q] == a
-            for q, a in correct_answers.items()
-        )
+        else:
+            st.error("No response found for your token.")
     else:
-        st.error("No response found for your token.")
+        st.error("No responses available for this token.")
 else:
     st.error("Failed to fetch survey responses.")
-
+    
 if 'selected_module' not in st.session_state:
     st.session_state['selected_module'] = 'Home: My Scores'
 
