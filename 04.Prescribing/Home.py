@@ -367,8 +367,17 @@ module_display_mapping = {
 }
 
 # Filter modules for recommended basics and pitfalls (score == 0)
-recommended_basics = {k: v for k, v in basics.items() if v >= 1}
-recommended_pitfalls = {k: v for k, v in pitfalls.items() if v >= 1}
+recommended_basics = dict(sorted(
+    {k: v for k, v in basics.items() if v >= 1}.items(),
+    key=lambda item: item[1],
+    reverse=True
+))
+
+recommended_pitfalls = dict(sorted(
+    {k: v for k, v in pitfalls.items() if v >= 1}.items(),
+    key=lambda item: item[1],
+    reverse=True
+))
 
 # Filter the modules dictionary to include only recommended modules
 filtered_modules = {
