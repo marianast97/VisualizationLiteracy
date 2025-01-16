@@ -11,6 +11,7 @@ from datetime import datetime
 import logging
 import base64
 import json
+import time
 
 
 st.set_page_config(
@@ -273,6 +274,8 @@ correct_answers = {
 
 # Fetch survey data once and cache it
 responses = fetch_survey_data(USERNAME, PASSWORD, SURVEY_ID)
+time.sleep(2)  # Adjust the delay time as needed (2 seconds in this example)
+
 logger.info(f"Responses: {responses}")
 
 
