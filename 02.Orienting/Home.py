@@ -227,6 +227,7 @@ if not user_token:
 def fetch_survey_data(username, password, survey_id, token):
     """
     Fetch and cache survey responses. Cache is valid only if the token is unchanged.
+    If no response is found, the cache is cleared, and the data is fetched again.
     """
     # Get the session key using the API
     session_key = get_session_key(username, password)
@@ -235,14 +236,31 @@ def fetch_survey_data(username, password, survey_id, token):
         responses = fetch_responses(session_key, survey_id)
         release_session_key(session_key)  # Release session key after use
 
-        logger.info(f"User Response: {responses}")
         if responses:
+            logger.info(f"Fetched Responses: {responses}")
+
             # Filter responses to include only those matching the provided token
             filtered_responses = [
-                response for response in responses["responses"] if response.get("token") == token and response.get("submitdate") is not None
-
+                response
+                for response in responses["responses"]
+                if response.get("token") == token and response.get("submitdate") is not None
             ]
-            return filtered_responses
+
+            if filtered_responses:
+                return filtered_responses
+            else:
+                # Clear the cache and retry fetching
+                logger.warning("No matching responses found. Clearing cache and retrying.")
+                fetch_survey_data.clear()
+                return fetch_survey_data(username, password, survey_id, token)
+        else:
+            logger.warning("No responses found from the API.")
+            # Clear the cache and retry fetching
+            fetch_survey_data.clear()
+            return fetch_survey_data(username, password, survey_id, token)
+    else:
+        logger.error("Failed to obtain a session key from the API.")
+
     return None
 
 # Define the mapping of modules to their respective questions
