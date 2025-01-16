@@ -235,10 +235,12 @@ def fetch_survey_data(username, password, survey_id, token):
         responses = fetch_responses(session_key, survey_id)
         release_session_key(session_key)  # Release session key after use
 
+        logger.info(f"User Response: {responses}")
         if responses:
             # Filter responses to include only those matching the provided token
             filtered_responses = [
-                response for response in responses["responses"] if response.get("token") == token
+                response for response in responses["responses"] if response.get("token") == token and response.get("submitdate")!="None"
+
             ]
             return filtered_responses
     return None
