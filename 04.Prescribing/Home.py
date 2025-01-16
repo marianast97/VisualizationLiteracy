@@ -305,7 +305,7 @@ if responses:
     if not df.empty:
         # Find the user's specific response using their token
         user_response = df[df["token"] == user_token]
-        logger.info(f"User Response: {user_response}")
+        #logger.info(f"User Response: {user_response}")
 
         if not user_response.empty:
             # Initialize scores
