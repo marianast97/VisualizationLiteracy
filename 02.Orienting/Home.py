@@ -239,7 +239,7 @@ def fetch_survey_data(username, password, survey_id, token):
         if responses:
             # Filter responses to include only those matching the provided token
             filtered_responses = [
-                response for response in responses["responses"] if response.get("token") == token and response.get("submitdate")!="None"
+                response for response in responses["responses"] if response.get("token") == token and response.get("submitdate") is not None
 
             ]
             return filtered_responses
