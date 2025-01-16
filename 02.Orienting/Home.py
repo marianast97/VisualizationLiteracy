@@ -127,6 +127,44 @@ modules = {
     'Truncated Axis': TruncatedAxisSubpages,
 }
 
+# Define the mapping of modules to their respective questions
+basics_mapping = {
+    'Area Chart': ["N08", "N09"],
+    'Bar Chart': ["N01", "N02"],
+    'Maps':  ["N14", "N15"],
+    'Line Chart': ["N06", "N07"],
+    'Pie Chart': ["N12", "N13"],
+    'Scatter Plot': ["N10", "N11"],
+    'Stacked Bar Chart': ["N03", "N04", "N05"],
+    }
+
+pitfalls_mapping = {
+    'Cherry Picking': ["T43"],
+    'Concealed Uncertainty': ["T48"],
+    'False Aggregation': ["T35", "T37"],
+    'False Scale Order': ["T20", "T25"],
+    'False Scale Function': ["T26"],
+    'False Scale Direction': ["T10", "T14"],
+    'Misleading Annotation': ["T47", "T49"],
+    'Missing Data': ["T30"],
+    'Missing Normalization': ["T42"],
+    'Overplotting': ["T40"],
+    'Truncated Axis': ["T03"],
+    }
+
+# Correct answers for all questions
+correct_answers = {
+    "N01": "AO02", "N02": "AO03", "N03": "AO02",
+    "N04": "AO03", "N05": "AO02", "N06": "AO01",
+    "N07": "AO02", "N08": "AO01", "N09": "AO04",
+    "N10": "AO01", "N11": "AO03", "N12": "AO02",
+    "N13": "AO03", "N14": "AO01", "N15": "AO03",
+    "T03": "AO04", "T10": "AO02", "T14": "AO03",
+    "T20": "AO04", "T25": "AO03", "T26": "AO04",
+    "T30": "AO03", "T35": "AO04", "T37": "AO04",
+    "T40": "AO03", "T42": "AO04", "T43": "AO04",
+    "T47": "AO02", "T48": "AO04", "T49": "AO03",
+}
 
 # Define the URLs of your custom icons
 icon_well_done   = "https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/Icons/NotRecommended.png"
@@ -262,45 +300,6 @@ def fetch_survey_data(username, password, survey_id, token):
         logger.error("Failed to obtain a session key from the API.")
 
     return None
-
-# Define the mapping of modules to their respective questions
-basics_mapping = {
-    'Area Chart': ["N08", "N09"],
-    'Bar Chart': ["N01", "N02"],
-    'Maps':  ["N14", "N15"],
-    'Line Chart': ["N06", "N07"],
-    'Pie Chart': ["N12", "N13"],
-    'Scatter Plot': ["N10", "N11"],
-    'Stacked Bar Chart': ["N03", "N04", "N05"],
-    }
-
-pitfalls_mapping = {
-    'Cherry Picking': ["T43"],
-    'Concealed Uncertainty': ["T48"],
-    'False Aggregation': ["T35", "T37"],
-    'False Scale Order': ["T20", "T25"],
-    'False Scale Function': ["T26"],
-    'False Scale Direction': ["T10", "T14"],
-    'Misleading Annotation': ["T47", "T49"],
-    'Missing Data': ["T30"],
-    'Missing Normalization': ["T42"],
-    'Overplotting': ["T40"],
-    'Truncated Axis': ["T03"],
-    }
-
-# Correct answers for all questions
-correct_answers = {
-    "N01": "AO02", "N02": "AO03", "N03": "AO02",
-    "N04": "AO03", "N05": "AO02", "N06": "AO01",
-    "N07": "AO02", "N08": "AO01", "N09": "AO04",
-    "N10": "AO01", "N11": "AO03", "N12": "AO02",
-    "N13": "AO03", "N14": "AO01", "N15": "AO03",
-    "T03": "AO04", "T10": "AO02", "T14": "AO03",
-    "T20": "AO04", "T25": "AO03", "T26": "AO04",
-    "T30": "AO03", "T35": "AO04", "T37": "AO04",
-    "T40": "AO03", "T42": "AO04", "T43": "AO04",
-    "T47": "AO02", "T48": "AO04", "T49": "AO03",
-}
 
 # Fetch survey data once and cache it
 responses = fetch_survey_data(USERNAME, PASSWORD, SURVEY_ID, user_token)
