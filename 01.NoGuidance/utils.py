@@ -82,75 +82,76 @@ def all_subpages_accessed(module_name, modules):
 # Dictionary containing image files for each module
 IMAGE_FILES = {
     "CherryPicking": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/CherryPicking/CherryPicking%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/CherryPicking/CherryPicking%20({i}).png"
         for i in range(1, 8)
     ],
     "AreaChart": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/AreaChart/AreaChart%20({i}).png"
-        for i in range(1, 17)
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/AreaChart/AreaChart%20({i}).png"
+        for i in range(1, 16)
     ],
     "BarChart": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/BarChart/BarChart%20({i}).png"
-        for i in range(1, 14)
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/BarChart/BarChart%20({i}).png"
+        for i in range(1, 13)
     ],
     "ConcealedUncertainty": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/ConcealedUncertainty/ConcealedUncertainty%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/ConcealedUncertainty/ConcealedUncertainty%20({i}).png"
         for i in range(1, 8)
     ],
     "FalseAggregation": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/FalseAggregation/FalseAggregation%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/FalseAggregation/FalseAggregation%20({i}).png"
         for i in range(1, 9)
     ],
     "FalseScaleDirection": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/FalseScaleDirection/FalseScaleDirection%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/FalseScaleDirection/FalseScaleDirection%20({i}).png"
         for i in range(1, 9)
     ],
     "FalseScaleFunction": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/FalseScaleFunction/FalseScaleFunction%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/FalseScaleFunction/FalseScaleFunction%20({i}).png"
         for i in range(1, 9)
     ],
     "FalseScaleOrder": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/FalseScaleOrder/FalseScaleOrder%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/FalseScaleOrder/FalseScaleOrder%20({i}).png"
         for i in range(1, 9)
     ],
     "LineChart": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/LineChart/LineChart%20({i}).png"
-        for i in range(1, 15)
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/LineChart/LineChart%20({i}).png"
+        for i in range(1, 14)
     ],
     "Maps": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/Maps/Maps%20({i}).png"
-        for i in range(1, 10)
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/Maps/Maps%20({i}).png"
+        for i in range(1, 9)
     ],
     "MisleadingAnnotation": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/MisleadingAnnotation/MisleadingAnnotation%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/MisleadingAnnotation/MisleadingAnnotation%20({i}).png"
         for i in range(1, 9)
     ],
     "MissingData": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/MissingData/MissingData%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/MissingData/MissingData%20({i}).png"
         for i in range(1, 9)
     ],
     "MissingNormalization": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/MissingNormalization/MissingNormalization%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/MissingNormalization/MissingNormalization%20({i}).png"
         for i in range(1, 9)
     ],
     "Overplotting": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/Overplotting/Overplotting%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/Overplotting/Overplotting%20({i}).png"
         for i in range(1, 8)
     ],
     "PieChart": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/PieChart/PieChart%20({i}).png"
-        for i in range(1, 13)
-    ],
-    "ScatterPlot": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/ScatterPlot/ScatterPlot%20({i}).png"
-        for i in range(1, 16)
-    ],
-    "StackedBarChart": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/StackedBarChart/StackedBarChart%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/PieChart/PieChart%20({i}).png"
         for i in range(1, 12)
     ],
+    "ScatterPlot": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/ScatterPlot/ScatterPlot%20({i}).png"
+        for i in range(1, 15)
+    ],
+    "StackedBarChart": [
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/StackedBarChart/StackedBarChart%20({i}).png"
+        for i in range(1, 11)
+    ],
     "TruncatedAxis": [
-        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/01.NoGuidance/LearningContent/TruncatedAxis/TruncatedAxis%20({i}).png"
+        f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/TruncatedAxis/TruncatedAxis%20({i}).png"
         for i in range(1, 9)
     ],
 }
+

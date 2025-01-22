@@ -87,11 +87,11 @@ IMAGE_FILES = {
     ],
     "AreaChart": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/AreaChart/AreaChart%20({i}).png"
-        for i in range(1, 17)
+        for i in range(1, 16)
     ],
     "BarChart": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/BarChart/BarChart%20({i}).png"
-        for i in range(1, 14)
+        for i in range(1, 13)
     ],
     "ConcealedUncertainty": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/ConcealedUncertainty/ConcealedUncertainty%20({i}).png"
@@ -115,11 +115,11 @@ IMAGE_FILES = {
     ],
     "LineChart": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/LineChart/LineChart%20({i}).png"
-        for i in range(1, 15)
+        for i in range(1, 14)
     ],
     "Maps": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/Maps/Maps%20({i}).png"
-        for i in range(1, 10)
+        for i in range(1, 9)
     ],
     "MisleadingAnnotation": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/MisleadingAnnotation/MisleadingAnnotation%20({i}).png"
@@ -139,15 +139,15 @@ IMAGE_FILES = {
     ],
     "PieChart": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/PieChart/PieChart%20({i}).png"
-        for i in range(1, 13)
+        for i in range(1, 12)
     ],
     "ScatterPlot": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/ScatterPlot/ScatterPlot%20({i}).png"
-        for i in range(1, 16)
+        for i in range(1, 15)
     ],
     "StackedBarChart": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/StackedBarChart/StackedBarChart%20({i}).png"
-        for i in range(1, 12)
+        for i in range(1, 11)
     ],
     "TruncatedAxis": [
         f"https://raw.githubusercontent.com/marianast97/VisualizationLiteracy/refs/heads/main/02.Orienting/LearningContent/TruncatedAxis/TruncatedAxis%20({i}).png"

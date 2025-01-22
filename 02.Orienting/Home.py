@@ -85,13 +85,13 @@ sidebar_adjustment_style = """
 st.markdown(sidebar_adjustment_style, unsafe_allow_html=True)
 
 
-BarChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 6 + ['Module Completed']
-AreaChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 8 + ['Module Completed']
-LineChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
-MapsSubpages = ['Anatomy'] * 5 + ['Common Tasks associated to Bar Chart'] * 3 + ['Module Completed']
-PieChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 5 + ['Module Completed']
-ScatterPlotSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
-StackedBarChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 3 + ['Module Completed']
+BarChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 5 + ['Module Completed']
+AreaChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 7 + ['Module Completed']
+LineChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 6 + ['Module Completed']
+MapsSubpages = ['Anatomy'] * 5 + ['Common Tasks associated to Bar Chart'] * 2 + ['Module Completed']
+PieChartSubpages = ['Anatomy'] * 6 + ['Common Tasks associated to Bar Chart'] * 4 + ['Module Completed']
+ScatterPlotSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 6 + ['Module Completed']
+StackedBarChartSubpages = ['Anatomy'] * 7 + ['Common Tasks associated to Bar Chart'] * 2 + ['Module Completed']
 CherryPickingSubpages = [''] * 6 + ['Module Completed']
 ConcealedUncertaintySubpages = [''] * 6 + ['Module Completed']
 FalseAggregationSubpages =  [''] * 7 + ['Module Completed']
