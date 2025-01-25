@@ -62,6 +62,7 @@ sidebar_adjustment_style = """
         background-color: #f0f2f6;
         margin-top: 20px;
         font-weight: bold;
+        font-size: 20px; /* Larger text for visibility */
     }
     /* Adjust the top margin in the sidebar */
     .st-emotion-cache-1gwvy71 {
