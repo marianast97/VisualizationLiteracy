@@ -606,14 +606,22 @@ else:
         # Display the selected module
         module_display_mapping[selected_module](modules)
 
+# HTML block with JavaScript to reload if "Access code mismatch" occurs
 final_assessment_html = f"""
     <aside>
         <a href="https://userpage.fu-berlin.de/~hcc/survey-research/index.php/567628?token={user_token}&lang=en" 
-           target="_self" 
+           target="_blank" 
            class="sidebar-link" 
-           title="Click here to start the final assessment. You will be redirected to the survey page.">
+           title="Click here to start the final assessment. You will be redirected to the survey page." 
+           onclick="checkErrorAndReload()">
             Final Assessment
         </a>
     </aside>
+    <script>
+        function checkErrorAndReload() {{
+            window.open("https://userpage.fu-berlin.de/~hcc/survey-research/index.php/567628?token={user_token}&lang=en", "_blank");
+            setTimeout(() => {{ window.location.reload(); }}, 1000); // Reload after 1 second
+        }}
+    </script>
 """
 st.sidebar.markdown(final_assessment_html, unsafe_allow_html=True)
