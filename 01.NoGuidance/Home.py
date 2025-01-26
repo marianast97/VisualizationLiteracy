@@ -513,7 +513,7 @@ else:
 final_assessment_html = f"""
     <aside>
         <a href="https://userpage.fu-berlin.de/~hcc/survey-research/index.php/567628?token={user_token}&lang=en" 
-           target="_self" 
+           target="_blank" 
            class="sidebar-link" 
            title="Click here to start the final assessment. You will be redirected to the survey page." 
            onclick="checkErrorAndReload()">
@@ -522,7 +522,7 @@ final_assessment_html = f"""
     </aside>
     <script>
         function checkErrorAndReload() {{
-            window.open("https://userpage.fu-berlin.de/~hcc/survey-research/index.php/567628?token={user_token}&lang=en", "_self");
+            window.open("https://userpage.fu-berlin.de/~hcc/survey-research/index.php/567628?token={user_token}&lang=en", "_blank");
             setTimeout(() => {{ window.location.reload(); }}, 1000); // Reload after 1 second
         }}
     </script>
