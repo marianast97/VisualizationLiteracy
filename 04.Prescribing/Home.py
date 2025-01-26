@@ -57,12 +57,14 @@ sidebar_adjustment_style = """
         padding: 10px;
         text-align: center;
         border-radius: 5px;
+        border: 1px solid #0068c9; /* Added border with width, style, and color */
         text-decoration: none;
-        color: black;
+        color: #f0f2f6;
         background-color: #f0f2f6;
         margin-top: 20px;
         font-weight: bold;
-        font-size: 20px; /* Larger text for visibility */
+        font-size: 18px; /* Larger text for visibility */
+        font-color: #f0f2f6;
     }
     /* Adjust the top margin in the sidebar */
     .st-emotion-cache-1gwvy71 {
@@ -87,7 +89,7 @@ sidebar_adjustment_style = """
     /* Fix the final assessment block at the bottom of the sidebar */
     [data-testid="stSidebar"] aside {
         position: fixed;
-        bottom: 0;
+        bottom: 1px;
         width: 300px;  /* Adjust width to match your sidebar */
         padding: 10px 0;
         background-color: #f0f2f6;
@@ -582,7 +584,6 @@ if selected_module == 'Home: My Scores':
         ###       
     """, unsafe_allow_html=True)
 
-
     st.info("Once you feel confident with your learning, proceed to the Final Assessment located at the bottom of the sidebar.")
 
 
@@ -608,13 +609,17 @@ else:
 # HTML block with JavaScript to reload if "Access code mismatch" occurs
 final_assessment_html = f"""
     <aside>
-        <a href="https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en" target="_blank" class="sidebar-link" onclick="checkErrorAndReload()">
+        <a href="https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en" 
+           target="_self" 
+           class="sidebar-link" 
+           title="Click here to start the final assessment. You will be redirected to the survey page." 
+           onclick="checkErrorAndReload()">
             Final Assessment
         </a>
     </aside>
     <script>
         function checkErrorAndReload() {{
-            window.open("https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en", "_blank");
+            window.open("https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en", "_self");
             setTimeout(() => {{ window.location.reload(); }}, 1000); // Reload after 1 second
         }}
     </script>

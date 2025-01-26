@@ -426,7 +426,7 @@ def categorize_modules(basics, pitfalls):
             key=lambda x: pitfalls[x],
             reverse=True
         ),
-        "Other: Pitfalls": sorted(
+        "Other: Common Pitfalls": sorted(
             [module for module, score in pitfalls.items() if score == 0]
         ),
         "Other: Basics": sorted(

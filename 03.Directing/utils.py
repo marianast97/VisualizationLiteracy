@@ -77,7 +77,8 @@ def navigate_subpage(module_name, direction, modules):
 # Function to check if all subpages of a module are accessed
 def all_subpages_accessed(module_name, modules):
     if module_name in st.session_state['accessed_subpages']:
-        return all(st.session_state['accessed_subpages'][module_name])
+        # Exclude the last page from the check
+        return all(st.session_state['accessed_subpages'][module_name][:-1])
     return False
 
 # Dictionary containing image files for each module

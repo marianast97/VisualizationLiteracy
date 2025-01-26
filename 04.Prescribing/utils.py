@@ -16,7 +16,7 @@ def initialize_session_state(modules):
 # Function to initialize session state for a specific module
 def initialize_single_module_state(module_name, modules):
     if 'accessed_subpages' in st.session_state and module_name not in st.session_state['accessed_subpages']:
-        st.session_state['accessed_subpages'][module_name] = [False] * len(modules[module_name])
+        st.session_state['accessed_subpages'][module_name] = [False] * (len(modules[module_name]))
 
     if 'current_subpage' in st.session_state and module_name not in st.session_state['current_subpage']:
         st.session_state['current_subpage'][module_name] = 0
@@ -77,7 +77,8 @@ def navigate_subpage(module_name, direction, modules):
 # Function to check if all subpages of a module are accessed
 def all_subpages_accessed(module_name, modules):
     if module_name in st.session_state['accessed_subpages']:
-        return all(st.session_state['accessed_subpages'][module_name])
+        # Exclude the last page from the check
+        return all(st.session_state['accessed_subpages'][module_name][:-1])
     return False
 
 # Dictionary containing image files for each module
