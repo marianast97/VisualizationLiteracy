@@ -512,7 +512,7 @@ else:
 # HTML block with JavaScript to reload if "Access code mismatch" occurs
 final_assessment_html = f"""
     <aside>
-        <a href="https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en" 
+        <a href="https://userpage.fu-berlin.de/~hcc/survey-research/index.php/567628?token={user_token}&lang=en" 
            target="_self" 
            class="sidebar-link" 
            title="Click here to start the final assessment. You will be redirected to the survey page." 
@@ -522,7 +522,7 @@ final_assessment_html = f"""
     </aside>
     <script>
         function checkErrorAndReload() {{
-            window.open("https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en", "_self");
+            window.open("https://userpage.fu-berlin.de/~hcc/survey-research/index.php/567628?token={user_token}&lang=en", "_self");
             setTimeout(() => {{ window.location.reload(); }}, 1000); // Reload after 1 second
         }}
     </script>
