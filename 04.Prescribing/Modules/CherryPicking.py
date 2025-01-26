@@ -9,7 +9,7 @@ import pandas as pd
 
 def display_module(modules):
     selected_module = 'Cherry Picking'
-    
+
     # Ensure that session state is initialized for this module
     initialize_single_module_state(selected_module, modules)
 

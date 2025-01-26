@@ -8,7 +8,7 @@ import plotly.express as px
 
 def display_module(modules):
     selected_module = 'Bar Chart'
-    
+
     # Ensure that session state is initialized for this module
     initialize_single_module_state(selected_module, modules)
 

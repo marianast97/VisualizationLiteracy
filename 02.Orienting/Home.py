@@ -57,12 +57,14 @@ sidebar_adjustment_style = """
         padding: 10px;
         text-align: center;
         border-radius: 5px;
+        border: 0px solid #0068c9; /* Added border with width, style, and color */
         text-decoration: none;
-        color: black;
+        color: #f0f2f6;
         background-color: #f0f2f6;
         margin-top: 20px;
         font-weight: bold;
         font-size: 20px; /* Larger text for visibility */
+        font-color: #f0f2f6;
     }
     /* Adjust the top margin in the sidebar */
     .st-emotion-cache-1gwvy71 {
@@ -569,13 +571,17 @@ else:
 # HTML block with JavaScript to reload if "Access code mismatch" occurs
 final_assessment_html = f"""
     <aside>
-        <a href="https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en" target="_blank" class="sidebar-link" onclick="checkErrorAndReload()">
+        <a href="https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en" 
+           target="_self" 
+           class="sidebar-link" 
+           title="Click here to start the final assessment. You will be redirected to the survey page." 
+           onclick="checkErrorAndReload()">
             Final Assessment
         </a>
     </aside>
     <script>
         function checkErrorAndReload() {{
-            window.open("https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en", "_blank");
+            window.open("https://userpage.fu-berlin.de/~hcc/survey-research/index.php/593693?token={user_token}&lang=en", "_self");
             setTimeout(() => {{ window.location.reload(); }}, 1000); // Reload after 1 second
         }}
     </script>

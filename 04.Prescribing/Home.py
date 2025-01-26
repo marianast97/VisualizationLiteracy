@@ -57,13 +57,13 @@ sidebar_adjustment_style = """
         padding: 10px;
         text-align: center;
         border-radius: 5px;
-        border: 1px solid #0068c9; /* Added border with width, style, and color */
+        border: 0px solid #0068c9; /* Added border with width, style, and color */
         text-decoration: none;
         color: #f0f2f6;
         background-color: #f0f2f6;
         margin-top: 20px;
         font-weight: bold;
-        font-size: 18px; /* Larger text for visibility */
+        font-size: 20px; /* Larger text for visibility */
         font-color: #f0f2f6;
     }
     /* Adjust the top margin in the sidebar */

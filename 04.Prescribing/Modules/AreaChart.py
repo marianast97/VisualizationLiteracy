@@ -9,6 +9,28 @@ import plotly.express as px
 def display_module(modules):
     selected_module = 'Area Chart'
     
+    # # Add custom CSS to hide the GitHub icon
+    # st.markdown(
+    #     """
+    #     <style>
+    #     /* Adjust padding for the main block container */
+    #     .stMainBlockContainer {
+    #         padding: 2px; /* Adjust the padding as needed */
+    #     }
+    #     .stAppHeader {
+    #     padding: 5px; /* Adjust this value as needed */
+    #     }
+
+    #     /* Adjust padding for the toolbar within the header */
+    #     .stAppToolbar {
+    #         padding: 5px; /* Adjust padding for the toolbar */
+    #     }
+    #     </style>
+        
+    #     """,
+    #     unsafe_allow_html=True
+    # )
+
     # Ensure that session state is initialized for this module
     initialize_single_module_state(selected_module, modules)
 
