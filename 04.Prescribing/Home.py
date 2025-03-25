@@ -70,19 +70,19 @@ sidebar_adjustment_style = """
     .st-emotion-cache-1gwvy71 {
         position: start;
         padding-top: 0px !important;
-        width:100%;
+        width:302px;
     }
     .st-emotion-cache-16i25t9 {
         position: start;
         padding-top: 0px !important;
-        width:100%;
+        width:302px;
         gap: 0.5rem;
     }
     /* Lock all inner columns/buttons to fixed width */
     .st-emotion-cache-1gwvy71, 
     .st-emotion-cache-16i25t9,
     .st-emotion-cache-pvgc5w {
-        width: 100% !important;
+        width: 302px;
         min-width: 302px;
         max-width: 302px;
     }
