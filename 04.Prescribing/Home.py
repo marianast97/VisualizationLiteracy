@@ -92,6 +92,8 @@ sidebar_adjustment_style = """
            min-width: 350px;
            max-width: 350px;
            padding-bottom: 0px;
+           height: 100vh !important;
+
        }
 
     /* Fix the final assessment block at the bottom of the sidebar */
