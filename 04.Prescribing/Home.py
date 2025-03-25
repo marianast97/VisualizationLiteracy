@@ -83,8 +83,10 @@ sidebar_adjustment_style = """
     .st-emotion-cache-16i25t9,
     .st-emotion-cache-pvgc5w {
         width: 296px;
+        height: 1200px;
         min-width: 296px;
         max-width: 296px;
+
     }
 
     /* Make the sidebar container scrollable and fix the final block at the bottom */
