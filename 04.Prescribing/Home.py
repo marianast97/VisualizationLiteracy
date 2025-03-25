@@ -71,11 +71,13 @@ sidebar_adjustment_style = """
         position: start;
         padding-top: 0px !important;
         width:296px;
+        height: 1200px;
     }
     .st-emotion-cache-16i25t9 {
         position: start;
         padding-top: 0px !important;
         width:296px;
+        height: 1200px;
         gap: 0.5rem;
     }
     /* Lock all inner columns/buttons to fixed width */
@@ -94,8 +96,6 @@ sidebar_adjustment_style = """
            min-width: 350px;
            max-width: 350px;
            padding-bottom: 0px;
-           height: 100vh !important;
-
        }
 
     /* Fix the final assessment block at the bottom of the sidebar */
