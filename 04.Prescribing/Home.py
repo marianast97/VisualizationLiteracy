@@ -67,19 +67,6 @@ sidebar_adjustment_style = """
         font-color: #f0f2f6;
     }
     /* Adjust the top margin in the sidebar */
-    .st-emotion-cache-1gwvy71 {
-        position: start;
-        padding-top: 0px !important;
-        width:296px;
-        height: 1200px;
-    }
-    .st-emotion-cache-16i25t9 {
-        position: start;
-        padding-top: 0px !important;
-        width:296px;
-        height: 1200px;
-        gap: 0.5rem;
-    }
     /* Lock all inner columns/buttons to fixed width */
     .st-emotion-cache-1gwvy71, 
     .st-emotion-cache-16i25t9,
