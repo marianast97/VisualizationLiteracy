@@ -89,32 +89,13 @@ sidebar_adjustment_style = """
     /* Fix the final assessment block at the bottom of the sidebar */
     [data-testid="stSidebar"] aside {
         position: fixed;
-        bottom: 1px;
+        bottom: 0;
         width: 300px;  /* Adjust width to match your sidebar */
         padding: 10px 0;
         background-color: #f0f2f6;
         border-top: 1px solid #ddd;
         text-align: center;
     }
-
-    [data-testid="stSidebar"] {
-    min-width: 350px !important;
-    max-width: 350px !important;
-    overflow-y: auto;
-    }
-
-    .st-emotion-cache-1gwvy71, 
-    .st-emotion-cache-16i25t9 {
-        width: 100% !important;
-    }
-
-    .stButton button {
-        width: 100% !important;
-        white-space: nowrap;  /* Avoid line breaks */
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
     </style>
 """
 st.markdown(sidebar_adjustment_style, unsafe_allow_html=True)
