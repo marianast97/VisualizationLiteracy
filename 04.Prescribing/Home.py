@@ -78,6 +78,13 @@ sidebar_adjustment_style = """
         width:100%;
         gap: 0.5rem;
     }
+    /* Lock all inner columns/buttons to fixed width */
+    .st-emotion-cache-1gwvy71, 
+    .st-emotion-cache-16i25t9,
+    .st-emotion-cache-pvgc5w {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
 
     /* Make the sidebar container scrollable and fix the final block at the bottom */
        [data-testid="stSidebar"][aria-expanded="true"]{
