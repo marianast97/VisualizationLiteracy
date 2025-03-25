@@ -447,7 +447,7 @@ for module, score in recommended_basics.items():
         </div>
         """, unsafe_allow_html=True)
     with col2:
-        if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
+        if st.button(f"{module} {accessed_icon}", key=f"basic_{module}_button"):
             st.session_state['selected_module'] = module
 
 # Sidebar Common Pitfalls section
@@ -476,7 +476,7 @@ for module, score in recommended_pitfalls.items():
         </div>
         """, unsafe_allow_html=True)
     with col2:
-        if st.button(f"{module} {accessed_icon}", key=f"{module}_button"):
+        if st.button(f"{module} {accessed_icon}", key=f"pitfall_{module}_button"):
             st.session_state['selected_module'] = module
 
 # Add an expander for showing all unfiltered modules in the sidebar
