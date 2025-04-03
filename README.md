@@ -52,3 +52,19 @@ When clicking on the links below, you have access to the interfaces presenting t
 - Directing Guidance: Ranked module recommendations. [Launch Directing🚀](https://visualizationliteracy3.streamlit.app/) 
 - Prescribing Guidance: Presents only recommended modules. [Launch Prescribing🚀](https://visualizationliteracy4.streamlit.app/)
 
+## 📚 Academic References
+
+- **CALVI Questionnaire**:  
+  Lily W. Ge, Yuan Cui, and Matthew Kay. 2023. CALVI: Critical Thinking Assessment for Literacy in Visualizations. In Proceedings of the 2023 CHI Conference on Human Factors in Computing Systems (CHI '23). Association for Computing Machinery, New York, NY, USA, Article 815, 1–18.
+  DOI: [10.1145/3544548.3581406](https://doi.org/10.1145/3544548.3581406)
+
+
+- **Visualization Cheat Sheets**:  
+  Zezhong Wang, Lovisa Sundin, Dave Murray-Rust, and Benjamin Bach. 2020. Cheat Sheets for Data Visualization Techniques. In Proceedings of the 2020 CHI Conference on Human Factors in Computing Systems (CHI '20). Association for Computing Machinery, New York, NY, USA, 1–13. 
+  DOI: [10.1145/3313831.3376271](https://doi.org/10.1145/3313831.3376271)
+
+- **Degrees of Guidance**:  
+  D. Ceneda et al., "Characterizing Guidance in Visual Analytics," in IEEE Transactions on Visualization and Computer Graphics, vol. 23, no. 1, pp. 111-120, Jan. 2017. doi: .
+  DOI: [10.1109/TVCG.2016.2598468](https://doi.org/10.1109/TVCG.2016.2598468)
+
+These resources were instrumental in designing the learning materials, assessment mechanisms, and system-guided user interfaces.
