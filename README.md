@@ -1,6 +1,6 @@
 # Visualization Literacy Learning Tool 🧠📊
 
-This web-based interactive tool was developed as part of the master's thesis *“Guide Me Through Visualizations”* at Freie Universität Berlin. It explores how different degrees of guidance can support non-experts in developing **visualization literacy (VL)** — the ability to understand, interpret, and critically evaluate data visualizations.
+This web-based interactive tool was developed as part of the master's thesis *“Guide Me Through Visualizations”: Investigating the Effectiveness of User Guidance in Improving Visualization Literacy* at Freie Universität Berlin. It explores how different degrees of guidance can support non-experts in developing **visualization literacy (VL)** — the ability to understand, interpret, and critically evaluate data visualizations.
 
 ## 🧭 Purpose
 
