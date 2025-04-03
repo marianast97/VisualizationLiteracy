@@ -64,7 +64,7 @@ When clicking on the links below, you have access to the interfaces presenting t
   DOI: [10.1145/3313831.3376271](https://doi.org/10.1145/3313831.3376271)
 
 - **Degrees of Guidance**:  
-  D. Ceneda et al., "Characterizing Guidance in Visual Analytics," in IEEE Transactions on Visualization and Computer Graphics, vol. 23, no. 1, pp. 111-120, Jan. 2017. doi: .
+  D. Ceneda et al., "Characterizing Guidance in Visual Analytics," in IEEE Transactions on Visualization and Computer Graphics, vol. 23, no. 1, pp. 111-120, Jan. 2017.
   DOI: [10.1109/TVCG.2016.2598468](https://doi.org/10.1109/TVCG.2016.2598468)
 
 These resources were instrumental in designing the learning materials, assessment mechanisms, and system-guided user interfaces.
