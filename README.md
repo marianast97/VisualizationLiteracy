@@ -40,6 +40,10 @@ and lay the groundwork for future research on guided learning systems.
 - Personalized content via assessment token
 - Visual feedback of user progress and score
 
+## 📁 Repository Structure
+
+Each folder includes an **identical structure** for modular learning content (e.g., `LearningContent/`, `Modules/`, `.streamlit/`). This redundancy was necessary to support the **independent deployment** of each interface in Streamlit Cloud. The **only file that differentiates each version is `Home.py`**, which contains the implementation logic specific to its degree of guidance.
+
 ## 🚀 Try the Interfaces
 
 When clicking on the links below, you have access to the interfaces presenting the guidance based on a dummy assessment.
